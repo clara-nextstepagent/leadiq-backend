@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leadzia CRM</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0f16; --bg2: #13171f; --bg3: #1a1f2b; --bg4: #222836;
+  --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
+  --blue: #2563eb; --blue2: #60a5fa; --blue-dim: rgba(37,99,235,0.10);
+  --blue-border: rgba(37,99,235,0.30);
+  --text: #eceae5; --text2: #8b93a8; --text3: #4e5668;
+  --green: #22c55e; --green-dim: rgba(34,197,94,0.10);
+  --orange: #f97316; --red: #ef4444;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;}
+
+/* LOGIN */
+.login-wrap{
+  position:fixed;inset:0;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  z-index:100;
+}
+.login-card{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:16px;padding:40px;width:380px;
+}
+.login-logo{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;text-align:center;margin-bottom:8px;}
+.login-logo span{color:var(--blue2);}
+.login-sub{text-align:center;font-size:14px;color:var(--text3);margin-bottom:32px;}
+.login-field{margin-bottom:16px;}
+.login-label{font-size:12px;font-weight:500;color:var(--text2);display:block;margin-bottom:6px;}
+.login-input{
+  width:100%;background:var(--bg3);border:1px solid var(--border2);
+  border-radius:9px;padding:11px 14px;color:var(--text);
+  font-family:'DM Sans',sans-serif;font-size:14px;outline:none;
+  transition:border-color .2s;
+}
+.login-input:focus{border-color:var(--blue-border);}
+.login-btn{
+  width:100%;padding:12px;border-radius:9px;
+  background:linear-gradient(135deg,var(--blue),#1d4ed8);
+  border:none;color:#fff;font-family:'DM Sans',sans-serif;
+  font-size:14px;font-weight:600;cursor:pointer;
+  transition:all .2s;margin-top:8px;
+}
+.login-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(37,99,235,.3);}
+.login-error{color:var(--red);font-size:12px;text-align:center;margin-top:10px;min-height:18px;}
+
+/* SIDEBAR */
+.sidebar{width:220px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;}
+.sb-logo{padding:22px 20px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.sb-logo-icon{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--blue),#1d4ed8);display:flex;align-items:center;justify-content:center;font-size:15px;}
+.sb-logo-text{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;}
+.sb-logo-text span{color:var(--blue2);}
+.sb-section{padding:16px 12px 8px;}
+.sb-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text3);padding:0 8px;margin-bottom:6px;}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .15s;margin-bottom:2px;border:1px solid transparent;}
+.sb-item:hover{background:var(--bg3);color:var(--text);}
+.sb-item.active{background:var(--blue-dim);color:var(--blue2);border-color:var(--blue-border);}
+.sb-badge{margin-left:auto;background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;}
+.sb-bottom{margin-top:auto;padding:14px 12px;border-top:1px solid var(--border);}
+.sb-user{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;background:var(--bg3);cursor:pointer;}
+.sb-user:hover{background:var(--bg4);}
+.sb-av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#1d4ed8);display:flex;align-items:center;justify-content:center;font-size:12px;}
+.sb-user-email{font-size:11px;color:var(--text3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.sb-logout{font-size:11px;color:var(--red);margin-top:2px;cursor:pointer;}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.topbar{padding:14px 28px;border-bottom:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.topbar h1{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;}
+.topbar p{font-size:12px;color:var(--text3);margin-top:1px;}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.btn-refresh{background:var(--bg3);border:1px solid var(--border2);color:var(--text2);padding:8px 16px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;}
+.btn-refresh:hover{color:var(--text);background:var(--bg4);}
+.live-badge{display:flex;align-items:center;gap:6px;background:var(--green-dim);border:1px solid rgba(34,197,94,.2);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--green);}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* CONTENT */
+.content{flex:1;overflow-y:auto;padding:24px 28px;}
+.content::-webkit-scrollbar{width:4px;}
+.content::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
+
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px 20px;}
+.kpi-top{display:flex;justify-content:space-between;margin-bottom:10px;}
+.kpi-icon{font-size:18px;}
+.kpi-delta{font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;}
+.kpi-delta.up{background:var(--green-dim);color:var(--green);}
+.kpi-num{font-family:'Syne',sans-serif;font-size:28px;font-weight:700;line-height:1;}
+.kpi-label{font-size:12px;color:var(--text3);margin-top:4px;}
+
+/* LEADS TABLE */
+.table-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.table-toolbar{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.search-wrap{position:relative;flex:1;max-width:280px;}
+.search-input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:9px;padding:8px 14px 8px 34px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s;}
+.search-input:focus{border-color:var(--blue-border);}
+.search-input::placeholder{color:var(--text3);}
+.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:13px;}
+.ftab{padding:7px 14px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;color:var(--text2);background:none;border:1px solid transparent;transition:all .15s;font-family:'DM Sans',sans-serif;}
+.ftab:hover{background:var(--bg3);color:var(--text);}
+.ftab.active{background:var(--blue-dim);color:var(--blue2);border-color:var(--blue-border);}
+
+.table-head{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 80px 100px;padding:10px 20px;border-bottom:1px solid var(--border);background:var(--bg2);}
+.th{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--text3);}
+.lead-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 80px 100px;padding:12px 20px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;align-items:center;}
+.lead-row:hover{background:var(--bg3);}
+.lead-row:last-child{border-bottom:none;}
+.lead-name-cell{display:flex;align-items:center;gap:10px;}
+.lead-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;}
+.lead-name{font-size:13px;font-weight:600;}
+.lead-email{font-size:11px;color:var(--text3);margin-top:1px;}
+.td{font-size:13px;color:var(--text2);}
+
+.score-cell{display:flex;align-items:center;gap:8px;}
+.score-val{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;}
+.score-bar{flex:1;height:3px;background:var(--bg4);border-radius:2px;overflow:hidden;}
+.score-fill{height:100%;border-radius:2px;transition:width .6s;}
+
+.tag-pill{padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600;display:inline-block;}
+.t-chaud{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.2);}
+.t-tiede{background:rgba(249,115,22,.15);color:#fdba74;border:1px solid rgba(249,115,22,.2);}
+.t-froid{background:rgba(107,114,128,.2);color:#9ca3af;border:1px solid rgba(107,114,128,.2);}
+
+.status-pill{padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600;display:inline-block;}
+.s-nouveau{background:var(--blue-dim);color:var(--blue2);}
+.s-contact{background:rgba(249,115,22,.1);color:#fdba74;}
+.s-qualifie{background:rgba(234,179,8,.1);color:#fde047;}
+.s-rdv{background:var(--green-dim);color:#86efac;}
+.s-gagne{background:rgba(34,197,94,.2);color:var(--green);}
+.s-perdu{background:rgba(239,68,68,.1);color:#fca5a5;}
+
+.source-pill{padding:3px 9px;border-radius:10px;font-size:11px;font-weight:500;}
+.src-email{background:var(--blue-dim);color:var(--blue2);}
+.src-widget{background:var(--green-dim);color:#86efac;}
+.src-form{background:rgba(168,85,247,.1);color:#d8b4fe;}
+
+/* EMPTY */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px;color:var(--text3);gap:12px;}
+.empty-icon{font-size:36px;opacity:.3;}
+
+/* LOADING */
+.loading{display:flex;align-items:center;justify-content:center;padding:60px;color:var(--text3);gap:10px;}
+.spinner{width:20px;height:20px;border:2px solid var(--border2);border-top-color:var(--blue);border-radius:50%;animation:spin .6s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* TOAST */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(70px);background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:10px 18px;font-size:13px;font-weight:500;box-shadow:0 8px 28px rgba(0,0,0,.5);transition:transform .3s;z-index:999;pointer-events:none;white-space:nowrap;}
+#toast.show{transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="login-wrap">
+  <div class="login-card">
+    <div class="login-logo">Lead<span>zia</span></div>
+    <div class="login-sub">Connectez-vous à votre CRM</div>
+    <div class="login-field">
+      <label class="login-label">Email</label>
+      <input class="login-input" id="login-email" type="email" placeholder="votre@email.com">
+    </div>
+    <div class="login-field">
+      <label class="login-label">Mot de passe</label>
+      <input class="login-input" id="login-password" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="login-btn" onclick="doLogin()">Se connecter</button>
+    <div class="login-error" id="login-error"></div>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="app" style="display:none">
+  <div class="sb-logo">
+    <div class="sb-logo-icon">🏠</div>
+    <div class="sb-logo-text">Lead<span>zia</span></div>
+  </div>
+  <div class="sb-section">
+    <div class="sb-label">Principal</div>
+    <div class="sb-item active" onclick="setView('leads',this)"><span>👥</span> Leads <span class="sb-badge" id="new-count">0</span></div>
+    <div class="sb-item" onclick="setView('stats',this)"><span>📊</span> Statistiques</div>
+  </div>
+  <div class="sb-bottom">
+    <div class="sb-user">
+      <div class="sb-av">👤</div>
+      <div>
+        <div class="sb-user-email" id="user-email">—</div>
+        <div class="sb-logout" onclick="doLogout()">Se déconnecter</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="main" style="display:none">
+  <div class="topbar">
+    <div>
+      <h1 id="view-title">Leads</h1>
+      <p id="view-sub">Tous vos prospects qualifiés par l'IA</p>
+    </div>
+    <div class="topbar-right">
+      <button class="btn-refresh" onclick="loadLeads()">↺ Actualiser</button>
+      <div class="live-badge"><div class="live-dot"></div> Leadzia IA actif</div>
+    </div>
+  </div>
+
+  <div class="content" id="content">
+    <div class="loading"><div class="spinner"></div> Chargement...</div>
+  </div>
+</div>
+
+<div id="toast">—</div>
+
+<script>
+// ====== CONFIG SUPABASE ======
+const SUPABASE_URL = 'https://gontjnreqvhykzhhncxv.supabase.co'
+const SUPABASE_KEY = 'sb_publishable_SQEeH2lHdHGB1Btf1h6_NQ_Rcfob47-'
+const { createClient } = supabase
+const sb = createClient(SUPABASE_URL, SUPABASE_KEY)
+
+let allLeads = []
+let currentFilter = 'all'
+let currentView = 'leads'
+
+// ====== AUTH ======
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim()
+  const password = document.getElementById('login-password').value
+  document.getElementById('login-error').textContent = ''
+
+  const { error } = await sb.auth.signInWithPassword({ email, password })
+  if(error) {
+    document.getElementById('login-error').textContent = 'Email ou mot de passe incorrect'
+    return
+  }
+  showApp()
+}
+
+async function doLogout() {
+  await sb.auth.signOut()
+  document.getElementById('app').style.display = 'none'
+  document.getElementById('main').style.display = 'none'
+  document.getElementById('login-wrap').style.display = 'flex'
+}
+
+async function checkAuth() {
+  const { data: { session } } = await sb.auth.getSession()
+  if(session) {
+    showApp()
+  }
+}
+
+function showApp() {
+  document.getElementById('login-wrap').style.display = 'none'
+  document.getElementById('app').style.display = 'flex'
+  document.getElementById('main').style.display = 'flex'
+  sb.auth.getUser().then(({ data }) => {
+    document.getElementById('user-email').textContent = data.user?.email || '—'
+  })
+  loadLeads()
+}
+
+// ====== LEADS ======
+async function loadLeads() {
+  document.getElementById('content').innerHTML = '<div class="loading"><div class="spinner"></div> Chargement...</div>'
+
+  const { data, error } = await sb
+    .from('leads')
+    .select('*')
+    .order('created_at', { ascending: false })
+
+  if(error) {
+    document.getElementById('content').innerHTML = '<div class="empty"><div class="empty-icon">⚠️</div><div>Erreur de chargement</div></div>'
+    return
+  }
+
+  allLeads = data || []
+  const newCount = allLeads.filter(l => l.status === 'nouveau').length
+  document.getElementById('new-count').textContent = newCount
+
+  renderView()
+}
+
+function renderView() {
+  if(currentView === 'leads') renderLeads()
+  else renderStats()
+}
+
+function renderLeads() {
+  let filtered = allLeads
+  if(currentFilter === 'chaud') filtered = allLeads.filter(l => l.tag === 'chaud')
+  else if(currentFilter === 'tiede') filtered = allLeads.filter(l => l.tag === 'tiede')
+  else if(currentFilter === 'froid') filtered = allLeads.filter(l => l.tag === 'froid')
+
+  const search = document.querySelector('.search-input')?.value?.toLowerCase() || ''
+  if(search) filtered = filtered.filter(l =>
+    (l.name||'').toLowerCase().includes(search) ||
+    (l.email||'').toLowerCase().includes(search)
+  )
+
+  const html = `
+    <div class="kpi-grid">
+      ${kpiCard('👥', 'Total leads', allLeads.length, '+' + allLeads.filter(l => isToday(l.created_at)).length + ' aujourd\'hui', true)}
+      ${kpiCard('🔥', 'Leads chauds', allLeads.filter(l=>l.tag==='chaud').length, 'Score ≥ 70', true)}
+      ${kpiCard('⭐', 'Score moyen', avgScore() + '%', 'Sur tous les leads', true)}
+      ${kpiCard('📅', 'RDV / Gagnés', allLeads.filter(l=>l.status==='rdv'||l.status==='gagne').length, 'Ce mois', true)}
+    </div>
+    <div class="table-card">
+      <div class="table-toolbar">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input class="search-input" placeholder="Rechercher..." oninput="renderLeads()">
+        </div>
+        <button class="ftab ${currentFilter==='all'?'active':''}" onclick="setFilter('all',this)">Tous</button>
+        <button class="ftab ${currentFilter==='chaud'?'active':''}" onclick="setFilter('chaud',this)">🔥 Chauds</button>
+        <button class="ftab ${currentFilter==='tiede'?'active':''}" onclick="setFilter('tiede',this)">🌡 Tièdes</button>
+        <button class="ftab ${currentFilter==='froid'?'active':''}" onclick="setFilter('froid',this)">❄️ Froids</button>
+      </div>
+      <div class="table-head">
+        <div class="th">Contact</div>
+        <div class="th">Source</div>
+        <div class="th">Projet</div>
+        <div class="th">Score</div>
+        <div class="th">Tag</div>
+        <div class="th">Statut</div>
+      </div>
+      <div id="leads-list">
+        ${filtered.length === 0
+          ? '<div class="empty"><div class="empty-icon">🔍</div><div>Aucun lead trouvé</div></div>'
+          : filtered.map(l => leadRow(l)).join('')
+        }
+      </div>
+    </div>`
+
+  document.getElementById('content').innerHTML = html
+}
+
+function renderStats() {
+  const total = allLeads.length
+  const chauds = allLeads.filter(l=>l.tag==='chaud').length
+  const tièdes = allLeads.filter(l=>l.tag==='tiede').length
+  const froids = allLeads.filter(l=>l.tag==='froid').length
+
+  document.getElementById('content').innerHTML = `
+    <div class="kpi-grid">
+      ${kpiCard('👥', 'Total leads', total, 'Tous les leads', true)}
+      ${kpiCard('🔥', 'Chauds', chauds, Math.round(chauds/total*100||0) + '% du total', true)}
+      ${kpiCard('🌡', 'Tièdes', tièdes, Math.round(tièdes/total*100||0) + '% du total', true)}
+      ${kpiCard('❄️', 'Froids', froids, Math.round(froids/total*100||0) + '% du total', true)}
+    </div>
+    <div class="table-card" style="padding:24px">
+      <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:20px;">Répartition par source</div>
+      ${['email','widget','form'].map(src => {
+        const count = allLeads.filter(l=>l.source===src).length
+        const pct = Math.round(count/total*100||0)
+        return `<div style="margin-bottom:14px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px">
+            <span>${src === 'email' ? '📧 Email' : src === 'widget' ? '💬 Widget' : '📋 Formulaire'}</span>
+            <span style="color:var(--blue2);font-weight:600">${count} leads (${pct}%)</span>
+          </div>
+          <div style="height:6px;background:var(--bg4);border-radius:3px;overflow:hidden">
+            <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--blue),var(--blue2));border-radius:3px;transition:width .8s"></div>
+          </div>
+        </div>`
+      }).join('')}
+    </div>`
+}
+
+function leadRow(l) {
+  const data = typeof l.data === 'string' ? JSON.parse(l.data||'{}') : l.data || {}
+  const score = l.score || 0
+  const scoreColor = score >= 70 ? 'var(--green)' : score >= 40 ? 'var(--orange)' : '#9ca3af'
+  const initials = (l.name||l.email||'?').slice(0,2).toUpperCase()
+  const colors = ['#3b82f6','#8b5cf6','#ec4899','#f97316','#22c55e','#c9a84c']
+  const color = colors[Math.abs([...( l.email||'')].reduce((a,c)=>a+c.charCodeAt(0),0)) % colors.length]
+
+  return `<div class="lead-row" onclick="showToast('👤 ${l.name || l.email || 'Lead'} — Score : ${score}')">
+    <div class="lead-name-cell">
+      <div class="lead-av" style="background:${color}">${initials}</div>
+      <div>
+        <div class="lead-name">${l.name || '—'}</div>
+        <div class="lead-email">${l.email || '—'}</div>
+      </div>
+    </div>
+    <div class="td"><span class="source-pill src-${l.source||'email'}">${l.source === 'widget' ? '💬 Widget' : l.source === 'form' ? '📋 Formulaire' : '📧 Email'}</span></div>
+    <div class="td">${data.type || '—'}</div>
+    <div class="td">
+      <div class="score-cell">
+        <div class="score-val" style="color:${scoreColor}">${score}</div>
+        <div class="score-bar"><div class="score-fill" style="width:${score}%;background:${scoreColor}"></div></div>
+      </div>
+    </div>
+    <div class="td"><span class="tag-pill t-${l.tag||'froid'}">${l.tag === 'chaud' ? '🔥 Chaud' : l.tag === 'tiede' ? '🌡 Tiède' : '❄️ Froid'}</span></div>
+    <div class="td"><span class="status-pill s-${l.status||'nouveau'}">${statusLabel(l.status)}</span></div>
+  </div>`
+}
+
+// ====== UTILS ======
+function kpiCard(icon, label, num, delta, up) {
+  return `<div class="kpi">
+    <div class="kpi-top"><span class="kpi-icon">${icon}</span><span class="kpi-delta ${up?'up':''}">${delta}</span></div>
+    <div class="kpi-num">${num}</div>
+    <div class="kpi-label">${label}</div>
+  </div>`
+}
+
+function statusLabel(s) {
+  return {nouveau:'Nouveau',contact:'En contact',qualifie:'Qualifié',rdv:'RDV pris',gagne:'Gagné',perdu:'Perdu'}[s] || s || 'Nouveau'
+}
+
+function avgScore() {
+  if(!allLeads.length) return 0
+  return Math.round(allLeads.reduce((a,b)=>a+(b.score||0),0)/allLeads.length)
+}
+
+function isToday(dateStr) {
+  if(!dateStr) return false
+  return new Date(dateStr).toDateString() === new Date().toDateString()
+}
+
+function setFilter(f, el) {
+  currentFilter = f
+  document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'))
+  el.classList.add('active')
+  renderLeads()
+}
+
+function setView(v, el) {
+  currentView = v
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'))
+  el.classList.add('active')
+  const titles = { leads: ['Leads','Tous vos prospects qualifiés par l\'IA'], stats: ['Statistiques','Vue d\'ensemble de vos performances'] }
+  document.getElementById('view-title').textContent = titles[v][0]
+  document.getElementById('view-sub').textContent = titles[v][1]
+  renderView()
+}
+
+let toastTimer
+function showToast(msg) {
+  const t = document.getElementById('toast')
+  t.textContent = msg; t.classList.add('show')
+  if(toastTimer) clearTimeout(toastTimer)
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 3000)
+}
+
+// ====== REALTIME ======
+sb.channel('leads').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'leads' }, () => {
+  loadLeads()
+  showToast('🔔 Nouveau lead reçu !')
+}).subscribe()
+
+// ====== INIT ======
+checkAuth()
+</script>
+</body>
+</html>

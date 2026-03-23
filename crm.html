@@ -17,6 +17,74 @@
   --hot-dim:rgba(239,68,68,0.08);--hot-border:rgba(239,68,68,0.25);
   --purple:#8b5cf6;--purple-dim:rgba(139,92,246,0.10);
 }
+
+/* ===== AGENDA ===== */
+.agenda-layout{display:grid;grid-template-columns:1fr 320px;gap:14px;height:calc(100vh - 120px);}
+.agenda-main{display:flex;flex-direction:column;gap:14px;overflow-y:auto;}
+.agenda-main::-webkit-scrollbar{width:3px;}
+.agenda-main::-webkit-scrollbar-thumb{background:var(--border2);}
+
+/* Calendrier */
+.cal-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.cal-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.cal-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;}
+.cal-nav{display:flex;gap:6px;}
+.cal-nav-btn{background:var(--bg3);border:1px solid var(--border2);color:var(--text2);width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.cal-nav-btn:hover{background:var(--bg4);color:var(--text);}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);}
+.cal-day-header{padding:8px 4px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text3);font-weight:500;}
+.cal-day{min-height:72px;padding:5px;border-top:1px solid var(--border);border-right:1px solid var(--border);position:relative;transition:background .15s;cursor:pointer;}
+.cal-day:hover{background:var(--bg3);}
+.cal-day:nth-child(7n){border-right:none;}
+.cal-day.other-month .cal-day-num{opacity:.25;}
+.cal-day.today{background:var(--blue-dim);}
+.cal-day.today .cal-day-num{color:var(--blue2);font-weight:700;}
+.cal-day.selected{background:rgba(37,99,235,.15);border-color:var(--blue-border);}
+.cal-day-num{font-size:12px;font-weight:500;margin-bottom:3px;}
+.cal-rdv-dot{display:flex;align-items:center;gap:3px;padding:2px 5px;border-radius:5px;font-size:9px;font-weight:600;margin-bottom:2px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cal-rdv-dot.planifie{background:var(--blue-dim);color:var(--blue2);}
+.cal-rdv-dot.confirme{background:var(--green-dim);color:var(--green);}
+.cal-rdv-dot.annule{background:rgba(239,68,68,.1);color:#fca5a5;text-decoration:line-through;}
+.cal-rdv-dot.fait{background:rgba(107,114,128,.15);color:#9ca3af;}
+.cal-more{font-size:9px;color:var(--text3);padding:1px 4px;}
+
+/* Liste RDV */
+.rdv-section-title{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text3);margin-bottom:8px;font-weight:500;display:flex;align-items:center;gap:6px;}
+.rdv-section-title span{background:var(--bg4);padding:1px 7px;border-radius:6px;font-size:10px;}
+.rdv-item{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:12px 14px;margin-bottom:8px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;transition:all .2s;}
+.rdv-item:hover{border-color:var(--border2);background:var(--bg3);}
+.rdv-item.planifie{border-left:3px solid var(--blue2);}
+.rdv-item.confirme{border-left:3px solid var(--green);}
+.rdv-item.annule{border-left:3px solid var(--red);opacity:.6;}
+.rdv-item.fait{border-left:3px solid #4e5668;opacity:.7;}
+.rdv-time-col{text-align:center;min-width:44px;flex-shrink:0;}
+.rdv-time{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;line-height:1;}
+.rdv-duration{font-size:10px;color:var(--text3);margin-top:2px;}
+.rdv-info{flex:1;min-width:0;}
+.rdv-title{font-size:12px;font-weight:600;margin-bottom:2px;}
+.rdv-lead{font-size:11px;color:var(--text3);}
+.rdv-notes{font-size:11px;color:var(--text2);margin-top:4px;font-style:italic;}
+.rdv-status-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:6px;flex-shrink:0;}
+.rdv-status-badge.planifie{background:var(--blue-dim);color:var(--blue2);}
+.rdv-status-badge.confirme{background:var(--green-dim);color:var(--green);}
+.rdv-status-badge.annule{background:rgba(239,68,68,.1);color:#fca5a5;}
+.rdv-status-badge.fait{background:rgba(107,114,128,.15);color:#9ca3af;}
+
+/* Panel droit agenda */
+.agenda-side{display:flex;flex-direction:column;gap:14px;overflow-y:auto;}
+.agenda-side::-webkit-scrollbar{width:2px;}
+.agenda-today-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;}
+.agenda-today-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;}
+.agenda-empty{color:var(--text3);font-size:12px;text-align:center;padding:12px 0;}
+
+/* Sidebar badge RDV */
+.sb-rdv-badge{margin-left:auto;background:var(--green);color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:8px;}
+
+@media(max-width:768px){
+  .agenda-layout{grid-template-columns:1fr;height:auto;}
+  .agenda-side{display:none;}
+  .cal-day{min-height:52px;}
+}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;}
 
@@ -478,6 +546,48 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
   </div>
 </div>
 
+<!-- MODAL RDV -->
+<div class="modal-overlay" id="modal-rdv">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-title" id="modal-rdv-title">Nouveau RDV</div>
+    <div class="modal-sub">Planifier un rendez-vous avec un prospect</div>
+    <div class="modal-field"><label class="modal-label">Titre *</label><input class="modal-input" id="rdv-title" placeholder="RDV découverte — Achat Genève"></div>
+    <div class="modal-grid">
+      <div class="modal-field"><label class="modal-label">Date *</label><input class="modal-input" id="rdv-date" type="date"></div>
+      <div class="modal-field"><label class="modal-label">Heure *</label><input class="modal-input" id="rdv-time" type="time" value="09:00"></div>
+      <div class="modal-field"><label class="modal-label">Durée (min)</label>
+        <select class="modal-input" id="rdv-duration">
+          <option value="15">15 min</option>
+          <option value="30" selected>30 min</option>
+          <option value="45">45 min</option>
+          <option value="60">1h</option>
+          <option value="90">1h30</option>
+          <option value="120">2h</option>
+        </select>
+      </div>
+      <div class="modal-field"><label class="modal-label">Statut</label>
+        <select class="modal-input" id="rdv-status">
+          <option value="planifie">📋 Planifié</option>
+          <option value="confirme">✅ Confirmé</option>
+          <option value="annule">❌ Annulé</option>
+          <option value="fait">☑️ Fait</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-field"><label class="modal-label">Lead associé</label>
+      <select class="modal-input" id="rdv-lead"></select>
+    </div>
+    <div class="modal-field"><label class="modal-label">Notes</label>
+      <textarea class="modal-input" id="rdv-notes" rows="3" placeholder="Notes pour ce rendez-vous..." style="resize:none"></textarea>
+    </div>
+    <input type="hidden" id="rdv-id">
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeModal('modal-rdv')">Annuler</button>
+      <button class="modal-submit" onclick="saveRdv()">✦ Enregistrer</button>
+    </div>
+  </div>
+</div>
+
 <!-- SIDEBAR OVERLAY -->
 <div class="sb-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
 
@@ -488,6 +598,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
     <div class="sb-section">
       <div class="sb-label">Vues</div>
       <div class="sb-item active" onclick="switchView('leads',this)">👥 Leads <span class="sb-badge" id="new-count">0</span></div>
+      <div class="sb-item" onclick="switchView('agenda',this)">📅 Agenda <span class="sb-rdv-badge" id="rdv-today-count" style="display:none">0</span></div>
       <div class="sb-item" onclick="switchView('conversations',this)">💬 Conversations</div>
       <div class="sb-item" onclick="switchView('pipeline',this)">🔀 Pipeline</div>
       <div class="sb-item" onclick="switchView('stats',this)">📊 Statistiques</div>
@@ -554,12 +665,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
       <div class="dp-tab" onclick="switchDpTab('conversation',this)">💬 Conv.</div>
       <div class="dp-tab" onclick="switchDpTab('notes',this)">📝 Notes</div>
       <div class="dp-tab" onclick="switchDpTab('templates',this)">📤 Email</div>
+      <div class="dp-tab" onclick="switchDpTab('rdv',this)">📅 RDV</div>
     </div>
     <div class="dp-body" id="dp-body"></div>
     <div class="dp-actions">
       <button class="dp-btn dp-btn-primary" onclick="showToast('📞 Click-to-call — bientôt disponible')">📞 Appeler</button>
       <button class="dp-btn dp-btn-ghost" onclick="switchDpTab('templates',document.querySelectorAll('.dp-tab')[3])">📤 Email</button>
-      <button class="dp-btn dp-btn-ghost" onclick="showToast('📅 Google Calendar — bientôt disponible')">📅 RDV</button>
+      <button class="dp-btn dp-btn-ghost" onclick="switchDpTab('rdv',document.querySelectorAll('.dp-tab')[4])">📅 RDV</button>
     </div>
   </div>
 </div>
@@ -573,12 +685,13 @@ const SUPER_ADMIN_ID = 'a69bdec1-35e6-48bd-a73d-7300eb3fbcc9'
 const { createClient } = supabase
 const sb = createClient(SB_URL, SB_KEY)
 
-let allLeads=[], allAgencies=[], allBranches=[], allMembers=[], allConversations=[]
+let allLeads=[], allAgencies=[], allBranches=[], allMembers=[], allConversations=[], allAppointments=[]
 let currentView='leads', currentFilter='all', selectedLead=null, currentDpTab='infos'
 let selectedInboxLead=null, inboxFilter='all', inboxSearch='', toastTimer=null
 let currentUser=null, userRole=null, userAgencyId=null, userBranchId=null
 let filterAgencyId='all', filterBranchId='all'
 let objectives = JSON.parse(localStorage.getItem('lz_objectives')||'{"rdv":10,"chaud":20,"gagne":5}')
+let calYear=new Date().getFullYear(), calMonth=new Date().getMonth(), selectedCalDay=null
 
 const EMAIL_TEMPLATES = [
   {id:'relance',name:'Relance douce',tag:'Suivi',preview:'Un message chaleureux pour reprendre contact...',body:`Bonjour {prenom},\n\nJ'espère que vous allez bien. Je voulais prendre de vos nouvelles concernant votre projet {type}.\n\nNous avons actuellement quelques biens très intéressants à {secteur} qui pourraient correspondre à vos critères. Seriez-vous disponible pour en discuter cette semaine ?\n\nChaleureusement,\nSofia`},
@@ -685,10 +798,10 @@ async function loadData() {
     sb.from('leads').select('*').order('created_at',{ascending:false}),
     sb.from('agencies').select('*').order('name'),
     sb.from('branches').select('*').order('name'),
-    sb.from('conversations').select('*').order('created_at',{ascending:true})
+    sb.from('conversations').select('*').order('created_at',{ascending:true}),
+    sb.from('appointments').select('*').order('scheduled_at',{ascending:true})
   ]
 
-  // agency_members seulement pour super_admin
   if(userRole==='super_admin') {
     queries.push(sb.from('agency_members').select('*'))
   }
@@ -698,9 +811,11 @@ async function loadData() {
   allAgencies = results[1].data||[]
   allBranches = results[2].data||[]
   allConversations = results[3].data||[]
-  if(userRole==='super_admin') allMembers = results[4].data||[]
+  allAppointments = results[4].data||[]
+  if(userRole==='super_admin') allMembers = results[5].data||[]
 
   updateNewCount()
+  updateRdvTodayBadge()
   renderView()
 }
 
@@ -717,6 +832,7 @@ function switchView(v,el) {
   closeSidebar()
   const t={
     leads:['Leads','Vos prospects qualifiés par l\'IA'],
+    agenda:['Agenda','Planifiez et gérez vos rendez-vous'],
     conversations:['Conversations','Historique de tous les échanges'],
     pipeline:['Pipeline','Progression de vos leads'],
     stats:['Statistiques & Objectifs','Performances et suivi'],
@@ -729,6 +845,7 @@ function switchView(v,el) {
 }
 function renderView() {
   if(currentView==='leads') renderLeads()
+  else if(currentView==='agenda') renderAgenda()
   else if(currentView==='conversations') renderConversations()
   else if(currentView==='pipeline') renderPipeline()
   else if(currentView==='stats') renderStats()
@@ -942,6 +1059,17 @@ async function renderDpTab() {
           <div class="template-full">${fillTemplate(t.body,l,d2)}</div>
           <button class="template-send-btn" onclick="event.stopPropagation();sendTemplate('${t.id}')">📤 Envoyer cet email →</button>
         </div>`).join('')}`
+
+  } else if(currentDpTab==='rdv') {
+    const leadRdvs=allAppointments.filter(a=>a.lead_id===l.id).sort((a,b)=>new Date(a.scheduled_at)-new Date(b.scheduled_at))
+    const upcoming=leadRdvs.filter(a=>new Date(a.scheduled_at)>=new Date()&&a.status!=='annule')
+    const past=leadRdvs.filter(a=>new Date(a.scheduled_at)<new Date()||a.status==='fait')
+    body.innerHTML=`
+      <div class="dp-section-title">Planifier un RDV</div>
+      <button onclick="openNewRdv('${l.id}')" style="width:100%;padding:10px;border-radius:8px;background:linear-gradient(135deg,var(--blue),#1d4ed8);border:none;color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;margin-bottom:14px">📅 Nouveau RDV avec ce prospect</button>
+      ${upcoming.length>0?`<div class="dp-section-title">À venir (${upcoming.length})</div>${upcoming.map(a=>rdvCard(a)).join('')}`:''}
+      ${past.length>0?`<div class="dp-section-title">Historique (${past.length})</div>${past.map(a=>rdvCard(a)).join('')}`:''}
+      ${leadRdvs.length===0?'<div style="color:var(--text3);font-size:12px;text-align:center;padding:20px 0">Aucun RDV pour ce prospect</div>':''}`
   }
 }
 
@@ -984,6 +1112,304 @@ async function updateLeadStatus() {
   allLeads=allLeads.map(l=>l.id===selectedLead.id?{...l,status}:l)
   selectedLead.status=status
   renderView();showToast('✅ Statut : '+statusL(status))
+}
+
+// ===== AGENDA =====
+function updateRdvTodayBadge() {
+  const today = new Date().toDateString()
+  const todayRdvs = allAppointments.filter(a => {
+    const d = new Date(a.scheduled_at)
+    return d.toDateString()===today && a.status!=='annule'
+  })
+  const badge = document.getElementById('rdv-today-count')
+  if(!badge) return
+  if(todayRdvs.length>0) { badge.textContent=todayRdvs.length; badge.style.display='inline-block' }
+  else badge.style.display='none'
+}
+
+function getVisibleAppointments() {
+  if(userRole==='super_admin') return allAppointments
+  if(userRole==='admin') return allAppointments.filter(a=>a.agency_id===userAgencyId)
+  if(userRole==='agent') return allAppointments.filter(a=>a.branch_id===userBranchId||a.user_id===currentUser?.id)
+  return []
+}
+
+function renderAgenda() {
+  const appts = getVisibleAppointments()
+  const today = new Date()
+  const todayStr = today.toDateString()
+
+  // RDV aujourd'hui
+  const todayRdvs = appts.filter(a=>new Date(a.scheduled_at).toDateString()===todayStr && a.status!=='annule')
+    .sort((a,b)=>new Date(a.scheduled_at)-new Date(b.scheduled_at))
+
+  // RDV cette semaine (hors aujourd'hui)
+  const startWeek = new Date(today); startWeek.setDate(today.getDate()-today.getDay()+1)
+  const endWeek = new Date(startWeek); endWeek.setDate(startWeek.getDate()+6)
+  const weekRdvs = appts.filter(a=>{
+    const d=new Date(a.scheduled_at)
+    return d>today && d<=endWeek && a.status!=='annule'
+  }).sort((a,b)=>new Date(a.scheduled_at)-new Date(b.scheduled_at))
+
+  // RDV à venir (après cette semaine)
+  const upcomingRdvs = appts.filter(a=>{
+    const d=new Date(a.scheduled_at)
+    return d>endWeek && a.status!=='annule'
+  }).sort((a,b)=>new Date(a.scheduled_at)-new Date(b.scheduled_at)).slice(0,10)
+
+  document.getElementById('content').innerHTML=`
+    <div class="agenda-layout">
+      <div class="agenda-main">
+        ${renderCalendar(appts)}
+        ${renderRdvSection('Aujourd\'hui', todayRdvs, todayStr)}
+        ${renderRdvSection('Cette semaine', weekRdvs)}
+        ${renderRdvSection('À venir', upcomingRdvs)}
+      </div>
+      <div class="agenda-side">
+        <div class="agenda-today-card">
+          <div class="agenda-today-title">
+            <span>📅 Aujourd'hui</span>
+            <button class="btn-primary-sm" onclick="openNewRdv()">+ RDV</button>
+          </div>
+          <div style="font-size:11px;color:var(--text3);margin-bottom:10px">${today.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})}</div>
+          ${todayRdvs.length===0
+            ?'<div class="agenda-empty">Aucun RDV aujourd\'hui 🎉</div>'
+            :todayRdvs.map(a=>rdvMiniCard(a)).join('')}
+        </div>
+        <div class="agenda-today-card">
+          <div class="agenda-today-title"><span>⏰ Prochains RDV</span></div>
+          ${weekRdvs.length===0&&upcomingRdvs.length===0
+            ?'<div class="agenda-empty">Aucun RDV à venir</div>'
+            :[...weekRdvs.slice(0,3),...upcomingRdvs.slice(0,2)].map(a=>rdvMiniCard(a)).join('')}
+        </div>
+        <div class="agenda-today-card">
+          <div class="agenda-today-title"><span>📊 Ce mois</span></div>
+          <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+            ${[
+              {label:'Total',val:appts.filter(a=>isSameMonth(a.scheduled_at)).length,color:'var(--blue2)'},
+              {label:'Confirmés',val:appts.filter(a=>isSameMonth(a.scheduled_at)&&a.status==='confirme').length,color:'var(--green)'},
+              {label:'Faits',val:appts.filter(a=>isSameMonth(a.scheduled_at)&&a.status==='fait').length,color:'#9ca3af'},
+            ].map(s=>`<div style="text-align:center"><div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:${s.color}">${s.val}</div><div style="font-size:10px;color:var(--text3)">${s.label}</div></div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>`
+}
+
+function isSameMonth(dateStr) {
+  const d=new Date(dateStr), now=new Date()
+  return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear()
+}
+
+function renderCalendar(appts) {
+  const firstDay = new Date(calYear, calMonth, 1)
+  const lastDay = new Date(calYear, calMonth+1, 0)
+  const startDow = (firstDay.getDay()+6)%7 // Lundi=0
+  const monthName = firstDay.toLocaleDateString('fr-FR',{month:'long',year:'numeric'})
+  const today = new Date()
+
+  // Jours du calendrier
+  let days = []
+  // Jours du mois précédent
+  for(let i=startDow-1;i>=0;i--) {
+    const d=new Date(calYear,calMonth,1-i-1)
+    days.push({date:d,current:false})
+  }
+  // Jours du mois
+  for(let i=1;i<=lastDay.getDate();i++) {
+    days.push({date:new Date(calYear,calMonth,i),current:true})
+  }
+  // Compléter jusqu'à 42 cases
+  while(days.length<42) {
+    const last=days[days.length-1].date
+    days.push({date:new Date(last.getTime()+86400000),current:false})
+  }
+
+  // RDV par jour
+  const rdvByDay={}
+  appts.forEach(a=>{
+    const key=new Date(a.scheduled_at).toDateString()
+    if(!rdvByDay[key]) rdvByDay[key]=[]
+    rdvByDay[key].push(a)
+  })
+
+  const headers=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'].map(d=>`<div class="cal-day-header">${d}</div>`).join('')
+
+  const cells = days.map(({date,current})=>{
+    const key=date.toDateString()
+    const dayRdvs=rdvByDay[key]||[]
+    const isToday=key===today.toDateString()
+    const isSel=selectedCalDay&&key===new Date(selectedCalDay).toDateString()
+    const dots=dayRdvs.slice(0,2).map(a=>{
+      const lead=allLeads.find(l=>l.id===a.lead_id)
+      const name=lead?(lead.name||lead.email?.split('@')[0]||'RDV'):'RDV'
+      return`<div class="cal-rdv-dot ${a.status}" onclick="event.stopPropagation();openEditRdv('${a.id}')" title="${a.title}">${name.slice(0,10)}</div>`
+    }).join('')
+    const more=dayRdvs.length>2?`<div class="cal-more">+${dayRdvs.length-2}</div>`:''
+    return`<div class="cal-day ${!current?'other-month':''} ${isToday?'today':''} ${isSel?'selected':''}" onclick="selectCalDay('${date.toISOString()}')">
+      <div class="cal-day-num">${date.getDate()}</div>
+      ${dots}${more}
+    </div>`
+  }).join('')
+
+  return`<div class="cal-card">
+    <div class="cal-header">
+      <div class="cal-title">${monthName.charAt(0).toUpperCase()+monthName.slice(1)}</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="btn-primary-sm" onclick="openNewRdv()">+ RDV</button>
+        <div class="cal-nav">
+          <button class="cal-nav-btn" onclick="calNav(-1)">‹</button>
+          <button class="cal-nav-btn" onclick="calNav(0)">·</button>
+          <button class="cal-nav-btn" onclick="calNav(1)">›</button>
+        </div>
+      </div>
+    </div>
+    <div class="cal-grid">${headers}${cells}</div>
+  </div>`
+}
+
+function calNav(dir) {
+  if(dir===0) { calYear=new Date().getFullYear(); calMonth=new Date().getMonth() }
+  else { calMonth+=dir; if(calMonth>11){calMonth=0;calYear++} if(calMonth<0){calMonth=11;calYear--} }
+  renderAgenda()
+}
+
+function selectCalDay(isoDate) {
+  selectedCalDay=isoDate
+  renderAgenda()
+}
+
+function renderRdvSection(title, rdvs, highlightStr) {
+  if(rdvs.length===0) return ''
+  return`<div>
+    <div class="rdv-section-title">${title} <span>${rdvs.length}</span></div>
+    ${rdvs.map(a=>rdvCard(a)).join('')}
+  </div>`
+}
+
+function rdvCard(a) {
+  const d=new Date(a.scheduled_at)
+  const lead=allLeads.find(l=>l.id===a.lead_id)
+  const time=d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})
+  const dateStr=d.toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'})
+  const statusLabels={planifie:'Planifié',confirme:'Confirmé',annule:'Annulé',fait:'Fait'}
+  return`<div class="rdv-item ${a.status}" onclick="openEditRdv('${a.id}')">
+    <div class="rdv-time-col">
+      <div class="rdv-time">${time}</div>
+      <div class="rdv-duration">${a.duration_minutes}min</div>
+      <div style="font-size:9px;color:var(--text3);margin-top:2px">${dateStr}</div>
+    </div>
+    <div class="rdv-info">
+      <div class="rdv-title">${a.title}</div>
+      ${lead?`<div class="rdv-lead">👤 ${lead.name||lead.email||'—'} · <span class="tag-pill t-${lead.tag||'froid'}" style="font-size:9px;padding:1px 5px">${tagL(lead.tag)}</span></div>`:''}
+      ${a.notes?`<div class="rdv-notes">${a.notes}</div>`:''}
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+      <span class="rdv-status-badge ${a.status}">${statusLabels[a.status]||a.status}</span>
+      ${lead?`<button class="hot-card-action" onclick="event.stopPropagation();openDetail('${lead.id}')">Fiche →</button>`:''}
+    </div>
+  </div>`
+}
+
+function rdvMiniCard(a) {
+  const d=new Date(a.scheduled_at)
+  const lead=allLeads.find(l=>l.id===a.lead_id)
+  const time=d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})
+  return`<div style="display:flex;align-items:center;gap:8px;padding:7px 9px;background:var(--bg3);border-radius:7px;margin-bottom:6px;cursor:pointer" onclick="openEditRdv('${a.id}')">
+    <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--blue2);min-width:36px">${time}</div>
+    <div style="flex:1;min-width:0">
+      <div style="font-size:11px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${a.title}</div>
+      ${lead?`<div style="font-size:10px;color:var(--text3)">${lead.name||lead.email||'—'}</div>`:''}
+    </div>
+    <span class="rdv-status-badge ${a.status}" style="font-size:9px">${a.status==='confirme'?'✅':a.status==='fait'?'☑️':'📋'}</span>
+  </div>`
+}
+
+function openNewRdv(leadId, dateStr) {
+  document.getElementById('rdv-id').value=''
+  document.getElementById('modal-rdv-title').textContent='Nouveau RDV'
+  document.getElementById('rdv-title').value=''
+  document.getElementById('rdv-notes').value=''
+  document.getElementById('rdv-status').value='planifie'
+  document.getElementById('rdv-duration').value='30'
+  // Date par défaut
+  const d=dateStr?new Date(dateStr):selectedCalDay?new Date(selectedCalDay):new Date()
+  document.getElementById('rdv-date').value=d.toISOString().split('T')[0]
+  document.getElementById('rdv-time').value='09:00'
+  // Remplir les leads
+  const visLeads=getVisibleLeads().filter(l=>l.status!=='perdu'&&l.status!=='gagne')
+  document.getElementById('rdv-lead').innerHTML=`<option value="">— Aucun lead —</option>`+
+    visLeads.map(l=>`<option value="${l.id}" ${l.id===leadId?'selected':''}>${l.name||l.email||'—'} (${tagL(l.tag)})</option>`).join('')
+  openModal('modal-rdv')
+}
+
+function openEditRdv(id) {
+  const a=allAppointments.find(x=>x.id===id)
+  if(!a) return
+  document.getElementById('rdv-id').value=a.id
+  document.getElementById('modal-rdv-title').textContent='Modifier le RDV'
+  document.getElementById('rdv-title').value=a.title||''
+  document.getElementById('rdv-notes').value=a.notes||''
+  document.getElementById('rdv-status').value=a.status||'planifie'
+  document.getElementById('rdv-duration').value=a.duration_minutes||30
+  const d=new Date(a.scheduled_at)
+  document.getElementById('rdv-date').value=d.toISOString().split('T')[0]
+  document.getElementById('rdv-time').value=d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}).replace('h',':')
+  const visLeads=getVisibleLeads()
+  document.getElementById('rdv-lead').innerHTML=`<option value="">— Aucun lead —</option>`+
+    visLeads.map(l=>`<option value="${l.id}" ${l.id===a.lead_id?'selected':''}>${l.name||l.email||'—'}</option>`).join('')
+  openModal('modal-rdv')
+}
+
+async function saveRdv() {
+  const title=document.getElementById('rdv-title').value.trim()
+  const date=document.getElementById('rdv-date').value
+  const time=document.getElementById('rdv-time').value
+  const duration=parseInt(document.getElementById('rdv-duration').value)||30
+  const status=document.getElementById('rdv-status').value
+  const leadId=document.getElementById('rdv-lead').value||null
+  const notes=document.getElementById('rdv-notes').value.trim()
+  const existingId=document.getElementById('rdv-id').value
+
+  if(!title||!date||!time){showToast('⚠️ Titre, date et heure obligatoires');return}
+
+  const scheduled_at=new Date(`${date}T${time}:00`).toISOString()
+  const lead=leadId?allLeads.find(l=>l.id===leadId):null
+
+  const payload={
+    title, scheduled_at, duration_minutes:duration, status,
+    notes:notes||null, lead_id:leadId||null,
+    agency_id:lead?.agency_id||userAgencyId||null,
+    branch_id:lead?.branch_id||userBranchId||null,
+    user_id:currentUser?.id||null
+  }
+
+  if(existingId) {
+    const {error}=await sb.from('appointments').update(payload).eq('id',existingId)
+    if(error){showToast('❌ '+error.message);return}
+    allAppointments=allAppointments.map(a=>a.id===existingId?{...a,...payload,id:existingId}:a)
+    showToast('✅ RDV mis à jour')
+  } else {
+    const {data,error}=await sb.from('appointments').insert(payload).select().single()
+    if(error){showToast('❌ '+error.message);return}
+    allAppointments.unshift(data)
+    showToast('✅ RDV créé : '+title)
+  }
+
+  closeModal('modal-rdv')
+  updateRdvTodayBadge()
+  if(currentView==='agenda') renderAgenda()
+  else renderDpTab()
+}
+
+async function deleteRdv(id) {
+  await sb.from('appointments').delete().eq('id',id)
+  allAppointments=allAppointments.filter(a=>a.id!==id)
+  updateRdvTodayBadge()
+  showToast('🗑 RDV supprimé')
+  closeModal('modal-rdv')
+  if(currentView==='agenda') renderAgenda()
+  else renderDpTab()
 }
 
 // ===== CONVERSATIONS =====

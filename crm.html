@@ -15,12 +15,12 @@
   --green:#22c55e;--green-dim:rgba(34,197,94,0.10);
   --orange:#f97316;--red:#ef4444;--gold:#c9a84c;
   --hot-dim:rgba(239,68,68,0.08);--hot-border:rgba(239,68,68,0.25);
-  --sidebar-w:220px;
+  --purple:#8b5cf6;--purple-dim:rgba(139,92,246,0.10);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;}
 
-/* ===== LOGIN ===== */
+/* LOGIN */
 .login-wrap{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:200;}
 .login-card{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:40px;width:400px;}
 .login-logo{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;text-align:center;margin-bottom:6px;}
@@ -38,9 +38,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .login-msg.err{color:var(--red);}
 .login-msg.ok{color:var(--green);}
 
-/* ===== LAYOUT ===== */
+/* LAYOUT */
 .app{display:contents;}
-.sidebar{width:var(--sidebar-w);flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;transition:transform .3s;z-index:50;}
+.sidebar{width:220px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;transition:transform .3s;z-index:50;}
 .sb-logo{padding:20px 18px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
 .sb-logo-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--blue),#1d4ed8);display:flex;align-items:center;justify-content:center;font-size:14px;}
 .sb-logo-text{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;}
@@ -55,13 +55,22 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .sb-bottom{margin-top:auto;padding:12px 10px;border-top:1px solid var(--border);}
 .sb-user{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;background:var(--bg3);}
 .sb-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#1d4ed8);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0;}
-.sb-user-email{font-size:11px;color:var(--text3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;}
+.sb-user-info{flex:1;overflow:hidden;}
+.sb-user-email{font-size:11px;color:var(--text3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.sb-user-role{font-size:10px;margin-top:1px;font-weight:600;}
 .sb-logout{font-size:10px;color:var(--red);cursor:pointer;margin-top:2px;}
 
-/* Mobile sidebar overlay */
-.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:49;}
+/* Role badges */
+.role-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;}
+.role-super{background:rgba(201,168,76,.15);color:var(--gold);border:1px solid rgba(201,168,76,.3);}
+.role-admin{background:var(--purple-dim);color:var(--purple);border:1px solid rgba(139,92,246,.3);}
+.role-agent{background:var(--blue-dim);color:var(--blue2);border:1px solid var(--blue-border);}
 
-/* ===== MAIN ===== */
+/* MOBILE */
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:49;}
+.menu-btn{display:none;background:var(--bg3);border:1px solid var(--border2);width:34px;height:34px;border-radius:8px;align-items:center;justify-content:center;cursor:pointer;font-size:18px;flex-shrink:0;}
+
+/* MAIN */
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
 .topbar{padding:13px 22px;border-bottom:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;}
 .topbar-left{display:flex;align-items:center;gap:10px;}
@@ -75,14 +84,23 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .live-badge{display:flex;align-items:center;gap:5px;background:var(--green-dim);border:1px solid rgba(34,197,94,.2);border-radius:20px;padding:4px 10px;font-size:11px;color:var(--green);}
 .live-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 1.5s infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.menu-btn{display:none;background:var(--bg3);border:1px solid var(--border2);width:34px;height:34px;border-radius:8px;align-items:center;justify-content:center;cursor:pointer;font-size:18px;flex-shrink:0;}
+.notif-btn{position:relative;background:var(--bg3);border:1px solid var(--border2);width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;transition:all .2s;flex-shrink:0;}
+.notif-dot{position:absolute;top:5px;right:5px;width:8px;height:8px;background:var(--red);border-radius:50%;border:2px solid var(--bg2);display:none;}
+.notif-dot.show{display:block;}
 
-/* ===== CONTENT ===== */
+/* CONTENT */
 .content{flex:1;overflow-y:auto;padding:20px 22px;}
 .content::-webkit-scrollbar{width:3px;}
 .content::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
 
-/* ===== HOT BANNER ===== */
+/* CONTEXT BAR — filtre agence/succursale actif */
+.context-bar{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--blue-dim);border:1px solid var(--blue-border);border-radius:9px;margin-bottom:16px;font-size:12px;}
+.context-bar-icon{font-size:14px;}
+.context-bar-text{color:var(--blue2);font-weight:500;}
+.context-bar-clear{margin-left:auto;background:none;border:none;color:var(--text3);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.context-bar-clear:hover{color:var(--text2);}
+
+/* HOT BANNER */
 .hot-banner{background:linear-gradient(135deg,var(--hot-dim),rgba(249,115,22,0.05));border:1px solid var(--hot-border);border-radius:12px;padding:14px 18px;margin-bottom:18px;}
 .hot-banner-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
 .hot-banner-title{display:flex;align-items:center;gap:8px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;}
@@ -98,7 +116,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .hot-card-score{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--red);}
 .hot-card-action{font-size:10px;color:var(--blue2);background:var(--blue-dim);padding:3px 8px;border-radius:6px;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;}
 
-/* ===== KPI ===== */
+/* KPI */
 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
 .kpi{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;transition:border-color .2s;}
 .kpi:hover{border-color:var(--border2);}
@@ -108,8 +126,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .kpi-num{font-family:'Syne',sans-serif;font-size:24px;font-weight:700;line-height:1;}
 .kpi-label{font-size:11px;color:var(--text3);margin-top:3px;}
 
-/* ===== TABLE ===== */
-.table-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+/* TABLE */
+.table-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:14px;}
 .table-toolbar{padding:11px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 .search-wrap{position:relative;flex:1;min-width:140px;max-width:240px;}
 .search-input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:7px 12px 7px 30px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;transition:border-color .2s;}
@@ -121,9 +139,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .ftab.active{background:var(--blue-dim);color:var(--blue2);border-color:var(--blue-border);}
 .tb-select{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:6px 10px;color:var(--text2);font-family:'DM Sans',sans-serif;font-size:11px;outline:none;cursor:pointer;}
 .tb-right{margin-left:auto;display:flex;gap:8px;align-items:center;}
-.table-head{display:grid;grid-template-columns:2.2fr 1fr 1fr 80px 90px 100px 36px;padding:9px 16px;border-bottom:1px solid var(--border);background:var(--bg2);}
+.table-head{display:grid;grid-template-columns:2fr 1fr 1fr 80px 90px 100px;padding:9px 16px;border-bottom:1px solid var(--border);}
 .th{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text3);}
-.lead-row{display:grid;grid-template-columns:2.2fr 1fr 1fr 80px 90px 100px 36px;padding:10px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;align-items:center;}
+.lead-row{display:grid;grid-template-columns:2fr 1fr 1fr 80px 90px 100px;padding:10px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;align-items:center;}
 .lead-row:hover{background:var(--bg3);}
 .lead-row.is-hot{border-left:3px solid var(--red);}
 .lead-row:last-child{border-bottom:none;}
@@ -140,7 +158,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .t-chaud{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.2);}
 .t-tiede{background:rgba(249,115,22,.15);color:#fdba74;border:1px solid rgba(249,115,22,.2);}
 .t-froid{background:rgba(107,114,128,.2);color:#9ca3af;border:1px solid rgba(107,114,128,.2);}
-.t-custom{background:rgba(139,92,246,.15);color:#c4b5fd;border:1px solid rgba(139,92,246,.2);}
 .status-pill{padding:2px 8px;border-radius:7px;font-size:10px;font-weight:600;display:inline-block;}
 .s-nouveau{background:var(--blue-dim);color:var(--blue2);}
 .s-contact{background:rgba(249,115,22,.1);color:#fdba74;}
@@ -149,16 +166,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .s-gagne{background:rgba(34,197,94,.2);color:var(--green);}
 .s-perdu{background:rgba(239,68,68,.1);color:#fca5a5;}
 
-/* ===== CUSTOM TAGS ===== */
-.custom-tag-pill{padding:2px 8px;border-radius:7px;font-size:10px;font-weight:600;display:inline-flex;align-items:center;gap:4px;cursor:pointer;}
-
-/* ===== DETAIL PANEL ===== */
+/* DETAIL PANEL */
 .detail-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;display:none;align-items:flex-start;justify-content:flex-end;}
 .detail-overlay.open{display:flex;}
 .detail-panel{width:460px;max-width:100vw;height:100vh;background:var(--bg2);border-left:1px solid var(--border2);display:flex;flex-direction:column;overflow:hidden;animation:slideIn .25s ease;}
 @keyframes slideIn{from{transform:translateX(100%)}to{transform:none}}
 .dp-header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;flex-shrink:0;}
-.dp-close{background:none;border:none;color:var(--text3);font-size:20px;cursor:pointer;line-height:1;}
+.dp-close{background:none;border:none;color:var(--text3);font-size:20px;cursor:pointer;}
 .dp-close:hover{color:var(--text);}
 .dp-av-wrap{display:flex;align-items:center;gap:10px;}
 .dp-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0;color:#fff;}
@@ -171,7 +185,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .dp-score-sub{font-size:11px;color:var(--text3);margin-top:1px;}
 .dp-status-select{background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-family:'DM Sans',sans-serif;font-size:11px;padding:5px 8px;border-radius:7px;outline:none;cursor:pointer;}
 .dp-tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0;overflow-x:auto;}
-.dp-tab{flex:1;padding:10px 6px;text-align:center;font-size:11px;font-weight:500;color:var(--text3);cursor:pointer;transition:all .2s;border-bottom:2px solid transparent;white-space:nowrap;min-width:60px;}
+.dp-tab{flex:1;padding:10px 6px;text-align:center;font-size:11px;font-weight:500;color:var(--text3);cursor:pointer;transition:all .2s;border-bottom:2px solid transparent;white-space:nowrap;min-width:55px;}
 .dp-tab:hover{color:var(--text2);}
 .dp-tab.active{color:var(--blue2);border-bottom-color:var(--blue2);}
 .dp-body{flex:1;overflow-y:auto;padding:14px 16px;}
@@ -196,91 +210,26 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .note-item{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:8px;position:relative;}
 .note-text{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:6px;}
 .note-meta{font-size:10px;color:var(--text3);}
-.note-delete{position:absolute;top:8px;right:8px;background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer;opacity:0;transition:opacity .2s;}
+.note-delete{position:absolute;top:8px;right:8px;background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer;opacity:0;}
 .note-item:hover .note-delete{opacity:1;}
-.note-delete:hover{color:var(--red);}
-
-/* ===== EMAIL TEMPLATES ===== */
-.template-list{display:flex;flex-direction:column;gap:8px;}
-.template-item{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:11px 13px;cursor:pointer;transition:all .2s;}
-.template-item:hover{border-color:var(--blue-border);background:var(--blue-dim);}
-.template-item-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
-.template-name{font-size:12px;font-weight:600;}
-.template-tag{font-size:10px;padding:2px 7px;border-radius:6px;background:var(--bg4);color:var(--text3);}
-.template-preview{font-size:11px;color:var(--text3);line-height:1.5;}
-.template-send-btn{margin-top:10px;width:100%;padding:8px;border-radius:7px;background:linear-gradient(135deg,var(--blue),#1d4ed8);border:none;color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;display:none;}
-.template-item.expanded .template-send-btn{display:block;}
-.template-full{display:none;margin-top:8px;font-size:11px;color:var(--text2);line-height:1.7;background:var(--bg4);border-radius:6px;padding:10px;white-space:pre-wrap;}
-.template-item.expanded .template-full{display:block;}
-
-/* ===== CUSTOM TAGS PANEL ===== */
-.tags-manage{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px;}
-.tag-manage-pill{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid transparent;transition:all .15s;}
-.tag-manage-pill.selected{outline:2px solid var(--blue2);}
-.tag-add-row{display:flex;gap:8px;margin-top:8px;}
-.tag-name-input{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:7px 10px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;}
-.tag-name-input:focus{border-color:var(--blue-border);}
-.tag-color-pick{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px;}
-.tag-color-opt{width:20px;height:20px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .15s;flex-shrink:0;}
-.tag-color-opt.selected{border-color:#fff;transform:scale(1.2);}
-
-/* ===== CONVERSATIONS ===== */
-.inbox-layout{display:grid;grid-template-columns:300px 1fr;gap:0;height:calc(100vh - 120px);background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
-.inbox-list{border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
-.inbox-search{padding:10px;border-bottom:1px solid var(--border);position:relative;flex-shrink:0;}
-.inbox-search-input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:7px 12px 7px 30px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;}
-.inbox-search-input::placeholder{color:var(--text3);}
-.inbox-search-icon{position:absolute;left:19px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:12px;}
-.inbox-filters{display:flex;gap:4px;padding:7px 10px;border-bottom:1px solid var(--border);flex-shrink:0;overflow-x:auto;}
-.inbox-ftab{padding:4px 9px;border-radius:6px;font-size:11px;cursor:pointer;color:var(--text3);border:1px solid transparent;font-family:'DM Sans',sans-serif;transition:all .15s;white-space:nowrap;}
-.inbox-ftab:hover{background:var(--bg3);color:var(--text2);}
-.inbox-ftab.active{background:var(--blue-dim);color:var(--blue2);border-color:var(--blue-border);}
-.inbox-items{overflow-y:auto;flex:1;}
-.inbox-item{padding:11px 13px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;}
-.inbox-item:hover{background:var(--bg3);}
-.inbox-item.active{background:var(--blue-dim);border-right:2px solid var(--blue2);}
-.inbox-item.is-hot{border-left:3px solid var(--red);}
-.inbox-item-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;}
-.inbox-item-name{font-size:12px;font-weight:600;}
-.inbox-item-time{font-size:10px;color:var(--text3);}
-.inbox-item-preview{font-size:11px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px;}
-.inbox-item-tags{display:flex;gap:5px;}
-.inbox-msg-count{font-size:10px;color:var(--text3);background:var(--bg4);padding:1px 6px;border-radius:6px;}
-.inbox-conv{display:flex;flex-direction:column;overflow:hidden;}
-.inbox-conv-header{padding:13px 17px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
-.inbox-conv-info{display:flex;align-items:center;gap:10px;}
-.inbox-conv-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;}
-.inbox-conv-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;}
-.inbox-conv-meta{font-size:11px;color:var(--text3);}
-.inbox-conv-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;}
-.inbox-conv-messages::-webkit-scrollbar{width:2px;}
-.inbox-conv-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text3);gap:8px;}
-.conv-lead-summary{margin:0 16px;padding:10px 13px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;gap:12px;flex-shrink:0;}
-.cls-score{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;}
-.cls-info{flex:1;}
-.cls-name{font-size:12px;font-weight:600;}
-.cls-meta{font-size:11px;color:var(--text3);}
-.cls-open{font-size:11px;color:var(--blue2);background:var(--blue-dim);border:1px solid var(--blue-border);padding:4px 10px;border-radius:7px;cursor:pointer;font-family:'DM Sans',sans-serif;}
-.conv-msg{display:flex;gap:8px;animation:msgIn .2s ease;}
-@keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.conv-msg.user{flex-direction:row-reverse;}
-.conv-av{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#1d4ed8);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;margin-top:2px;}
-.conv-av.u{background:rgba(255,255,255,.1);}
-.conv-bubble-wrap{display:flex;flex-direction:column;gap:2px;max-width:78%;}
-.conv-bubble{padding:9px 12px;border-radius:12px;font-size:12px;line-height:1.6;}
-.conv-msg.bot .conv-bubble{background:var(--bg4);color:var(--text);border-bottom-left-radius:3px;}
-.conv-msg.user .conv-bubble{background:linear-gradient(135deg,var(--blue),#1d4ed8);color:#fff;border-bottom-right-radius:3px;}
-.conv-time{font-size:10px;color:var(--text3);}
-.conv-msg.user .conv-time{text-align:right;}
-
-/* ===== DP ACTIONS ===== */
 .dp-actions{padding:10px 16px;border-top:1px solid var(--border);display:flex;gap:7px;flex-shrink:0;}
 .dp-btn{flex:1;padding:8px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;cursor:pointer;transition:all .2s;border:none;}
 .dp-btn-primary{background:linear-gradient(135deg,var(--blue),#1d4ed8);color:#fff;font-weight:600;}
 .dp-btn-ghost{background:var(--bg3);color:var(--text2);border:1px solid var(--border2);}
 .dp-btn-ghost:hover{background:var(--bg4);color:var(--text);}
 
-/* ===== PIPELINE ===== */
+/* EMAIL TEMPLATES */
+.template-item{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:11px 13px;cursor:pointer;transition:all .2s;margin-bottom:8px;}
+.template-item:hover{border-color:var(--blue-border);}
+.template-item-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.template-name{font-size:12px;font-weight:600;}
+.template-tag{font-size:10px;padding:2px 7px;border-radius:6px;background:var(--bg4);color:var(--text3);}
+.template-preview{font-size:11px;color:var(--text3);}
+.template-full{display:none;margin-top:8px;font-size:11px;color:var(--text2);line-height:1.7;background:var(--bg4);border-radius:6px;padding:10px;white-space:pre-wrap;}
+.template-send-btn{display:none;margin-top:10px;width:100%;padding:8px;border-radius:7px;background:linear-gradient(135deg,var(--blue),#1d4ed8);border:none;color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;}
+.template-item.expanded .template-full,.template-item.expanded .template-send-btn{display:block;}
+
+/* PIPELINE */
 .pipeline-wrap{overflow-x:auto;padding-bottom:16px;}
 .pipeline-cols{display:flex;gap:12px;min-width:max-content;}
 .pipeline-col{width:210px;flex-shrink:0;}
@@ -291,16 +240,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .pcol-body.drag-over{background:var(--blue-dim);border-color:var(--blue-border);}
 .pcard{background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:10px;cursor:grab;transition:all .2s;user-select:none;}
 .pcard:hover{border-color:var(--blue-border);transform:translateY(-2px);}
-.pcard.dragging{opacity:.5;cursor:grabbing;}
+.pcard.dragging{opacity:.5;}
 .pcard.is-hot{border-left:3px solid var(--red);}
 .pcard-name{font-size:11px;font-weight:600;margin-bottom:2px;}
 .pcard-meta{font-size:10px;color:var(--text3);margin-bottom:7px;}
 .pcard-bottom{display:flex;align-items:center;justify-content:space-between;}
 .pcard-score{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;}
-.pcard-budget{font-size:10px;color:var(--text3);}
 .pcol-empty{color:var(--text3);font-size:11px;text-align:center;padding:16px 0;}
 
-/* ===== STATS + OBJECTIFS ===== */
+/* STATS */
 .stats-highlight{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
 .sh-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;}
 .sh-num{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;margin-bottom:4px;}
@@ -308,15 +256,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .sh-trend{font-size:10px;margin-top:4px;font-weight:600;color:var(--green);}
 .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px;}
-.stat-card-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;}
+.stat-card-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:14px;}
 .bar-item{margin-bottom:10px;}
 .bar-item-header{display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px;}
 .bar-item-label{color:var(--text2);}
 .bar-item-val{color:var(--blue2);font-weight:600;}
 .bar-track{height:5px;background:var(--bg4);border-radius:3px;overflow:hidden;}
 .bar-fill-el{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--blue),var(--blue2));transition:width 1s ease;}
-
-/* Objectifs */
 .obj-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:14px;}
 .obj-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:16px;}
 .obj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
@@ -332,38 +278,83 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .obj-input{flex:1;background:var(--bg4);border:1px solid var(--border2);border-radius:6px;padding:5px 8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;width:60px;}
 .obj-save-btn{padding:5px 10px;border-radius:6px;background:var(--blue-dim);border:1px solid var(--blue-border);color:var(--blue2);font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer;}
 
-/* ===== AGENCIES ===== */
-.agency-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
-.agency-icon{width:38px;height:38px;border-radius:9px;background:linear-gradient(135deg,var(--blue),#1d4ed8);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
-.agency-info{flex:1;min-width:120px;}
-.agency-name{font-size:13px;font-weight:600;}
-.agency-meta{font-size:11px;color:var(--text3);margin-top:2px;}
-.agency-stat{text-align:center;padding:0 12px;border-right:1px solid var(--border);}
-.agency-stat:last-of-type{border-right:none;}
-.agency-stat-num{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;}
-.agency-stat-label{font-size:10px;color:var(--text3);}
-.agency-actions{display:flex;gap:6px;flex-shrink:0;}
+/* AGENCES + SUCCURSALES */
+.agency-block{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:14px;}
+.agency-block-header{padding:14px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);background:var(--bg3);}
+.agency-block-icon{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,var(--blue),#1d4ed8);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.agency-block-info{flex:1;}
+.agency-block-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;}
+.agency-block-meta{font-size:11px;color:var(--text3);margin-top:2px;}
+.agency-block-stats{display:flex;gap:16px;padding:12px 18px;border-bottom:1px solid var(--border);}
+.abs{text-align:center;}
+.abs-num{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;}
+.abs-label{font-size:10px;color:var(--text3);}
+.branches-section{padding:12px 18px;}
+.branches-title{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text3);margin-bottom:10px;font-weight:500;}
+.branch-row{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;margin-bottom:6px;}
+.branch-dot{width:8px;height:8px;border-radius:50%;background:var(--blue2);flex-shrink:0;}
+.branch-name{font-size:12px;font-weight:600;flex:1;}
+.branch-meta{font-size:11px;color:var(--text3);}
+.branch-actions{display:flex;gap:6px;}
+.agency-block-actions{padding:12px 18px;border-top:1px solid var(--border);display:flex;gap:8px;}
 
-/* ===== TEAM ===== */
-.team-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.team-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px;}
-.team-card-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
-.team-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#1d4ed8);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;}
-.team-stats{display:flex;gap:14px;}
-.team-stat{text-align:center;}
-.team-stat-num{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;}
-.team-stat-label{font-size:10px;color:var(--text3);}
+/* MEMBRES */
+.member-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);}
+.member-row:last-child{border-bottom:none;}
+.member-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#1d4ed8);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;}
+.member-info{flex:1;}
+.member-email{font-size:12px;font-weight:600;}
+.member-branch{font-size:11px;color:var(--text3);margin-top:1px;}
+.member-actions{display:flex;gap:6px;align-items:center;}
 
-/* ===== NOTIF ===== */
-.notif-btn{position:relative;background:var(--bg3);border:1px solid var(--border2);width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;transition:all .2s;flex-shrink:0;}
-.notif-btn:hover{background:var(--bg4);}
-.notif-dot{position:absolute;top:5px;right:5px;width:8px;height:8px;background:var(--red);border-radius:50%;border:2px solid var(--bg2);display:none;}
-.notif-dot.show{display:block;}
+/* INBOX */
+.inbox-layout{display:grid;grid-template-columns:300px 1fr;gap:0;height:calc(100vh - 120px);background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.inbox-list{border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+.inbox-search{padding:10px;border-bottom:1px solid var(--border);position:relative;}
+.inbox-search-input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:7px 12px 7px 30px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;}
+.inbox-search-input::placeholder{color:var(--text3);}
+.inbox-search-icon{position:absolute;left:19px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:12px;}
+.inbox-filters{display:flex;gap:4px;padding:7px 10px;border-bottom:1px solid var(--border);overflow-x:auto;}
+.inbox-ftab{padding:4px 9px;border-radius:6px;font-size:11px;cursor:pointer;color:var(--text3);border:1px solid transparent;font-family:'DM Sans',sans-serif;transition:all .15s;white-space:nowrap;}
+.inbox-ftab:hover{background:var(--bg3);}
+.inbox-ftab.active{background:var(--blue-dim);color:var(--blue2);border-color:var(--blue-border);}
+.inbox-items{overflow-y:auto;flex:1;}
+.inbox-item{padding:11px 13px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;}
+.inbox-item:hover{background:var(--bg3);}
+.inbox-item.active{background:var(--blue-dim);border-right:2px solid var(--blue2);}
+.inbox-item.is-hot{border-left:3px solid var(--red);}
+.inbox-item-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;}
+.inbox-item-name{font-size:12px;font-weight:600;}
+.inbox-item-time{font-size:10px;color:var(--text3);}
+.inbox-item-preview{font-size:11px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px;}
+.inbox-item-tags{display:flex;gap:5px;}
+.inbox-msg-count{font-size:10px;color:var(--text3);background:var(--bg4);padding:1px 6px;border-radius:6px;}
+.inbox-conv{display:flex;flex-direction:column;overflow:hidden;}
+.inbox-conv-header{padding:13px 17px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.inbox-conv-info{display:flex;align-items:center;gap:10px;}
+.inbox-conv-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;}
+.inbox-conv-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;}
+.inbox-conv-meta{font-size:11px;color:var(--text3);}
+.inbox-conv-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;}
+.inbox-conv-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text3);gap:8px;}
+.conv-lead-summary{margin:0 16px;padding:10px 13px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.cls-score{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;}
+.cls-info{flex:1;}
+.cls-open{font-size:11px;color:var(--blue2);background:var(--blue-dim);border:1px solid var(--blue-border);padding:4px 10px;border-radius:7px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.conv-msg{display:flex;gap:8px;}
+.conv-msg.user{flex-direction:row-reverse;}
+.conv-av{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#1d4ed8);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;margin-top:2px;}
+.conv-av.u{background:rgba(255,255,255,.1);}
+.conv-bubble-wrap{display:flex;flex-direction:column;gap:2px;max-width:78%;}
+.conv-bubble{padding:9px 12px;border-radius:12px;font-size:12px;line-height:1.6;}
+.conv-msg.bot .conv-bubble{background:var(--bg4);color:var(--text);border-bottom-left-radius:3px;}
+.conv-msg.user .conv-bubble{background:linear-gradient(135deg,var(--blue),#1d4ed8);color:#fff;border-bottom-right-radius:3px;}
+.conv-time{font-size:10px;color:var(--text3);}
 
-/* ===== MODAL ===== */
+/* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:150;display:none;align-items:center;justify-content:center;padding:16px;}
 .modal-overlay.open{display:flex;}
-.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:14px;width:100%;max-width:460px;padding:26px;animation:fadeUp .2s ease;}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:14px;width:100%;max-width:480px;padding:26px;animation:fadeUp .2s ease;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .modal-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:6px;}
 .modal-sub{font-size:13px;color:var(--text3);margin-bottom:20px;}
@@ -376,19 +367,18 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .modal-cancel{background:none;border:1px solid var(--border2);color:var(--text2);padding:9px 18px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;}
 .modal-submit{background:linear-gradient(135deg,var(--blue),#1d4ed8);border:none;color:#fff;padding:9px 22px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;}
 
-/* ===== EMPTY & LOADING ===== */
+/* EMPTY & LOADING */
 .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px;color:var(--text3);gap:10px;}
 .empty-icon{font-size:32px;opacity:.3;}
 .loading{display:flex;align-items:center;justify-content:center;padding:48px;color:var(--text3);gap:8px;}
 .spinner{width:18px;height:18px;border:2px solid var(--border2);border-top-color:var(--blue);border-radius:50%;animation:spin .6s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* ===== TOAST ===== */
 #toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(70px);background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:10px 18px;font-size:13px;font-weight:500;box-shadow:0 8px 28px rgba(0,0,0,.5);transition:transform .3s;z-index:999;pointer-events:none;white-space:nowrap;}
 #toast.show{transform:translateX(-50%) translateY(0);}
 
-/* ===== MOBILE ===== */
-@media (max-width: 768px) {
+/* RESPONSIVE */
+@media(max-width:768px){
   body{overflow:auto;}
   .sidebar{position:fixed;top:0;left:0;height:100vh;transform:translateX(-100%);z-index:50;}
   .sidebar.open{transform:none;}
@@ -400,30 +390,21 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
   .stats-highlight{grid-template-columns:1fr 1fr;}
   .stats-grid{grid-template-columns:1fr;}
   .obj-grid{grid-template-columns:1fr;}
-  .team-grid{grid-template-columns:1fr;}
   .table-head{display:none;}
-  .lead-row{grid-template-columns:1fr auto;gap:8px;padding:12px 14px;}
+  .lead-row{grid-template-columns:1fr auto;}
   .lead-row .td:nth-child(2),.lead-row .td:nth-child(3),.lead-row .td:nth-child(4){display:none;}
-  .lead-row .td:nth-child(7){display:none;}
   .inbox-layout{grid-template-columns:1fr;height:auto;}
-  .inbox-list{height:300px;}
+  .inbox-list{height:280px;}
   .detail-panel{width:100vw;}
   .topbar{padding:10px 14px;}
   .topbar-left p{display:none;}
-  .live-badge span:last-child{display:none;}
   .modal-grid{grid-template-columns:1fr;}
-  .hot-card{min-width:160px;}
-}
-
-@media (max-width: 480px) {
-  .kpi-grid{grid-template-columns:repeat(2,1fr);}
-  .stats-highlight{grid-template-columns:1fr;}
-  .topbar-right .btn-sm:not(:last-child){display:none;}
 }
 </style>
 </head>
 <body>
 
+<!-- LOGIN -->
 <div class="login-wrap" id="login-wrap">
   <div class="login-card">
     <div class="login-logo">Lead<span>zia</span></div>
@@ -436,7 +417,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
   </div>
 </div>
 
-<!-- MODAL AGENCE -->
+<!-- MODALS -->
 <div class="modal-overlay" id="modal-agency">
   <div class="modal">
     <div class="modal-title">Ajouter une agence cliente</div>
@@ -445,11 +426,54 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
       <div class="modal-field"><label class="modal-label">Nom *</label><input class="modal-input" id="ag-name" placeholder="Prestige Immobilier"></div>
       <div class="modal-field"><label class="modal-label">Email *</label><input class="modal-input" id="ag-email" placeholder="contact@agence.com"></div>
       <div class="modal-field"><label class="modal-label">Ville</label><input class="modal-input" id="ag-city" placeholder="Genève"></div>
-      <div class="modal-field"><label class="modal-label">Plan</label><select class="modal-input" id="ag-plan"><option value="starter">Starter — 149 CHF/mois</option><option value="pro">Pro — 299 CHF/mois</option><option value="agence">Agence — 499 CHF/mois</option></select></div>
+      <div class="modal-field"><label class="modal-label">Plan</label>
+        <select class="modal-input" id="ag-plan">
+          <option value="starter">Starter — 149 CHF/mois</option>
+          <option value="pro">Pro — 299 CHF/mois</option>
+          <option value="agence">Agence — 499 CHF/mois</option>
+        </select>
+      </div>
     </div>
     <div class="modal-actions">
       <button class="modal-cancel" onclick="closeModal('modal-agency')">Annuler</button>
       <button class="modal-submit" onclick="addAgency()">✦ Créer l'agence</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-branch">
+  <div class="modal">
+    <div class="modal-title">Ajouter une succursale</div>
+    <div class="modal-sub" id="modal-branch-sub">Nouvelle succursale pour cette agence</div>
+    <div class="modal-field"><label class="modal-label">Nom de la succursale *</label><input class="modal-input" id="br-name" placeholder="Succursale Genève"></div>
+    <div class="modal-field"><label class="modal-label">Ville</label><input class="modal-input" id="br-city" placeholder="Genève"></div>
+    <input type="hidden" id="br-agency-id">
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeModal('modal-branch')">Annuler</button>
+      <button class="modal-submit" onclick="addBranch()">✦ Créer la succursale</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-member">
+  <div class="modal">
+    <div class="modal-title">Inviter un membre</div>
+    <div class="modal-sub">L'utilisateur doit d'abord créer un compte via le lien de connexion</div>
+    <div class="modal-field"><label class="modal-label">Email du membre *</label><input class="modal-input" id="mb-email" placeholder="agent@agence.com"></div>
+    <div class="modal-field"><label class="modal-label">Rôle</label>
+      <select class="modal-input" id="mb-role" onchange="toggleBranchSelect()">
+        <option value="admin">Admin (voit toute l'agence)</option>
+        <option value="agent">Agent (voit sa succursale)</option>
+      </select>
+    </div>
+    <div class="modal-field" id="mb-branch-field" style="display:none">
+      <label class="modal-label">Succursale</label>
+      <select class="modal-input" id="mb-branch"></select>
+    </div>
+    <input type="hidden" id="mb-agency-id">
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeModal('modal-member')">Annuler</button>
+      <button class="modal-submit" onclick="addMember()">✦ Inviter</button>
     </div>
   </div>
 </div>
@@ -467,18 +491,19 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
       <div class="sb-item" onclick="switchView('conversations',this)">💬 Conversations</div>
       <div class="sb-item" onclick="switchView('pipeline',this)">🔀 Pipeline</div>
       <div class="sb-item" onclick="switchView('stats',this)">📊 Statistiques</div>
-      <div class="sb-item" onclick="switchView('team',this)">👤 Équipe</div>
     </div>
     <div class="sb-divider"></div>
-    <div class="sb-section">
+    <div class="sb-section" id="sb-gestion">
       <div class="sb-label">Gestion</div>
-      <div class="sb-item" onclick="switchView('agencies',this)">🏢 Agences</div>
+      <div class="sb-item" id="sb-agencies-item" style="display:none" onclick="switchView('agencies',this)">🏢 Agences</div>
+      <div class="sb-item" onclick="switchView('team',this)">👤 Équipe</div>
     </div>
     <div class="sb-bottom">
       <div class="sb-user">
         <div class="sb-av" id="user-av">—</div>
-        <div style="flex:1;overflow:hidden">
+        <div class="sb-user-info">
           <div class="sb-user-email" id="user-email">—</div>
+          <div class="sb-user-role" id="user-role-badge"></div>
           <div class="sb-logout" onclick="doLogout()">Se déconnecter</div>
         </div>
       </div>
@@ -529,7 +554,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
       <div class="dp-tab" onclick="switchDpTab('conversation',this)">💬 Conv.</div>
       <div class="dp-tab" onclick="switchDpTab('notes',this)">📝 Notes</div>
       <div class="dp-tab" onclick="switchDpTab('templates',this)">📤 Email</div>
-      <div class="dp-tab" onclick="switchDpTab('tags',this)">🏷 Tags</div>
     </div>
     <div class="dp-body" id="dp-body"></div>
     <div class="dp-actions">
@@ -545,191 +569,162 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 <script>
 const SB_URL = 'https://gontjnreqvhykzhhncxv.supabase.co'
 const SB_KEY = 'sb_publishable_SQEeH2lHdHGB1Btf1h6_NQ_Rcfob47-'
+const SUPER_ADMIN_ID = 'a69bdec1-35e6-48bd-a73d-7300eb3fbcc9'
 const { createClient } = supabase
 const sb = createClient(SB_URL, SB_KEY)
 
-let allLeads=[], allAgencies=[], allConversations=[], currentFilter='all', currentView='leads'
-let selectedAgency='all', selectedLead=null, currentDpTab='infos', toastTimer=null, currentUser=null
-let selectedInboxLead=null, inboxFilter='all', inboxSearch=''
-
-// Custom tags — stockés en localStorage
-let customTags = JSON.parse(localStorage.getItem('lz_custom_tags')||'[]')
-
-// Objectifs — stockés en localStorage
+let allLeads=[], allAgencies=[], allBranches=[], allMembers=[], allConversations=[]
+let currentView='leads', currentFilter='all', selectedLead=null, currentDpTab='infos'
+let selectedInboxLead=null, inboxFilter='all', inboxSearch='', toastTimer=null
+let currentUser=null, userRole=null, userAgencyId=null, userBranchId=null
+let filterAgencyId='all', filterBranchId='all'
 let objectives = JSON.parse(localStorage.getItem('lz_objectives')||'{"rdv":10,"chaud":20,"gagne":5}')
 
-const TAG_COLORS = ['#3b82f6','#8b5cf6','#ec4899','#f97316','#22c55e','#c9a84c','#14b8a6','#ef4444','#06b6d4','#a855f7']
-
-// Email templates
 const EMAIL_TEMPLATES = [
-  {
-    id:'relance',
-    name:'Relance douce',
-    tag:'Suivi',
-    preview:'Un message chaleureux pour reprendre contact...',
-    body:`Bonjour {prenom},
-
-J'espère que vous allez bien. Je voulais prendre de vos nouvelles concernant votre projet {type}.
-
-Nous avons actuellement quelques biens très intéressants dans votre secteur ({secteur}) qui pourraient correspondre à vos critères. Seriez-vous disponible pour en discuter cette semaine ?
-
-Je reste à votre disposition pour toute question.
-
-Chaleureusement,
-Sofia`
-  },
-  {
-    id:'confirmation_rdv',
-    name:'Confirmation RDV',
-    tag:'RDV',
-    preview:'Confirmer un rendez-vous fixé avec le prospect...',
-    body:`Bonjour {prenom},
-
-Je vous confirme notre rendez-vous pour discuter de votre projet d'acquisition à {secteur}.
-
-N'hésitez pas à me contacter si vous avez des questions d'ici là. Je préparerai une sélection de biens adaptés à votre budget ({budget}).
-
-À très bientôt,
-Sofia`
-  },
-  {
-    id:'suivi_visite',
-    name:'Suivi post-visite',
-    tag:'Post-visite',
-    preview:'Donner suite à une visite de bien...',
-    body:`Bonjour {prenom},
-
-Merci pour votre visite d'aujourd'hui. J'espère que vous avez eu une bonne impression du bien.
-
-Je serais ravie d'avoir votre retour et de répondre à toutes vos questions. Si ce bien vous intéresse, nous pouvons envisager les prochaines étapes ensemble.
-
-Dans l'attente de votre retour,
-Sofia`
-  },
-  {
-    id:'bienvenue',
-    name:'Accueil nouveau lead',
-    tag:'Bienvenue',
-    preview:'Premier contact chaleureux avec un nouveau prospect...',
-    body:`Bonjour {prenom},
-
-Merci pour votre intérêt ! Je suis Sofia, votre conseillère dédiée pour votre projet {type} à {secteur}.
-
-Je prends bien note de votre budget de {budget} et serai heureuse de vous accompagner dans cette recherche. Je vous contacte très prochainement avec des propositions personnalisées.
-
-Excellente journée,
-Sofia`
-  },
-  {
-    id:'offre',
-    name:'Proposition de bien',
-    tag:'Offre',
-    preview:'Présenter un bien correspondant au profil...',
-    body:`Bonjour {prenom},
-
-J'ai le plaisir de vous présenter un bien qui correspond parfaitement à vos critères : {type} à {secteur}, dans votre fourchette de {budget}.
-
-Je serais ravie de vous le faire visiter. Seriez-vous disponible cette semaine ou la semaine prochaine ?
-
-À votre disposition,
-Sofia`
-  }
+  {id:'relance',name:'Relance douce',tag:'Suivi',preview:'Un message chaleureux pour reprendre contact...',body:`Bonjour {prenom},\n\nJ'espère que vous allez bien. Je voulais prendre de vos nouvelles concernant votre projet {type}.\n\nNous avons actuellement quelques biens très intéressants à {secteur} qui pourraient correspondre à vos critères. Seriez-vous disponible pour en discuter cette semaine ?\n\nChaleureusement,\nSofia`},
+  {id:'rdv',name:'Confirmation RDV',tag:'RDV',preview:'Confirmer un rendez-vous fixé...',body:`Bonjour {prenom},\n\nJe vous confirme notre rendez-vous pour discuter de votre projet à {secteur}.\n\nJe préparerai une sélection de biens adaptés à votre budget ({budget}).\n\nÀ très bientôt,\nSofia`},
+  {id:'visite',name:'Suivi post-visite',tag:'Post-visite',preview:'Donner suite à une visite de bien...',body:`Bonjour {prenom},\n\nMerci pour votre visite d'aujourd'hui. J'espère que vous avez eu une bonne impression du bien.\n\nJe serais ravie d'avoir votre retour et de répondre à toutes vos questions.\n\nDans l'attente,\nSofia`},
+  {id:'bienvenue',name:'Accueil nouveau lead',tag:'Bienvenue',preview:'Premier contact avec un nouveau prospect...',body:`Bonjour {prenom},\n\nMerci pour votre intérêt ! Je suis Sofia, votre conseillère dédiée pour votre projet {type} à {secteur}.\n\nJe prends note de votre budget de {budget} et vous contacte très prochainement.\n\nExcellente journée,\nSofia`},
+  {id:'offre',name:'Proposition de bien',tag:'Offre',preview:'Présenter un bien correspondant au profil...',body:`Bonjour {prenom},\n\nJ'ai le plaisir de vous présenter un bien correspondant à vos critères : {type} à {secteur}, dans votre fourchette de {budget}.\n\nSeriez-vous disponible pour une visite cette semaine ?\n\nÀ votre disposition,\nSofia`}
 ]
 
 // ===== AUTH =====
 async function doLogin() {
-  const email = document.getElementById('login-email').value.trim()
-  const pw = document.getElementById('login-pw').value
+  const email=document.getElementById('login-email').value.trim()
+  const pw=document.getElementById('login-pw').value
   setMsg('','')
-  const { error } = await sb.auth.signInWithPassword({ email, password: pw })
-  if(error) { setMsg('Email ou mot de passe incorrect','err'); return }
+  const {error}=await sb.auth.signInWithPassword({email,password:pw})
+  if(error){setMsg('Email ou mot de passe incorrect','err');return}
+  await initUser()
   showApp()
 }
+
+async function initUser() {
+  const {data:{user}}=await sb.auth.getUser()
+  currentUser=user
+  if(!user) return
+
+  // Déterminer le rôle
+  if(user.id===SUPER_ADMIN_ID) {
+    userRole='super_admin'
+    userAgencyId=null
+    userBranchId=null
+    return
+  }
+
+  // Chercher dans agency_members
+  const {data:member}=await sb.from('agency_members')
+    .select('*').eq('user_id',user.id).single()
+
+  if(member) {
+    userRole = member.is_super_admin ? 'super_admin' : member.role
+    userAgencyId = member.agency_id
+    userBranchId = member.branch_id
+  } else {
+    userRole = 'agent'
+  }
+}
+
 async function resetPw() {
-  const email = document.getElementById('login-email').value.trim()
-  if(!email) { setMsg('Entrez votre email d\'abord','err'); return }
-  await sb.auth.resetPasswordForEmail(email, { redirectTo: 'https://www.leadzia.io/crm' })
-  setMsg('✅ Email envoyé !', 'ok')
+  const email=document.getElementById('login-email').value.trim()
+  if(!email){setMsg('Entrez votre email','err');return}
+  await sb.auth.resetPasswordForEmail(email,{redirectTo:'https://www.leadzia.io/crm'})
+  setMsg('✅ Email envoyé !','ok')
 }
-function setMsg(msg, type) {
-  const el = document.getElementById('login-msg')
-  el.textContent = msg; el.className = 'login-msg ' + type
-}
-async function doLogout() {
-  await sb.auth.signOut()
-  document.getElementById('app').style.display = 'none'
-  document.getElementById('login-wrap').style.display = 'flex'
-}
-async function checkAuth() {
-  const { data: { session } } = await sb.auth.getSession()
-  if(session) showApp()
-}
+function setMsg(msg,type){const el=document.getElementById('login-msg');el.textContent=msg;el.className='login-msg '+type}
+async function doLogout(){await sb.auth.signOut();document.getElementById('app').style.display='none';document.getElementById('login-wrap').style.display='flex';currentUser=null;userRole=null}
+async function checkAuth(){const {data:{session}}=await sb.auth.getSession();if(session){await initUser();showApp()}}
+
 function showApp() {
-  document.getElementById('login-wrap').style.display = 'none'
-  document.getElementById('app').style.display = 'contents'
-  sb.auth.getUser().then(({ data }) => {
-    currentUser = data.user
-    const email = data.user?.email || '—'
-    document.getElementById('user-email').textContent = email
-    document.getElementById('user-av').textContent = email.slice(0,2).toUpperCase()
-  })
+  document.getElementById('login-wrap').style.display='none'
+  document.getElementById('app').style.display='contents'
+  const email=currentUser?.email||'—'
+  document.getElementById('user-email').textContent=email
+  document.getElementById('user-av').textContent=email.slice(0,2).toUpperCase()
+
+  // Afficher le badge de rôle
+  const roleBadgeEl=document.getElementById('user-role-badge')
+  if(userRole==='super_admin') roleBadgeEl.innerHTML='<span class="role-badge role-super">⭐ Super Admin</span>'
+  else if(userRole==='admin') roleBadgeEl.innerHTML='<span class="role-badge role-admin">🏢 Directeur</span>'
+  else roleBadgeEl.innerHTML='<span class="role-badge role-agent">👤 Agent</span>'
+
+  // Afficher/masquer menu Agences (super_admin seulement)
+  if(userRole==='super_admin') document.getElementById('sb-agencies-item').style.display='flex'
+
   loadData()
-  sb.channel('leads-rt').on('postgres_changes', { event:'INSERT', schema:'public', table:'leads' }, (payload) => {
-    allLeads.unshift(payload.new)
-    updateNewCount()
-    document.getElementById('notif-dot').classList.add('show')
-    showToast('🔔 Nouveau lead : ' + (payload.new.email || 'inconnu'))
-    if(currentView === 'leads') renderLeads()
+
+  sb.channel('leads-rt').on('postgres_changes',{event:'INSERT',schema:'public',table:'leads'},(payload)=>{
+    if(canSeeLead(payload.new)) {
+      allLeads.unshift(payload.new)
+      updateNewCount()
+      document.getElementById('notif-dot').classList.add('show')
+      showToast('🔔 Nouveau lead : '+(payload.new.email||'inconnu'))
+      if(currentView==='leads') renderLeads()
+    }
   }).subscribe()
 }
 
-// ===== MOBILE SIDEBAR =====
-function toggleSidebar() {
-  const sb = document.getElementById('sidebar')
-  const ov = document.getElementById('sb-overlay')
-  sb.classList.toggle('open')
-  ov.classList.toggle('show')
+// ===== PERMISSIONS =====
+function canSeeLead(lead) {
+  if(userRole==='super_admin') return true
+  if(userRole==='admin') return lead.agency_id===userAgencyId
+  if(userRole==='agent') return lead.branch_id===userBranchId
+  return false
 }
-function closeSidebar() {
-  document.getElementById('sidebar').classList.remove('open')
-  document.getElementById('sb-overlay').classList.remove('show')
+
+function getVisibleLeads() {
+  if(userRole==='super_admin') return allLeads
+  if(userRole==='admin') return allLeads.filter(l=>l.agency_id===userAgencyId)
+  if(userRole==='agent') return allLeads.filter(l=>l.branch_id===userBranchId)
+  return []
 }
 
 // ===== DATA =====
 async function loadData() {
-  const [{ data: leads }, { data: agencies }, { data: convs }] = await Promise.all([
-    sb.from('leads').select('*').order('created_at', { ascending: false }),
+  const queries = [
+    sb.from('leads').select('*').order('created_at',{ascending:false}),
     sb.from('agencies').select('*').order('name'),
-    sb.from('conversations').select('*').order('created_at', { ascending: true })
-  ])
-  allLeads = leads || []
-  allAgencies = agencies || []
-  allConversations = convs || []
+    sb.from('branches').select('*').order('name'),
+    sb.from('conversations').select('*').order('created_at',{ascending:true})
+  ]
+
+  // agency_members seulement pour super_admin
+  if(userRole==='super_admin') {
+    queries.push(sb.from('agency_members').select('*'))
+  }
+
+  const results = await Promise.all(queries)
+  allLeads = results[0].data||[]
+  allAgencies = results[1].data||[]
+  allBranches = results[2].data||[]
+  allConversations = results[3].data||[]
+  if(userRole==='super_admin') allMembers = results[4].data||[]
+
   updateNewCount()
   renderView()
 }
 
 function updateNewCount() {
-  const n = allLeads.filter(l => l.status === 'nouveau').length
-  document.getElementById('new-count').textContent = n
+  const n=getVisibleLeads().filter(l=>l.status==='nouveau').length
+  document.getElementById('new-count').textContent=n
 }
 
 // ===== VIEWS =====
-function switchView(v, el) {
-  currentView = v
-  document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'))
+function switchView(v,el) {
+  currentView=v
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'))
   el.classList.add('active')
   closeSidebar()
-  const t = {
-    leads:['Leads','Tous vos prospects qualifiés par l\'IA'],
+  const t={
+    leads:['Leads','Vos prospects qualifiés par l\'IA'],
     conversations:['Conversations','Historique de tous les échanges'],
     pipeline:['Pipeline','Progression de vos leads'],
-    stats:['Statistiques & Objectifs','Performances et suivi de vos buts'],
-    agencies:['Agences','Gérez vos clients agences'],
-    team:['Équipe','Gestion des accès et performances']
+    stats:['Statistiques & Objectifs','Performances et suivi'],
+    agencies:['Agences','Gestion des agences et succursales'],
+    team:['Équipe','Membres et accès']
   }
-  document.getElementById('view-title').textContent = t[v][0]
-  document.getElementById('view-sub').textContent = t[v][1]
+  document.getElementById('view-title').textContent=t[v][0]
+  document.getElementById('view-sub').textContent=t[v][1]
   renderView()
 }
 function renderView() {
@@ -741,9 +736,22 @@ function renderView() {
   else if(currentView==='team') renderTeam()
 }
 
+// ===== CONTEXT BAR =====
+function contextBar() {
+  if(userRole!=='super_admin') return ''
+  if(filterAgencyId==='all') return ''
+  const ag=allAgencies.find(a=>a.id===filterAgencyId)
+  const br=filterBranchId!=='all'?allBranches.find(b=>b.id===filterBranchId):null
+  return `<div class="context-bar">
+    <span class="context-bar-icon">🔍</span>
+    <span class="context-bar-text">Filtre actif : ${ag?.name||'—'}${br?' → '+br.name:''}</span>
+    <button class="context-bar-clear" onclick="filterAgencyId='all';filterBranchId='all';renderView()">✕ Effacer le filtre</button>
+  </div>`
+}
+
 // ===== HOT BANNER =====
 function hotBanner() {
-  const hot = allLeads.filter(l=>l.tag==='chaud'&&l.status!=='gagne'&&l.status!=='perdu')
+  const hot=getFiltered().filter(l=>l.tag==='chaud'&&l.status!=='gagne'&&l.status!=='perdu')
     .sort((a,b)=>(b.score||0)-(a.score||0)).slice(0,8)
   if(!hot.length) return ''
   return `<div class="hot-banner">
@@ -766,23 +774,38 @@ function hotBanner() {
 
 // ===== LEADS =====
 function getFiltered() {
-  let l = allLeads
-  if(selectedAgency!=='all') l=l.filter(x=>x.agency_id===selectedAgency)
-  if(currentFilter!=='all') {
-    if(['chaud','tiede','froid'].includes(currentFilter)) l=l.filter(x=>x.tag===currentFilter)
-    else l=l.filter(x=>(x.custom_tags||[]).includes(currentFilter))
+  let l=getVisibleLeads()
+  // Filtre super_admin par agence/succursale
+  if(userRole==='super_admin') {
+    if(filterAgencyId!=='all') l=l.filter(x=>x.agency_id===filterAgencyId)
+    if(filterBranchId!=='all') l=l.filter(x=>x.branch_id===filterBranchId)
   }
-  const q = document.querySelector('.search-input')?.value?.toLowerCase()||''
+  if(currentFilter!=='all') l=l.filter(x=>x.tag===currentFilter)
+  const q=document.querySelector('.search-input')?.value?.toLowerCase()||''
   if(q) l=l.filter(x=>(x.name||'').toLowerCase().includes(q)||(x.email||'').toLowerCase().includes(q))
   return l
 }
 
 function renderLeads() {
-  const filtered = getFiltered()
-  const agOpts = allAgencies.map(a=>`<option value="${a.id}" ${selectedAgency===a.id?'selected':''}>${a.name}</option>`).join('')
-  const customTabsHtml = customTags.map(t=>`<button class="ftab ${currentFilter===t.id?'active':''}" onclick="setFilter('${t.id}',this)" style="${currentFilter===t.id?`background:${t.color}22;color:${t.color};border-color:${t.color}44`:''}">${t.emoji||'🏷'} ${t.name}</button>`).join('')
+  const filtered=getFiltered()
+  // Filtres agences (super_admin uniquement)
+  let filterBarHtml=''
+  if(userRole==='super_admin') {
+    const agOpts=allAgencies.map(a=>`<option value="${a.id}" ${filterAgencyId===a.id?'selected':''}>${a.name}</option>`).join('')
+    const branchesForAg=filterAgencyId!=='all'?allBranches.filter(b=>b.agency_id===filterAgencyId):[]
+    const brOpts=branchesForAg.map(b=>`<option value="${b.id}" ${filterBranchId===b.id?'selected':''}>${b.name}</option>`).join('')
+    filterBarHtml=`<div class="tb-right">
+      <select class="tb-select" onchange="filterAgencyId=this.value;filterBranchId='all';renderLeads()">
+        <option value="all">Toutes agences</option>${agOpts}
+      </select>
+      ${branchesForAg.length?`<select class="tb-select" onchange="filterBranchId=this.value;renderLeads()">
+        <option value="all">Toutes succursales</option>${brOpts}
+      </select>`:''}
+    </div>`
+  }
 
-  document.getElementById('content').innerHTML = `
+  document.getElementById('content').innerHTML=`
+    ${contextBar()}
     ${hotBanner()}
     ${kpiGrid()}
     <div class="table-card">
@@ -792,16 +815,15 @@ function renderLeads() {
         <button class="ftab ${currentFilter==='chaud'?'active':''}" onclick="setFilter('chaud',this)">🔥 Chauds</button>
         <button class="ftab ${currentFilter==='tiede'?'active':''}" onclick="setFilter('tiede',this)">🌡 Tièdes</button>
         <button class="ftab ${currentFilter==='froid'?'active':''}" onclick="setFilter('froid',this)">❄️ Froids</button>
-        ${customTabsHtml}
-        <div class="tb-right">
-          <select class="tb-select" onchange="selectedAgency=this.value;renderLeads()">
-            <option value="all">Toutes agences</option>${agOpts}
-          </select>
-        </div>
+        ${filterBarHtml}
       </div>
       <div class="table-head">
-        <div class="th">Contact</div><div class="th">Agence</div><div class="th">Projet</div>
-        <div class="th">Score</div><div class="th">Tags</div><div class="th">Statut</div><div class="th"></div>
+        <div class="th">Contact</div>
+        <div class="th">${userRole==='super_admin'?'Agence / Succursale':'Succursale'}</div>
+        <div class="th">Projet</div>
+        <div class="th">Score</div>
+        <div class="th">Tag</div>
+        <div class="th">Statut</div>
       </div>
       <div id="leads-list">
         ${filtered.length===0
@@ -815,32 +837,35 @@ function leadRow(l) {
   const d=safeJ(l.data), score=l.score||0, sc=scoreColor(score)
   const initials=(l.name||l.email||'?').slice(0,2).toUpperCase()
   const ag=allAgencies.find(a=>a.id===l.agency_id)
+  const br=allBranches.find(b=>b.id===l.branch_id)
   const isHot=l.tag==='chaud'
-  const cTags=(l.custom_tags||[]).map(tid=>{const ct=customTags.find(t=>t.id===tid);return ct?`<span style="background:${ct.color}22;color:${ct.color};border:1px solid ${ct.color}44;padding:1px 6px;border-radius:5px;font-size:9px;font-weight:600">${ct.emoji||'🏷'} ${ct.name}</span>`:''}).join('')
-  return `<div class="lead-row ${isHot?'is-hot':''}" onclick="openDetail('${l.id}')">
+  const locationLabel=userRole==='super_admin'
+    ?`${ag?.name||'—'}${br?' / '+br.name:''}`
+    :(br?.name||'—')
+  return`<div class="lead-row ${isHot?'is-hot':''}" onclick="openDetail('${l.id}')">
     <div class="lead-name-cell">
       <div class="lead-av" style="background:${avColor(l.email||l.id)}">${initials}</div>
       <div><div class="lead-name">${l.name||'—'}</div><div class="lead-email">${l.email||'—'}</div></div>
     </div>
-    <div class="td">${ag?.name||'—'}</div>
+    <div class="td" style="font-size:11px">${locationLabel}</div>
     <div class="td">${d.type||'—'}</div>
     <div class="td"><div class="score-cell"><div class="score-val" style="color:${sc}">${score}</div><div class="score-bar"><div class="score-fill" style="width:${score}%;background:${sc}"></div></div></div></div>
-    <div class="td"><span class="tag-pill t-${l.tag||'froid'}">${tagL(l.tag)}</span> ${cTags}</div>
+    <div class="td"><span class="tag-pill t-${l.tag||'froid'}">${tagL(l.tag)}</span></div>
     <div class="td"><span class="status-pill s-${l.status||'nouveau'}">${statusL(l.status)}</span></div>
-    <div class="td"><button style="background:none;border:none;cursor:pointer;font-size:14px;opacity:.4" onclick="event.stopPropagation()">⭐</button></div>
   </div>`
 }
 
 // ===== DETAIL =====
 function openDetail(id) {
-  selectedLead = allLeads.find(x=>x.id===id)
+  selectedLead=allLeads.find(x=>x.id===id)
   if(!selectedLead) return
   const l=selectedLead, score=l.score||0, sc=scoreColor(score)
   const ag=allAgencies.find(a=>a.id===l.agency_id)
+  const br=allBranches.find(b=>b.id===l.branch_id)
   document.getElementById('dp-av').textContent=(l.name||l.email||'?').slice(0,2).toUpperCase()
   document.getElementById('dp-av').style.background=avColor(l.email||l.id)
   document.getElementById('dp-name').textContent=l.name||l.email||'—'
-  document.getElementById('dp-meta').textContent=`${l.email||'—'} · ${ag?.name||'—'}`
+  document.getElementById('dp-meta').textContent=`${l.email||'—'} · ${ag?.name||'—'}${br?' / '+br.name:''}`
   document.getElementById('dp-score').textContent=score
   document.getElementById('dp-score').style.color=sc
   document.getElementById('dp-score-label').textContent=score>=70?'Lead Chaud 🔥':score>=40?'Lead Tiède 🌡':'Lead Froid ❄️'
@@ -850,7 +875,7 @@ function openDetail(id) {
   switchDpTab('infos',document.querySelector('.dp-tab'))
 }
 
-function switchDpTab(tab, el) {
+function switchDpTab(tab,el) {
   currentDpTab=tab
   document.querySelectorAll('.dp-tab').forEach(t=>t.classList.remove('active'))
   if(el) el.classList.add('active')
@@ -867,8 +892,7 @@ async function renderDpTab() {
     const fields=[
       ['Source',l.source==='email'?'📧 Email':l.source==='widget'?'💬 Widget':'📋 Formulaire'],
       ['Téléphone',l.phone],['Type',d.type],['Budget',d.budget],
-      ['Secteur',d.secteur],['Surface',d.surface],['Délai',d.delai],
-      ['Financement',d.financement],
+      ['Secteur',d.secteur],['Surface',d.surface],['Délai',d.delai],['Financement',d.financement],
       ['Date',l.created_at?new Date(l.created_at).toLocaleDateString('fr-FR'):null]
     ]
     const criteria=[['💰 Budget',scores.budget||0],['⏱ Urgence',scores.urgence||0],['🎯 Projet',scores.projet||0],['🏦 Financement',scores.financement||0]]
@@ -884,7 +908,7 @@ async function renderDpTab() {
     const {data:convRows}=await sb.from('conversations').select('*').eq('lead_id',l.id).order('created_at',{ascending:true})
     const msgs=(convRows&&convRows.length>0)?convRows:(()=>{const c=safeJ(l.conversation);return Array.isArray(c)?c.map(m=>({role:m.role,content:m.content||m.text||'—'})):[]})()
     body.innerHTML=msgs.length===0
-      ?'<div style="color:var(--text3);font-size:12px;padding:20px 0;text-align:center">Pas d\'historique de conversation</div>'
+      ?'<div style="color:var(--text3);font-size:12px;padding:20px 0;text-align:center">Pas d\'historique</div>'
       :msgs.map(m=>`<div class="conv-msg ${m.role==='user'?'user':'bot'}">
           <div class="conv-av ${m.role==='user'?'u':''}">${m.role==='user'?'👤':'🏠'}</div>
           <div class="conv-bubble-wrap"><div class="conv-bubble">${m.content||'—'}</div></div>
@@ -910,160 +934,63 @@ async function renderDpTab() {
     const d2=safeJ(l.data)
     body.innerHTML=`
       <div class="dp-section-title">Templates d'emails</div>
-      <div style="font-size:11px;color:var(--text3);margin-bottom:12px">Cliquez sur un template pour le prévisualiser et l'envoyer</div>
-      <div class="template-list">
-        ${EMAIL_TEMPLATES.map(t=>`
-          <div class="template-item" id="tpl-${t.id}" onclick="expandTemplate('${t.id}')">
-            <div class="template-item-header">
-              <div class="template-name">${t.name}</div>
-              <span class="template-tag">${t.tag}</span>
-            </div>
-            <div class="template-preview">${t.preview}</div>
-            <div class="template-full">${fillTemplate(t.body,l,d2)}</div>
-            <button class="template-send-btn" onclick="event.stopPropagation();sendTemplate('${t.id}')">📤 Envoyer cet email →</button>
-          </div>`).join('')}
-      </div>`
-
-  } else if(currentDpTab==='tags') {
-    const leadCustomTags = l.custom_tags||[]
-    const colorOpts = TAG_COLORS.map((c,i)=>`<div class="tag-color-opt" style="background:${c}" data-color="${c}" onclick="selectTagColor('${c}',this)" title="${c}"></div>`).join('')
-    body.innerHTML=`
-      <div class="dp-section-title">Tags IA</div>
-      <div style="display:flex;gap:6px;margin-bottom:12px">
-        <span class="tag-pill t-${l.tag||'froid'}">${tagL(l.tag)}</span>
-      </div>
-      <div class="dp-section-title">Tags personnalisés</div>
-      <div class="tags-manage" id="tags-manage">
-        ${customTags.map(t=>{
-          const sel=leadCustomTags.includes(t.id)
-          return`<span class="tag-manage-pill ${sel?'selected':''}" 
-            style="background:${t.color}22;color:${t.color};border-color:${t.color}44"
-            onclick="toggleLeadCustomTag('${l.id}','${t.id}',this)">
-            ${t.emoji||'🏷'} ${t.name}
-            <span onclick="event.stopPropagation();deleteCustomTag('${t.id}')" style="opacity:.5;font-size:10px">✕</span>
-          </span>`}).join('')}
-        ${customTags.length===0?'<div style="color:var(--text3);font-size:11px">Aucun tag personnalisé</div>':''}
-      </div>
-      <div class="dp-section-title">Créer un tag</div>
-      <div style="display:flex;gap:8px;margin-bottom:8px">
-        <input id="new-tag-emoji" placeholder="🏷" style="width:44px;background:var(--bg3);border:1px solid var(--border2);border-radius:7px;padding:7px;color:var(--text);font-size:16px;text-align:center;outline:none;">
-        <input id="new-tag-name" placeholder="Nom du tag" style="flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:7px;padding:7px 10px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;">
-      </div>
-      <div style="margin-bottom:10px">
-        <div style="font-size:11px;color:var(--text3);margin-bottom:6px">Couleur</div>
-        <div class="tag-color-pick" id="tag-color-pick">${colorOpts}</div>
-      </div>
-      <button onclick="createCustomTag()" style="width:100%;padding:8px;border-radius:7px;background:linear-gradient(135deg,var(--blue),#1d4ed8);border:none;color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;">+ Créer ce tag</button>`
-
-    // Pré-selectionner premiere couleur
-    document.querySelector('.tag-color-opt')?.classList.add('selected')
-    document.querySelector('.tag-color-opt')?.setAttribute('data-selected','true')
+      <div style="font-size:11px;color:var(--text3);margin-bottom:12px">Cliquez pour prévisualiser et envoyer</div>
+      ${EMAIL_TEMPLATES.map(t=>`
+        <div class="template-item" id="tpl-${t.id}" onclick="expandTemplate('${t.id}')">
+          <div class="template-item-header"><div class="template-name">${t.name}</div><span class="template-tag">${t.tag}</span></div>
+          <div class="template-preview">${t.preview}</div>
+          <div class="template-full">${fillTemplate(t.body,l,d2)}</div>
+          <button class="template-send-btn" onclick="event.stopPropagation();sendTemplate('${t.id}')">📤 Envoyer cet email →</button>
+        </div>`).join('')}`
   }
 }
 
-// ===== TEMPLATES =====
-function fillTemplate(body, lead, data) {
-  return body
-    .replace(/{prenom}/g, lead.name||'Madame/Monsieur')
-    .replace(/{type}/g, data.type||'immobilier')
-    .replace(/{secteur}/g, data.secteur||'votre secteur')
-    .replace(/{budget}/g, data.budget||'votre budget')
-}
-
 function expandTemplate(id) {
-  const el = document.getElementById('tpl-'+id)
-  const wasExpanded = el.classList.contains('expanded')
+  const el=document.getElementById('tpl-'+id)
+  const was=el.classList.contains('expanded')
   document.querySelectorAll('.template-item').forEach(t=>t.classList.remove('expanded'))
-  if(!wasExpanded) el.classList.add('expanded')
+  if(!was) el.classList.add('expanded')
 }
-
+function fillTemplate(body,lead,data) {
+  return body.replace(/{prenom}/g,lead.name||'Madame/Monsieur').replace(/{type}/g,data.type||'immobilier').replace(/{secteur}/g,data.secteur||'votre secteur').replace(/{budget}/g,data.budget||'votre budget')
+}
 function sendTemplate(id) {
-  if(!selectedLead?.email) { showToast('⚠️ Pas d\'email pour ce lead'); return }
-  const tpl = EMAIL_TEMPLATES.find(t=>t.id===id)
+  if(!selectedLead?.email){showToast('⚠️ Pas d\'email pour ce lead');return}
+  const tpl=EMAIL_TEMPLATES.find(t=>t.id===id)
   if(!tpl) return
-  const d = safeJ(selectedLead.data)
-  const body = fillTemplate(tpl.body, selectedLead, d)
-  const subject = encodeURIComponent(tpl.name + ' — ' + (selectedLead.name||selectedLead.email))
-  const bodyEnc = encodeURIComponent(body)
-  window.open(`mailto:${selectedLead.email}?subject=${subject}&body=${bodyEnc}`)
+  const d=safeJ(selectedLead.data)
+  const body=fillTemplate(tpl.body,selectedLead,d)
+  window.open(`mailto:${selectedLead.email}?subject=${encodeURIComponent(tpl.name)}&body=${encodeURIComponent(body)}`)
   showToast('📤 Email ouvert dans votre client mail')
 }
 
-// ===== CUSTOM TAGS =====
-let selectedTagColor = TAG_COLORS[0]
-
-function selectTagColor(color, el) {
-  selectedTagColor = color
-  document.querySelectorAll('.tag-color-opt').forEach(o=>o.classList.remove('selected'))
-  el.classList.add('selected')
-}
-
-function createCustomTag() {
-  const emoji = document.getElementById('new-tag-emoji')?.value?.trim() || '🏷'
-  const name = document.getElementById('new-tag-name')?.value?.trim()
-  if(!name) { showToast('⚠️ Donnez un nom au tag'); return }
-  const id = 'tag_'+Date.now()
-  customTags.push({ id, name, emoji, color: selectedTagColor })
-  localStorage.setItem('lz_custom_tags', JSON.stringify(customTags))
-  showToast('🏷 Tag "'+name+'" créé')
-  renderDpTab()
-  renderLeads()
-}
-
-function deleteCustomTag(tagId) {
-  customTags = customTags.filter(t=>t.id!==tagId)
-  localStorage.setItem('lz_custom_tags', JSON.stringify(customTags))
-  showToast('🗑 Tag supprimé')
-  renderDpTab()
-  renderLeads()
-}
-
-async function toggleLeadCustomTag(leadId, tagId, el) {
-  const lead = allLeads.find(l=>l.id===leadId)
-  if(!lead) return
-  let tags = lead.custom_tags||[]
-  if(tags.includes(tagId)) tags=tags.filter(t=>t!==tagId)
-  else tags=[...tags,tagId]
-  await sb.from('leads').update({custom_tags:tags}).eq('id',leadId)
-  allLeads=allLeads.map(l=>l.id===leadId?{...l,custom_tags:tags}:l)
-  if(selectedLead?.id===leadId) selectedLead.custom_tags=tags
-  el.classList.toggle('selected')
-  showToast('🏷 Tag mis à jour')
-}
-
-// ===== NOTES =====
 async function addNote(leadId) {
   const text=document.getElementById('note-input')?.value?.trim()
   if(!text) return
   const {error}=await sb.from('notes').insert({lead_id:leadId,user_id:currentUser?.id||null,content:text})
-  if(error){showToast('❌ Erreur : '+error.message);return}
-  showToast('📝 Note sauvegardée')
-  renderDpTab()
+  if(error){showToast('❌ '+error.message);return}
+  showToast('📝 Note sauvegardée');renderDpTab()
 }
 async function deleteNote(noteId) {
   await sb.from('notes').delete().eq('id',noteId)
-  showToast('🗑 Note supprimée')
-  renderDpTab()
+  showToast('🗑 Note supprimée');renderDpTab()
 }
-
 function maybeCloseDetail(e){if(e.target.id==='detail-overlay')closeDetail()}
 function closeDetail(){document.getElementById('detail-overlay').classList.remove('open');selectedLead=null}
-
 async function updateLeadStatus() {
   if(!selectedLead) return
   const status=document.getElementById('dp-status').value
   await sb.from('leads').update({status}).eq('id',selectedLead.id)
   allLeads=allLeads.map(l=>l.id===selectedLead.id?{...l,status}:l)
   selectedLead.status=status
-  renderView()
-  showToast('✅ Statut : '+statusL(status))
+  renderView();showToast('✅ Statut : '+statusL(status))
 }
 
 // ===== CONVERSATIONS =====
 function renderConversations() {
   const convByLead={}
   allConversations.forEach(c=>{if(!convByLead[c.lead_id])convByLead[c.lead_id]=[];convByLead[c.lead_id].push(c)})
-  let leadsWithConv=allLeads.filter(l=>{
+  let leadsWithConv=getVisibleLeads().filter(l=>{
     const hasTbl=convByLead[l.id]?.length>0
     const j=safeJ(l.conversation)
     return hasTbl||(Array.isArray(j)&&j.length>0)
@@ -1073,37 +1000,27 @@ function renderConversations() {
   if(inboxFilter==='froid') leadsWithConv=leadsWithConv.filter(l=>l.tag==='froid')
   if(inboxSearch) leadsWithConv=leadsWithConv.filter(l=>(l.name||'').toLowerCase().includes(inboxSearch)||(l.email||'').toLowerCase().includes(inboxSearch))
   leadsWithConv.sort((a,b)=>{
-    const ac=convByLead[a.id]||[], bc=convByLead[b.id]||[]
-    const al=ac.length?new Date(ac[ac.length-1].created_at):new Date(a.created_at)
-    const bl=bc.length?new Date(bc[bc.length-1].created_at):new Date(b.created_at)
-    return bl-al
+    const ac=convByLead[a.id]||[],bc=convByLead[b.id]||[]
+    return new Date(bc[bc.length-1]?.created_at||b.created_at)-new Date(ac[ac.length-1]?.created_at||a.created_at)
   })
   const listItems=leadsWithConv.length===0
-    ?`<div class="empty"><span style="font-size:28px;opacity:.2">💬</span><span style="font-size:12px">Aucune conversation</span></div>`
+    ?`<div class="empty" style="height:200px"><span style="font-size:28px;opacity:.2">💬</span><span style="font-size:12px">Aucune conversation</span></div>`
     :leadsWithConv.map(l=>{
         const msgs=convByLead[l.id]||[]
         const last=msgs[msgs.length-1]
-        const preview=(last?.content||'').slice(0,55)+(last?.content?.length>55?'…':'')
+        const preview=(last?.content||'').slice(0,55)
         const isActive=selectedInboxLead?.id===l.id
         return`<div class="inbox-item ${isActive?'active':''} ${l.tag==='chaud'?'is-hot':''}" onclick="selectInboxLead('${l.id}')">
-          <div class="inbox-item-top">
-            <div class="inbox-item-name">${l.tag==='chaud'?'🔥 ':''}${l.name||l.email?.split('@')[0]||'—'}</div>
-            <div class="inbox-item-time">${last?.created_at?timeAgo(last.created_at):''}</div>
-          </div>
+          <div class="inbox-item-top"><div class="inbox-item-name">${l.tag==='chaud'?'🔥 ':''}${l.name||l.email?.split('@')[0]||'—'}</div><div class="inbox-item-time">${last?.created_at?timeAgo(last.created_at):''}</div></div>
           <div class="inbox-item-preview">${last?.role==='user'?'👤 ':'🏠 '}${preview||'Pas de message'}</div>
-          <div class="inbox-item-tags">
-            <span class="tag-pill t-${l.tag||'froid'}" style="font-size:9px;padding:1px 6px">${tagL(l.tag)}</span>
-            <span class="inbox-msg-count">${msgs.length} msg${msgs.length>1?'s':''}</span>
-          </div>
+          <div class="inbox-item-tags"><span class="tag-pill t-${l.tag||'froid'}" style="font-size:9px;padding:1px 6px">${tagL(l.tag)}</span><span class="inbox-msg-count">${msgs.length} msg${msgs.length>1?'s':''}</span></div>
         </div>`}).join('')
   const rightPanel=selectedInboxLead?renderInboxConv(selectedInboxLead,convByLead[selectedInboxLead.id]||[])
     :`<div class="inbox-conv-empty"><span style="font-size:36px;opacity:.15">💬</span><span style="font-size:13px;color:var(--text3)">Sélectionnez une conversation</span></div>`
   document.getElementById('content').innerHTML=`
     <div class="inbox-layout">
       <div class="inbox-list">
-        <div class="inbox-search"><span class="inbox-search-icon">🔍</span>
-          <input class="inbox-search-input" placeholder="Rechercher..." value="${inboxSearch}" oninput="inboxSearch=this.value.toLowerCase();renderConversations()">
-        </div>
+        <div class="inbox-search"><span class="inbox-search-icon">🔍</span><input class="inbox-search-input" placeholder="Rechercher..." value="${inboxSearch}" oninput="inboxSearch=this.value.toLowerCase();renderConversations()"></div>
         <div class="inbox-filters">
           <button class="inbox-ftab ${inboxFilter==='all'?'active':''}" onclick="inboxFilter='all';renderConversations()">Tous</button>
           <button class="inbox-ftab ${inboxFilter==='chaud'?'active':''}" onclick="inboxFilter='chaud';renderConversations()">🔥</button>
@@ -1128,8 +1045,8 @@ function renderInboxConv(l,msgs) {
   </div>
   <div class="conv-lead-summary">
     <div class="cls-score" style="color:${sc}">${l.score||0}</div>
-    <div class="cls-info"><div class="cls-name">${l.name||'—'} · <span class="tag-pill t-${l.tag||'froid'}" style="font-size:9px">${tagL(l.tag)}</span></div>
-    <div class="cls-meta">${d.type||'—'} · ${d.budget||'—'}</div></div>
+    <div class="cls-info"><div style="font-size:12px;font-weight:600">${l.name||'—'} · <span class="tag-pill t-${l.tag||'froid'}" style="font-size:9px">${tagL(l.tag)}</span></div>
+    <div style="font-size:11px;color:var(--text3)">${d.type||'—'} · ${d.budget||'—'}</div></div>
     <button class="cls-open" onclick="openDetail('${l.id}')">Voir fiche →</button>
   </div>
   <div class="inbox-conv-messages">
@@ -1137,32 +1054,23 @@ function renderInboxConv(l,msgs) {
       <div class="conv-av ${m.role==='user'?'u':''}">${m.role==='user'?'👤':'🏠'}</div>
       <div class="conv-bubble-wrap"><div class="conv-bubble">${m.content||'—'}</div>
       <div class="conv-time">${m.created_at?timeAgo(m.created_at):''}</div></div>
-    </div>`).join('')||'<div style="color:var(--text3);font-size:12px;text-align:center">Pas de messages</div>'}
+    </div>`).join('')||'<div style="color:var(--text3);font-size:12px;text-align:center;padding:20px">Pas de messages</div>'}
   </div>`
 }
-
 function selectInboxLead(id){selectedInboxLead=allLeads.find(l=>l.id===id)||null;renderConversations()}
 
 // ===== PIPELINE =====
 let draggedId=null
 function renderPipeline() {
-  const stages=[
-    {key:'nouveau',label:'Nouveau',color:'#3b82f6'},
-    {key:'contact',label:'En contact',color:'#f97316'},
-    {key:'qualifie',label:'Qualifié',color:'#c9a84c'},
-    {key:'rdv',label:'RDV pris',color:'#22c55e'},
-    {key:'gagne',label:'Gagné ✓',color:'#16a34a'},
-    {key:'perdu',label:'Perdu',color:'#ef4444'}
-  ]
+  const stages=[{key:'nouveau',label:'Nouveau',color:'#3b82f6'},{key:'contact',label:'En contact',color:'#f97316'},{key:'qualifie',label:'Qualifié',color:'#c9a84c'},{key:'rdv',label:'RDV pris',color:'#22c55e'},{key:'gagne',label:'Gagné ✓',color:'#16a34a'},{key:'perdu',label:'Perdu',color:'#ef4444'}]
+  const visibleLeads=getFiltered()
   const cols=stages.map(s=>{
-    const leads=allLeads.filter(l=>l.status===s.key)
-    const cards=leads.map(l=>{
-      const d=safeJ(l.data),sc=scoreColor(l.score||0),isHot=l.tag==='chaud'
-      return`<div class="pcard ${isHot?'is-hot':''}" draggable="true" id="pc-${l.id}" onclick="openDetail('${l.id}')"
-        ondragstart="dragStart('${l.id}')" ondragend="dragEnd()">
+    const leads=visibleLeads.filter(l=>l.status===s.key)
+    const cards=leads.map(l=>{const d=safeJ(l.data),sc=scoreColor(l.score||0),isHot=l.tag==='chaud'
+      return`<div class="pcard ${isHot?'is-hot':''}" draggable="true" id="pc-${l.id}" onclick="openDetail('${l.id}')" ondragstart="dragStart('${l.id}')" ondragend="dragEnd()">
         <div class="pcard-name">${isHot?'🔥 ':''}${l.name||l.email||'—'}</div>
         <div class="pcard-meta">${d.type||'—'} · ${d.secteur||'—'}</div>
-        <div class="pcard-bottom"><div class="pcard-score" style="color:${sc}">${l.score||0}</div><div class="pcard-budget">${d.budget||'—'}</div></div>
+        <div class="pcard-bottom"><div class="pcard-score" style="color:${sc}">${l.score||0}</div><div style="font-size:10px;color:var(--text3)">${d.budget||'—'}</div></div>
       </div>`}).join('')||`<div class="pcol-empty">Glisser ici</div>`
     return`<div class="pipeline-col">
       <div class="pcol-header"><span class="pcol-title">${s.label}</span><span class="pcol-count" style="background:${s.color}22;color:${s.color}">${leads.length}</span></div>
@@ -1173,38 +1081,28 @@ function renderPipeline() {
 function dragStart(id){draggedId=id;setTimeout(()=>document.getElementById('pc-'+id)?.classList.add('dragging'),0)}
 function dragEnd(){document.querySelectorAll('.pcard').forEach(c=>c.classList.remove('dragging'));document.querySelectorAll('.pcol-body').forEach(c=>c.classList.remove('drag-over'))}
 async function dropOn(status,col){
-  col.classList.remove('drag-over')
-  if(!draggedId) return
+  col.classList.remove('drag-over');if(!draggedId) return
   await sb.from('leads').update({status}).eq('id',draggedId)
   allLeads=allLeads.map(l=>l.id===draggedId?{...l,status}:l)
-  draggedId=null;renderPipeline()
-  showToast('✅ Lead déplacé : '+statusL(status))
+  draggedId=null;renderPipeline();showToast('✅ Lead déplacé : '+statusL(status))
 }
 
-// ===== STATS + OBJECTIFS =====
+// ===== STATS =====
 function renderStats() {
-  const total=allLeads.length||1
+  const leads=getVisibleLeads()
+  const total=leads.length||1
   const pct=n=>Math.round(n/total*100)
-  const byTag={chaud:allLeads.filter(l=>l.tag==='chaud').length,tiede:allLeads.filter(l=>l.tag==='tiede').length,froid:allLeads.filter(l=>l.tag==='froid').length}
-  const bySrc={email:allLeads.filter(l=>l.source==='email').length,widget:allLeads.filter(l=>l.source==='widget').length,form:allLeads.filter(l=>l.source==='form').length}
-  const bySt=['nouveau','contact','qualifie','rdv','gagne'].map(s=>[statusL(s),allLeads.filter(l=>l.status===s).length])
-  const scoreRanges=[['0–20',allLeads.filter(l=>(l.score||0)<20).length],['20–40',allLeads.filter(l=>(l.score||0)>=20&&(l.score||0)<40).length],['40–60',allLeads.filter(l=>(l.score||0)>=40&&(l.score||0)<60).length],['60–80',allLeads.filter(l=>(l.score||0)>=60&&(l.score||0)<80).length],['80–100',allLeads.filter(l=>(l.score||0)>=80).length]]
-  const convRate=Math.round((allLeads.filter(l=>l.status==='gagne').length/total)*100)
+  const byTag={chaud:leads.filter(l=>l.tag==='chaud').length,tiede:leads.filter(l=>l.tag==='tiede').length,froid:leads.filter(l=>l.tag==='froid').length}
+  const bySrc={email:leads.filter(l=>l.source==='email').length,widget:leads.filter(l=>l.source==='widget').length,form:leads.filter(l=>l.source==='form').length}
+  const bySt=['nouveau','contact','qualifie','rdv','gagne'].map(s=>[statusL(s),leads.filter(l=>l.status===s).length])
+  const scoreRanges=[['0–20',leads.filter(l=>(l.score||0)<20).length],['20–40',leads.filter(l=>(l.score||0)>=20&&(l.score||0)<40).length],['40–60',leads.filter(l=>(l.score||0)>=40&&(l.score||0)<60).length],['60–80',leads.filter(l=>(l.score||0)>=60&&(l.score||0)<80).length],['80–100',leads.filter(l=>(l.score||0)>=80).length]]
+  const convRate=Math.round((leads.filter(l=>l.status==='gagne').length/total)*100)
   const hotRate=Math.round(byTag.chaud/total*100)
-  const rdvCount=allLeads.filter(l=>l.status==='rdv'||l.status==='gagne').length
+  const rdvCount=leads.filter(l=>l.status==='rdv'||l.status==='gagne').length
   const bars=items=>items.map(([label,count])=>`<div class="bar-item"><div class="bar-item-header"><span class="bar-item-label">${label}</span><span class="bar-item-val">${count} (${pct(count)}%)</span></div><div class="bar-track"><div class="bar-fill-el" style="width:${pct(count)}%"></div></div></div>`).join('')
-
-  // Objectifs
-  const objRdv=allLeads.filter(l=>l.status==='rdv'||l.status==='gagne').length
-  const objChaud=byTag.chaud
-  const objGagne=allLeads.filter(l=>l.status==='gagne').length
-  const objItems=[
-    {key:'rdv',label:'RDV ce mois',emoji:'📅',current:objRdv,color:'var(--blue2)'},
-    {key:'chaud',label:'Leads chauds',emoji:'🔥',current:objChaud,color:'var(--red)'},
-    {key:'gagne',label:'Dossiers gagnés',emoji:'✅',current:objGagne,color:'var(--green)'}
-  ]
-
+  const objItems=[{key:'rdv',label:'RDV ce mois',emoji:'📅',current:rdvCount,color:'var(--blue2)'},{key:'chaud',label:'Leads chauds',emoji:'🔥',current:byTag.chaud,color:'var(--red)'},{key:'gagne',label:'Dossiers gagnés',emoji:'✅',current:leads.filter(l=>l.status==='gagne').length,color:'var(--green)'}]
   document.getElementById('content').innerHTML=`
+    ${contextBar()}
     <div class="stats-highlight">
       <div class="sh-card"><div class="sh-num" style="color:var(--green)">${convRate}%</div><div class="sh-label">Taux de conversion</div><div class="sh-trend">↑ Leads → Gagnés</div></div>
       <div class="sh-card"><div class="sh-num" style="color:var(--red)">${hotRate}%</div><div class="sh-label">Leads chauds</div><div class="sh-trend">↑ Score ≥ 70</div></div>
@@ -1213,24 +1111,13 @@ function renderStats() {
     ${kpiGrid()}
     <div class="obj-card">
       <div class="obj-title">🎯 Objectifs du mois</div>
-      <div class="obj-grid">
-        ${objItems.map(o=>{
-          const target=objectives[o.key]||10
-          const pctObj=Math.min(100,Math.round(o.current/target*100))
-          return`<div class="obj-item">
-            <div class="obj-item-label">${o.emoji} ${o.label}</div>
-            <div class="obj-progress-row">
-              <div class="obj-current" style="color:${o.color}">${o.current}</div>
-              <div class="obj-target">/ ${target}</div>
-            </div>
-            <div class="obj-bar"><div class="obj-bar-fill" style="width:${pctObj}%;background:${o.color}"></div></div>
-            <div class="obj-pct" style="color:${o.color}">${pctObj}% atteint</div>
-            <div class="obj-input-row">
-              <input class="obj-input" type="number" id="obj-${o.key}" value="${target}" min="1" placeholder="Obj.">
-              <button class="obj-save-btn" onclick="saveObjective('${o.key}')">Sauver</button>
-            </div>
-          </div>`}).join('')}
-      </div>
+      <div class="obj-grid">${objItems.map(o=>{const target=objectives[o.key]||10,pctObj=Math.min(100,Math.round(o.current/target*100))
+        return`<div class="obj-item"><div class="obj-item-label">${o.emoji} ${o.label}</div>
+          <div class="obj-progress-row"><div class="obj-current" style="color:${o.color}">${o.current}</div><div class="obj-target">/ ${target}</div></div>
+          <div class="obj-bar"><div class="obj-bar-fill" style="width:${pctObj}%;background:${o.color}"></div></div>
+          <div class="obj-pct" style="color:${o.color}">${pctObj}% atteint</div>
+          <div class="obj-input-row"><input class="obj-input" type="number" id="obj-${o.key}" value="${target}" min="1"><button class="obj-save-btn" onclick="saveObjective('${o.key}')">Sauver</button></div>
+        </div>`}).join('')}</div>
     </div>
     <div class="stats-grid">
       <div class="stat-card"><div class="stat-card-title">🎯 Qualification</div>${bars([['🔥 Chauds',byTag.chaud],['🌡 Tièdes',byTag.tiede],['❄️ Froids',byTag.froid]])}</div>
@@ -1239,93 +1126,171 @@ function renderStats() {
       <div class="stat-card"><div class="stat-card-title">📊 Distribution scores</div>${bars(scoreRanges)}</div>
     </div>`
 }
+function saveObjective(key){const val=parseInt(document.getElementById('obj-'+key)?.value)||10;objectives[key]=val;localStorage.setItem('lz_objectives',JSON.stringify(objectives));showToast('🎯 Objectif mis à jour');renderStats()}
 
-function saveObjective(key) {
-  const val=parseInt(document.getElementById('obj-'+key)?.value)||10
-  objectives[key]=val
-  localStorage.setItem('lz_objectives',JSON.stringify(objectives))
-  showToast('🎯 Objectif mis à jour : '+val)
-  renderStats()
+// ===== AGENCES (super_admin uniquement) =====
+function renderAgencies() {
+  if(userRole!=='super_admin'){showToast('⛔ Accès réservé au super admin');return}
+  document.getElementById('content').innerHTML=`
+    <div style="display:flex;justify-content:flex-end;margin-bottom:14px">
+      <button class="btn-primary-sm" onclick="openModal('modal-agency')">+ Ajouter une agence</button>
+    </div>
+    ${allAgencies.length===0?'<div class="empty"><div class="empty-icon">🏢</div><div>Aucune agence</div></div>'
+      :allAgencies.map(ag=>{
+        const branches=allBranches.filter(b=>b.agency_id===ag.id)
+        const agLeads=allLeads.filter(l=>l.agency_id===ag.id)
+        const hotLeads=agLeads.filter(l=>l.tag==='chaud')
+        const members=allMembers.filter(m=>m.agency_id===ag.id)
+        const planColors={starter:'rgba(96,165,250,.1)',pro:'rgba(34,197,94,.1)',agence:'rgba(201,168,76,.1)'}
+        const planTextColors={starter:'var(--blue2)',pro:'var(--green)',agence:'var(--gold)'}
+        return`<div class="agency-block">
+          <div class="agency-block-header">
+            <div class="agency-block-icon">🏢</div>
+            <div class="agency-block-info">
+              <div class="agency-block-name">${ag.name}</div>
+              <div class="agency-block-meta">${ag.email} · <span style="background:${planColors[ag.plan||'starter']};color:${planTextColors[ag.plan||'starter']};padding:1px 7px;border-radius:6px;font-size:10px;font-weight:600">${(ag.plan||'starter').toUpperCase()}</span></div>
+            </div>
+            <button class="btn-sm" onclick="copyWidget('${ag.id}','${ag.name}')">📋 Widget</button>
+            <button class="btn-sm" style="color:var(--blue2)" onclick="filterAgencyId='${ag.id}';filterBranchId='all';switchView('leads',document.querySelector('.sb-item'))">Voir leads →</button>
+          </div>
+          <div class="agency-block-stats">
+            <div class="abs"><div class="abs-num">${agLeads.length}</div><div class="abs-label">Leads</div></div>
+            <div class="abs"><div class="abs-num" style="color:var(--red)">${hotLeads.length}</div><div class="abs-label">Chauds</div></div>
+            <div class="abs"><div class="abs-num" style="color:var(--blue2)">${branches.length}</div><div class="abs-label">Succursales</div></div>
+            <div class="abs"><div class="abs-num" style="color:var(--green)">${members.length}</div><div class="abs-label">Membres</div></div>
+          </div>
+          <div class="branches-section">
+            <div class="branches-title">Succursales</div>
+            ${branches.length===0?`<div style="color:var(--text3);font-size:11px;margin-bottom:8px">Aucune succursale</div>`
+              :branches.map(br=>{
+                const brLeads=allLeads.filter(l=>l.branch_id===br.id)
+                return`<div class="branch-row">
+                  <div class="branch-dot"></div>
+                  <div class="branch-name">${br.name}</div>
+                  <div class="branch-meta">${br.city||'—'} · ${brLeads.length} leads</div>
+                  <div class="branch-actions">
+                    <button class="btn-sm" style="font-size:10px;padding:4px 8px" onclick="filterAgencyId='${ag.id}';filterBranchId='${br.id}';switchView('leads',document.querySelector('.sb-item'))">Voir →</button>
+                  </div>
+                </div>`}).join('')}
+            <button class="btn-sm" style="font-size:11px;margin-top:4px" onclick="openAddBranch('${ag.id}','${ag.name}')">+ Succursale</button>
+          </div>
+          <div class="agency-block-actions">
+            <button class="btn-sm" onclick="openAddMember('${ag.id}','${ag.name}')">👤 Inviter un membre</button>
+            <button class="btn-sm" style="color:var(--red)" onclick="deleteAgency('${ag.id}','${ag.name}')">🗑 Supprimer</button>
+          </div>
+        </div>`}).join('')}`
+}
+
+function openAddBranch(agencyId,agencyName) {
+  document.getElementById('br-agency-id').value=agencyId
+  document.getElementById('modal-branch-sub').textContent='Nouvelle succursale pour '+agencyName
+  document.getElementById('br-name').value=''
+  document.getElementById('br-city').value=''
+  openModal('modal-branch')
+}
+async function addBranch() {
+  const name=document.getElementById('br-name').value.trim()
+  const city=document.getElementById('br-city').value.trim()
+  const agencyId=document.getElementById('br-agency-id').value
+  if(!name){showToast('⚠️ Nom obligatoire');return}
+  const {error}=await sb.from('branches').insert({agency_id:agencyId,name,city})
+  if(error){showToast('❌ '+error.message);return}
+  closeModal('modal-branch');showToast('✅ Succursale créée : '+name);loadData()
+}
+
+function openAddMember(agencyId,agencyName) {
+  document.getElementById('mb-agency-id').value=agencyId
+  document.getElementById('mb-email').value=''
+  document.getElementById('mb-role').value='admin'
+  // Remplir les succursales
+  const branches=allBranches.filter(b=>b.agency_id===agencyId)
+  document.getElementById('mb-branch').innerHTML=branches.map(b=>`<option value="${b.id}">${b.name}</option>`).join('')
+  toggleBranchSelect()
+  openModal('modal-member')
+}
+function toggleBranchSelect() {
+  const role=document.getElementById('mb-role').value
+  document.getElementById('mb-branch-field').style.display=role==='agent'?'block':'none'
+}
+async function addMember() {
+  const email=document.getElementById('mb-email').value.trim()
+  const role=document.getElementById('mb-role').value
+  const agencyId=document.getElementById('mb-agency-id').value
+  const branchId=document.getElementById('mb-branch').value||null
+  if(!email){showToast('⚠️ Email obligatoire');return}
+  // Chercher l'user par email
+  const {data:users}=await sb.from('profiles').select('id').eq('email',email).single()
+  if(!users){showToast('⚠️ Utilisateur introuvable — il doit d\'abord créer un compte');return}
+  const {error}=await sb.from('agency_members').insert({
+    user_id:users.id, agency_id:agencyId, role,
+    branch_id:role==='agent'?branchId:null, is_super_admin:false
+  })
+  if(error){showToast('❌ '+error.message);return}
+  closeModal('modal-member');showToast('✅ Membre ajouté : '+email);loadData()
+}
+
+async function deleteAgency(id,name) {
+  if(!confirm(`Supprimer l'agence "${name}" ? Cette action est irréversible.`)) return
+  await sb.from('agencies').delete().eq('id',id)
+  showToast('🗑 Agence supprimée');loadData()
+}
+
+async function addAgency() {
+  const name=document.getElementById('ag-name').value.trim(), email=document.getElementById('ag-email').value.trim(), plan=document.getElementById('ag-plan').value
+  if(!name||!email){showToast('⚠️ Nom et email obligatoires');return}
+  const {error}=await sb.from('agencies').insert({name,email,plan})
+  if(error){showToast('❌ '+error.message);return}
+  closeModal('modal-agency');showToast('✅ Agence créée : '+name);loadData()
+}
+
+function copyWidget(id,name) {
+  const code=`<!-- Widget Leadzia -->\n<script>\n  window.LeadZiaConfig={agencyId:"${id}",apiUrl:"https://leadzia-backend.vercel.app",agentName:"Sofia",agencyName:"${name}"};\n<\/script>\n<script src="https://leadzia-backend.vercel.app/widget.js"><\/script>`
+  navigator.clipboard.writeText(code);showToast('📋 Widget copié pour '+name)
 }
 
 // ===== TEAM =====
 function renderTeam() {
+  const visibleLeads=getVisibleLeads()
   document.getElementById('content').innerHTML=`
     ${kpiGrid()}
     <div class="table-card">
       <div class="table-toolbar" style="justify-content:space-between">
-        <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700">Membres de l'équipe</div>
-        <button class="btn-primary-sm" onclick="showToast('👤 Inviter — bientôt disponible')">+ Inviter</button>
+        <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700">
+          ${userRole==='super_admin'?'Tous les membres':'Membres de l\'équipe'}
+        </div>
+        ${userRole==='super_admin'?'<button class="btn-primary-sm" onclick="showToast(\'👤 Utilisez la vue Agences pour inviter\')">+ Inviter</button>':''}
       </div>
       <div style="padding:14px">
-        <div class="team-grid">
-          <div class="team-card">
-            <div class="team-card-header">
-              <div class="team-av">${(currentUser?.email||'—').slice(0,2).toUpperCase()}</div>
-              <div><div style="font-size:13px;font-weight:600">${currentUser?.email||'—'}</div><div style="font-size:11px;color:var(--text3)">Admin · Vous</div></div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:12px">
+          <div class="member-row">
+            <div class="member-av">${(currentUser?.email||'—').slice(0,2).toUpperCase()}</div>
+            <div class="member-info">
+              <div class="member-email">${currentUser?.email||'—'}</div>
+              <div class="member-branch">${userRole==='super_admin'?'Super Admin — accès complet':userRole==='admin'?'Directeur — toute l\'agence':'Agent — '+( allBranches.find(b=>b.id===userBranchId)?.name||'succursale non assignée')}</div>
             </div>
-            <div class="team-stats">
-              <div class="team-stat"><div class="team-stat-num" style="color:var(--blue2)">${allLeads.length}</div><div class="team-stat-label">Total</div></div>
-              <div class="team-stat"><div class="team-stat-num" style="color:var(--red)">${allLeads.filter(l=>l.tag==='chaud').length}</div><div class="team-stat-label">Chauds</div></div>
-              <div class="team-stat"><div class="team-stat-num" style="color:var(--green)">${allLeads.filter(l=>l.status==='gagne').length}</div><div class="team-stat-label">Gagnés</div></div>
+            <div class="member-actions">
+              ${userRole==='super_admin'?'<span class="role-badge role-super">⭐ Super Admin</span>':userRole==='admin'?'<span class="role-badge role-admin">🏢 Admin</span>':'<span class="role-badge role-agent">👤 Agent</span>'}
             </div>
           </div>
-          <div class="team-card" style="border:1px dashed var(--border2);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;cursor:pointer;min-height:120px" onclick="showToast('👤 Inviter — bientôt disponible')">
-            <div style="font-size:24px;opacity:.3">+</div>
-            <div style="font-size:12px;color:var(--text3)">Inviter un collègue</div>
+        </div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center">
+          <div style="font-size:11px;color:var(--text3);margin-bottom:8px">Statistiques de votre accès</div>
+          <div style="display:flex;gap:20px;justify-content:center">
+            <div style="text-align:center"><div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:var(--blue2)">${visibleLeads.length}</div><div style="font-size:10px;color:var(--text3)">Leads visibles</div></div>
+            <div style="text-align:center"><div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:var(--red)">${visibleLeads.filter(l=>l.tag==='chaud').length}</div><div style="font-size:10px;color:var(--text3)">Chauds</div></div>
+            <div style="text-align:center"><div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:var(--green)">${visibleLeads.filter(l=>l.status==='gagne').length}</div><div style="font-size:10px;color:var(--text3)">Gagnés</div></div>
           </div>
         </div>
       </div>
     </div>`
 }
 
-// ===== AGENCIES =====
-function renderAgencies() {
-  document.getElementById('content').innerHTML=`
-    <div class="table-card">
-      <div class="table-toolbar" style="justify-content:space-between">
-        <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700">Agences (${allAgencies.length})</div>
-        <button class="btn-primary-sm" onclick="openModal('modal-agency')">+ Ajouter</button>
-      </div>
-      <div style="padding:14px">
-        ${allAgencies.length===0?'<div class="empty"><div class="empty-icon">🏢</div><div>Aucune agence</div></div>':allAgencies.map(a=>agencyCard(a)).join('')}
-      </div>
-    </div>`
-}
-function agencyCard(a) {
-  const lc=allLeads.filter(l=>l.agency_id===a.id).length
-  const hc=allLeads.filter(l=>l.agency_id===a.id&&l.tag==='chaud').length
-  const planColors={starter:'rgba(96,165,250,.1)',pro:'rgba(34,197,94,.1)',agence:'rgba(201,168,76,.1)'}
-  const planTextColors={starter:'var(--blue2)',pro:'var(--green)',agence:'var(--gold)'}
-  return`<div class="agency-card">
-    <div class="agency-icon">🏢</div>
-    <div class="agency-info"><div class="agency-name">${a.name}</div>
-    <div class="agency-meta">${a.email} · <span style="background:${planColors[a.plan||'starter']};color:${planTextColors[a.plan||'starter']};padding:1px 7px;border-radius:6px;font-size:10px;font-weight:600">${(a.plan||'starter').toUpperCase()}</span></div></div>
-    <div class="agency-stat"><div class="agency-stat-num">${lc}</div><div class="agency-stat-label">Leads</div></div>
-    <div class="agency-stat"><div class="agency-stat-num" style="color:var(--green)">${hc}</div><div class="agency-stat-label">Chauds</div></div>
-    <div class="agency-actions">
-      <button class="btn-sm" onclick="copyWidget('${a.id}','${a.name}')">📋 Widget</button>
-      <button class="btn-sm" style="color:var(--blue2);border-color:var(--blue-border)" onclick="selectedAgency='${a.id}';switchView('leads',document.querySelector('.sb-item'))">Leads →</button>
-    </div>
-  </div>`
-}
-async function addAgency() {
-  const name=document.getElementById('ag-name').value.trim(), email=document.getElementById('ag-email').value.trim(), plan=document.getElementById('ag-plan').value
-  if(!name||!email){showToast('⚠️ Nom et email obligatoires');return}
-  const {error}=await sb.from('agencies').insert({name,email,plan})
-  if(error){showToast('❌ Erreur : '+error.message);return}
-  closeModal('modal-agency');showToast('✅ Agence créée : '+name);loadData()
-}
-function copyWidget(id,name){
-  const code=`<!-- Widget Leadzia -->\n<script>\n  window.LeadZiaConfig={agencyId:"${id}",apiUrl:"https://leadzia-backend.vercel.app",agentName:"Sofia",agencyName:"${name}"};\n<\/script>\n<script src="https://leadzia-backend.vercel.app/widget.js"><\/script>`
-  navigator.clipboard.writeText(code);showToast('📋 Widget copié pour '+name)
-}
-
 // ===== KPI =====
 function kpiGrid() {
-  const total=allLeads.length, hot=allLeads.filter(l=>l.tag==='chaud').length
-  const avg=total?Math.round(allLeads.reduce((a,b)=>a+(b.score||0),0)/total):0
-  const rdv=allLeads.filter(l=>l.status==='rdv'||l.status==='gagne').length
+  const leads=getVisibleLeads()
+  const total=leads.length, hot=leads.filter(l=>l.tag==='chaud').length
+  const avg=total?Math.round(leads.reduce((a,b)=>a+(b.score||0),0)/total):0
+  const rdv=leads.filter(l=>l.status==='rdv'||l.status==='gagne').length
   return`<div class="kpi-grid">
     <div class="kpi"><div class="kpi-top"><span class="kpi-icon">👥</span><span class="kpi-delta" style="background:var(--green-dim);color:var(--green)">${total}</span></div><div class="kpi-num">${total}</div><div class="kpi-label">Leads total</div></div>
     <div class="kpi"><div class="kpi-top"><span class="kpi-icon">🔥</span><span class="kpi-delta" style="background:rgba(239,68,68,.1);color:#fca5a5">${hot}</span></div><div class="kpi-num">${hot}</div><div class="kpi-label">Leads chauds</div></div>
@@ -1337,15 +1302,22 @@ function kpiGrid() {
 // ===== CSV =====
 function exportCSV() {
   const leads=getFiltered()
-  const headers=['Nom','Email','Téléphone','Source','Type','Budget','Secteur','Score','Tag','Statut','Date']
-  const rows=leads.map(l=>{const d=safeJ(l.data);return[l.name||'',l.email||'',l.phone||'',l.source||'',d.type||'',d.budget||'',d.secteur||'',l.score||0,l.tag||'',l.status||'',l.created_at?new Date(l.created_at).toLocaleDateString('fr-FR'):''].join(',')})
+  const headers=['Nom','Email','Téléphone','Agence','Succursale','Source','Type','Budget','Secteur','Score','Tag','Statut','Date']
+  const rows=leads.map(l=>{
+    const d=safeJ(l.data)
+    const ag=allAgencies.find(a=>a.id===l.agency_id)
+    const br=allBranches.find(b=>b.id===l.branch_id)
+    return[l.name||'',l.email||'',l.phone||'',ag?.name||'',br?.name||'',l.source||'',d.type||'',d.budget||'',d.secteur||'',l.score||0,l.tag||'',l.status||'',l.created_at?new Date(l.created_at).toLocaleDateString('fr-FR'):''].join(',')
+  })
   const csv=[headers.join(','),...rows].join('\n')
   const blob=new Blob([csv],{type:'text/csv'}),url=URL.createObjectURL(blob)
   const a=document.createElement('a');a.href=url;a.download='leadzia-leads.csv';a.click()
   showToast('⬇ Export CSV ('+leads.length+' leads)')
 }
 
-// ===== MODAL =====
+// ===== MOBILE =====
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('sb-overlay').classList.toggle('show')}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sb-overlay').classList.remove('show')}
 function openModal(id){document.getElementById(id).classList.add('open')}
 function closeModal(id){document.getElementById(id).classList.remove('open')}
 

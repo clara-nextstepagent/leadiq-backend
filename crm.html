@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Leadzia CRM</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%231a1f2b'/><text x='50' y='58' text-anchor='middle' font-family='sans-serif' font-size='36' font-weight='700' fill='%2360a5fa'>LZ</text></svg>">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -411,14 +410,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .cls-info{flex:1;}
 .cls-open{font-size:11px;color:var(--blue2);background:var(--blue-dim);border:1px solid var(--blue-border);padding:4px 10px;border-radius:7px;cursor:pointer;font-family:'DM Sans',sans-serif;}
 .conv-msg{display:flex;gap:8px;}
-.conv-msg.user{flex-direction:row-reverse;}
-.conv-av{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#1d4ed8);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;margin-top:2px;}
-.conv-av.u{background:rgba(255,255,255,.1);}
+.conv-msg.bot{flex-direction:row-reverse;}
+.conv-av{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;margin-top:2px;}
+.conv-av.b{background:linear-gradient(135deg,var(--blue),#1d4ed8);}
 .conv-bubble-wrap{display:flex;flex-direction:column;gap:2px;max-width:78%;}
 .conv-bubble{padding:9px 12px;border-radius:12px;font-size:12px;line-height:1.6;}
-.conv-msg.bot .conv-bubble{background:var(--bg4);color:var(--text);border-bottom-left-radius:3px;}
-.conv-msg.user .conv-bubble{background:linear-gradient(135deg,var(--blue),#1d4ed8);color:#fff;border-bottom-right-radius:3px;}
-.conv-time{font-size:10px;color:var(--text3);}
+.conv-msg.user .conv-bubble{background:var(--bg4);color:var(--text);border-bottom-left-radius:3px;}
+.conv-msg.bot .conv-bubble{background:linear-gradient(135deg,var(--blue),#1d4ed8);color:#fff;border-bottom-right-radius:3px;}
+.conv-time{font-size:10px;color:var(--text3);text-align:right;}
+.conv-msg.user .conv-time{text-align:left;}
 
 /* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:150;display:none;align-items:center;justify-content:center;padding:16px;}
@@ -1028,7 +1028,7 @@ async function renderDpTab() {
     body.innerHTML=msgs.length===0
       ?'<div style="color:var(--text3);font-size:12px;padding:20px 0;text-align:center">Pas d\'historique</div>'
       :msgs.map(m=>`<div class="conv-msg ${m.role==='user'?'user':'bot'}">
-          <div class="conv-av ${m.role==='user'?'u':''}">${m.role==='user'?'👤':'🏠'}</div>
+          <div class="conv-av ${m.role==='bot'?'b':''}">${m.role==='user'?'👤':'🏠'}</div>
           <div class="conv-bubble-wrap"><div class="conv-bubble">${m.content||'—'}</div></div>
         </div>`).join('')
 
@@ -1478,7 +1478,7 @@ function renderInboxConv(l,msgs) {
   </div>
   <div class="inbox-conv-messages">
     ${msgs.map(m=>`<div class="conv-msg ${m.role==='user'?'user':'bot'}">
-      <div class="conv-av ${m.role==='user'?'u':''}">${m.role==='user'?'👤':'🏠'}</div>
+      <div class="conv-av ${m.role==='bot'?'b':''}">${m.role==='user'?'👤':'🏠'}</div>
       <div class="conv-bubble-wrap"><div class="conv-bubble">${m.content||'—'}</div>
       <div class="conv-time">${m.created_at?timeAgo(m.created_at):''}</div></div>
     </div>`).join('')||'<div style="color:var(--text3);font-size:12px;text-align:center;padding:20px">Pas de messages</div>'}

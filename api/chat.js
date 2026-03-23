@@ -5,8 +5,13 @@ export default async function handler(req, res) {
   if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "POST") return res.status(405).end();
 
-  const { messages, agencyName } = req.body;
+ let { messages, agencyName } = req.body;
   if (!messages) return res.status(400).json({ error: "messages requis" });
+  
+  // Si pas de messages, démarrer la conversation
+  if (messages.length === 0) {
+    messages = [{ role: "user", content: "Bonjour" }];
+  }
 
   const systemPrompt = `Tu es Sofia, conseillère immobilière virtuelle pour ${agencyName || "une agence haut de gamme"}.
 Tu qualifies les prospects en posant des questions naturelles et chaleureuses, une question à la fois.

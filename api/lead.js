@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   const {
     agencyId, branchId,
     score, tag, type, secteur, budget, financement, delai, analyse,
-    prenom, email, telephone, conversation
+    prenom, email, telephone, conversation, scores
   } = req.body;
 
   if (!agencyId) return res.status(400).json({ error: "agencyId requis" });
@@ -37,10 +37,10 @@ export default async function handler(req, res) {
           lead_analyse: analyse || null,
           data: JSON.stringify({ type, secteur, budget, financement, delai }),
           scores: JSON.stringify({
-            budget: score ? Math.round(score * 0.3) : 0,
-            urgence: score ? Math.round(score * 0.25) : 0,
-            projet: score ? Math.round(score * 0.25) : 0,
-            financement: score ? Math.round(score * 0.2) : 0
+            budget: scores?.budget ?? (score ? Math.round(score * 0.3) : 0),
+            urgence: scores?.urgence ?? (score ? Math.round(score * 0.25) : 0),
+            projet: scores?.projet ?? (score ? Math.round(score * 0.25) : 0),
+            financement: scores?.financement ?? (score ? Math.round(score * 0.2) : 0)
           }),
           conversation: conversation || null
         })

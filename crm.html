@@ -347,7 +347,25 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .obj-input{flex:1;background:var(--bg4);border:1px solid var(--border2);border-radius:6px;padding:5px 8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;width:60px;}
 .obj-save-btn{padding:5px 10px;border-radius:6px;background:var(--blue-dim);border:1px solid var(--blue-border);color:var(--blue2);font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer;}
 
-/* AGENCES + SUCCURSALES */
+/* NOTIF DROPDOWN */
+.notif-dropdown{position:absolute;top:44px;right:0;width:320px;background:var(--bg2);border:1px solid var(--border2);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:200;overflow:hidden;display:none;}
+.notif-dropdown.open{display:block;animation:fadeUp .2s ease;}
+.notif-dd-header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.notif-dd-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;}
+.notif-dd-clear{font-size:11px;color:var(--text3);cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;}
+.notif-dd-clear:hover{color:var(--red);}
+.notif-dd-items{max-height:320px;overflow-y:auto;}
+.notif-dd-items::-webkit-scrollbar{width:2px;}
+.notif-item{padding:10px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;display:flex;gap:10px;align-items:flex-start;}
+.notif-item:hover{background:var(--bg3);}
+.notif-item.unread{border-left:3px solid var(--blue2);}
+.notif-item-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;}
+.notif-item-info{flex:1;}
+.notif-item-title{font-size:12px;font-weight:600;margin-bottom:2px;}
+.notif-item-sub{font-size:11px;color:var(--text3);}
+.notif-item-time{font-size:10px;color:var(--text3);flex-shrink:0;}
+.notif-empty{padding:24px;text-align:center;color:var(--text3);font-size:12px;}
+.notif-btn-wrap{position:relative;}
 .agency-block{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:14px;}
 .agency-block-header{padding:14px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);background:var(--bg3);}
 .agency-block-icon{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,var(--blue),#1d4ed8);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
@@ -630,7 +648,18 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
         <div><h1 id="view-title">Leads</h1><p id="view-sub">Tous vos prospects qualifiés par l'IA</p></div>
       </div>
       <div class="topbar-right">
-        <div class="notif-btn" onclick="showToast('🔔 Notifications — toutes lues')"><span>🔔</span><div class="notif-dot" id="notif-dot"></div></div>
+        <div class="notif-btn-wrap">
+          <div class="notif-btn" onclick="toggleNotifDropdown()"><span>🔔</span><div class="notif-dot" id="notif-dot"></div></div>
+          <div class="notif-dropdown" id="notif-dropdown">
+            <div class="notif-dd-header">
+              <div class="notif-dd-title">Notifications</div>
+              <button class="notif-dd-clear" onclick="clearNotifs()">Tout marquer lu</button>
+            </div>
+            <div class="notif-dd-items" id="notif-items">
+              <div class="notif-empty">Aucune notification</div>
+            </div>
+          </div>
+        </div>
         <button class="btn-sm" onclick="exportCSV()">⬇ CSV</button>
         <button class="btn-sm" onclick="loadData()">↺</button>
         <div class="live-badge"><div class="live-dot"></div> <span>IA actif</span></div>
@@ -670,8 +699,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
       <div class="dp-tab" onclick="switchDpTab('rdv',this)">📅 RDV</div>
     </div>
     <div class="dp-body" id="dp-body"></div>
-    <div class="dp-actions">
-      <button class="dp-btn dp-btn-primary" onclick="showToast('📞 Click-to-call — bientôt disponible')">📞 Appeler</button>
+    <div class="dp-actions" id="dp-actions">
+      <button class="dp-btn dp-btn-primary" id="dp-call-btn" onclick="callLead()">📞 Appeler</button>
       <button class="dp-btn dp-btn-ghost" onclick="switchDpTab('templates',document.querySelectorAll('.dp-tab')[3])">📤 Email</button>
       <button class="dp-btn dp-btn-ghost" onclick="switchDpTab('rdv',document.querySelectorAll('.dp-tab')[4])">📅 RDV</button>
     </div>
@@ -697,6 +726,7 @@ let currentUser=null, userRole=null, userAgencyId=null, userBranchId=null
 let filterAgencyId='all', filterBranchId='all'
 let objectives = JSON.parse(localStorage.getItem('lz_objectives')||'{"rdv":10,"chaud":20,"gagne":5}')
 let calYear=new Date().getFullYear(), calMonth=new Date().getMonth(), selectedCalDay=null
+let notifications = []
 
 const EMAIL_TEMPLATES = [
   {id:'relance',name:'Relance douce',tag:'Suivi',preview:'Un message chaleureux pour reprendre contact...',body:`Bonjour {prenom},\n\nJ'espère que vous allez bien. Je voulais prendre de vos nouvelles concernant votre projet {type}.\n\nNous avons actuellement quelques biens très intéressants à {secteur} qui pourraient correspondre à vos critères. Seriez-vous disponible pour en discuter cette semaine ?\n\nChaleureusement,\nSofia`},
@@ -775,11 +805,96 @@ function showApp() {
     if(canSeeLead(payload.new)) {
       allLeads.unshift(payload.new)
       updateNewCount()
-      document.getElementById('notif-dot').classList.add('show')
-      showToast('🔔 Nouveau lead : '+(payload.new.email||'inconnu'))
+      updateTrashCount()
+      // Ajouter notification
+      addNotification(payload.new)
       if(currentView==='leads') renderLeads()
     }
   }).subscribe()
+}
+
+// ===== NOTIFICATIONS =====
+function addNotification(lead) {
+  const ag = allAgencies.find(a=>a.id===lead.agency_id)
+  const d = safeJ(lead.data)
+  notifications.unshift({
+    id: lead.id,
+    leadId: lead.id,
+    title: lead.name||lead.email||'Nouveau prospect',
+    sub: `${d.type||'—'} · Score ${lead.score||0} · ${ag?.name||'—'}`,
+    tag: lead.tag||'froid',
+    time: new Date(),
+    read: false
+  })
+  // Max 20 notifs
+  if(notifications.length>20) notifications=notifications.slice(0,20)
+  renderNotifDropdown()
+  document.getElementById('notif-dot').classList.add('show')
+}
+
+function toggleNotifDropdown() {
+  const dd = document.getElementById('notif-dropdown')
+  dd.classList.toggle('open')
+  // Fermer en cliquant ailleurs
+  if(dd.classList.contains('open')) {
+    setTimeout(()=>document.addEventListener('click',closeNotifOnClick,{once:true}),100)
+  }
+}
+
+function closeNotifOnClick(e) {
+  const dd=document.getElementById('notif-dropdown')
+  if(!dd.contains(e.target)) dd.classList.remove('open')
+}
+
+function clearNotifs() {
+  notifications.forEach(n=>n.read=true)
+  document.getElementById('notif-dot').classList.remove('show')
+  renderNotifDropdown()
+}
+
+function renderNotifDropdown() {
+  const container=document.getElementById('notif-items')
+  if(!container) return
+  const unread=notifications.filter(n=>!n.read).length
+  // Update badge
+  const dot=document.getElementById('notif-dot')
+  if(unread>0) dot.classList.add('show'); else dot.classList.remove('show')
+
+  if(notifications.length===0) {
+    container.innerHTML='<div class="notif-empty">🔔 Aucune notification</div>'
+    return
+  }
+  container.innerHTML=notifications.map(n=>`
+    <div class="notif-item ${n.read?'':'unread'}" onclick="openNotif('${n.leadId}')">
+      <div class="notif-item-av" style="background:${avColor(n.leadId)}">${n.title.slice(0,2).toUpperCase()}</div>
+      <div class="notif-item-info">
+        <div class="notif-item-title">${n.tag==='chaud'?'🔥 ':n.tag==='tiede'?'🌡 ':'❄️ '}${n.title}</div>
+        <div class="notif-item-sub">${n.sub}</div>
+      </div>
+      <div class="notif-item-time">${timeAgo(n.time)}</div>
+    </div>`).join('')
+}
+
+function openNotif(leadId) {
+  document.getElementById('notif-dropdown').classList.remove('open')
+  const n=notifications.find(x=>x.leadId===leadId)
+  if(n) n.read=true
+  renderNotifDropdown()
+  openDetail(leadId)
+}
+
+// ===== APPEL =====
+function callLead() {
+  if(!selectedLead) return
+  const phone=selectedLead.phone
+  if(!phone) {
+    showToast('📵 Pas de numéro pour ce prospect')
+    return
+  }
+  // Nettoyer le numéro
+  const cleaned=phone.replace(/\s+/g,'').replace(/[()-]/g,'')
+  window.location.href=`tel:${cleaned}`
+  showToast(`📞 Appel vers ${phone}`)
 }
 
 // ===== PERMISSIONS =====
@@ -996,6 +1111,14 @@ function openDetail(id) {
   document.getElementById('dp-score-label').textContent=score>=70?'Lead Chaud 🔥':score>=40?'Lead Tiède 🌡':'Lead Froid ❄️'
   document.getElementById('dp-score-sub').textContent=score>=70?'À contacter aujourd\'hui':score>=40?'Relance recommandée':'Qualification insuffisante'
   document.getElementById('dp-status').value=l.status||'nouveau'
+  // Bouton appeler — afficher seulement si numéro disponible
+  const callBtn=document.getElementById('dp-call-btn')
+  if(l.phone) {
+    callBtn.style.display='block'
+    callBtn.textContent=`📞 ${l.phone}`
+  } else {
+    callBtn.style.display='none'
+  }
   document.getElementById('detail-overlay').classList.add('open')
   switchDpTab('infos',document.querySelector('.dp-tab'))
 }
@@ -1610,7 +1733,6 @@ function renderAgencies() {
           </div>
           <div class="agency-block-actions">
             <button class="btn-sm" onclick="openAddMember('${ag.id}','${ag.name}')">👤 Inviter un membre</button>
-            <button class="btn-sm" style="color:var(--red)" onclick="deleteAgency('${ag.id}','${ag.name}')">🗑 Supprimer</button>
           </div>
         </div>`}).join('')}`
 }

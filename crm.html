@@ -610,6 +610,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
       <div class="sb-label">Gestion</div>
       <div class="sb-item" id="sb-agencies-item" style="display:none" onclick="switchView('agencies',this)">🏢 Agences</div>
       <div class="sb-item" onclick="switchView('team',this)">👤 Équipe</div>
+      <div class="sb-item" onclick="switchView('trash',this)" style="color:var(--text3)">🗑 Corbeille <span class="sb-badge" id="trash-count" style="background:var(--text3);display:none">0</span></div>
     </div>
     <div class="sb-bottom">
       <div class="sb-user">
@@ -674,6 +675,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
       <button class="dp-btn dp-btn-primary" onclick="showToast('📞 Click-to-call — bientôt disponible')">📞 Appeler</button>
       <button class="dp-btn dp-btn-ghost" onclick="switchDpTab('templates',document.querySelectorAll('.dp-tab')[3])">📤 Email</button>
       <button class="dp-btn dp-btn-ghost" onclick="switchDpTab('rdv',document.querySelectorAll('.dp-tab')[4])">📅 RDV</button>
+    </div>
+    <div style="padding:6px 16px 10px;text-align:center;border-top:1px solid var(--border)">
+      <button onclick="trashLead()" style="background:none;border:none;color:var(--text3);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:color .2s" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--text3)'">🗑 Supprimer ce lead</button>
     </div>
   </div>
 </div>
@@ -797,7 +801,7 @@ function getVisibleLeads() {
 // ===== DATA =====
 async function loadData() {
   const queries = [
-    sb.from('leads').select('*').order('created_at',{ascending:false}),
+    sb.from('leads').select('*').is('deleted_at', null).order('created_at',{ascending:false}),
     sb.from('agencies').select('*').order('name'),
     sb.from('branches').select('*').order('name'),
     sb.from('conversations').select('*').order('created_at',{ascending:true}),
@@ -818,6 +822,7 @@ async function loadData() {
 
   updateNewCount()
   updateRdvTodayBadge()
+  updateTrashCount()
   renderView()
 }
 
@@ -839,7 +844,8 @@ function switchView(v,el) {
     pipeline:['Pipeline','Progression de vos leads'],
     stats:['Statistiques & Objectifs','Performances et suivi'],
     agencies:['Agences','Gestion des agences et succursales'],
-    team:['Équipe','Membres et accès']
+    team:['Équipe','Membres et accès'],
+    trash:['Corbeille','Leads supprimés — récupérables sous 30 jours']
   }
   document.getElementById('view-title').textContent=t[v][0]
   document.getElementById('view-sub').textContent=t[v][1]
@@ -853,6 +859,7 @@ function renderView() {
   else if(currentView==='stats') renderStats()
   else if(currentView==='agencies') renderAgencies()
   else if(currentView==='team') renderTeam()
+  else if(currentView==='trash') renderTrash()
 }
 
 // ===== CONTEXT BAR =====
@@ -1710,6 +1717,85 @@ function renderTeam() {
           </div>
         </div>
       </div>
+    </div>`
+}
+
+// ===== CORBEILLE =====
+async function trashLead() {
+  if(!selectedLead) return
+  if(!confirm(`Supprimer "${selectedLead.name||selectedLead.email||'ce lead'}" ?\n\nIl sera récupérable depuis la corbeille pendant 30 jours.`)) return
+  const {error}=await sb.from('leads').update({deleted_at:new Date().toISOString()}).eq('id',selectedLead.id)
+  if(error){showToast('❌ Erreur : '+error.message);return}
+  allLeads=allLeads.filter(l=>l.id!==selectedLead.id)
+  closeDetail()
+  updateNewCount()
+  updateTrashCount()
+  renderView()
+  showToast('🗑 Lead déplacé dans la corbeille')
+}
+
+async function restoreLead(id) {
+  const {error}=await sb.from('leads').update({deleted_at:null}).eq('id',id)
+  if(error){showToast('❌ Erreur : '+error.message);return}
+  showToast('✅ Lead restauré')
+  loadData()
+}
+
+async function deletePermanently(id, name) {
+  if(!confirm(`Supprimer définitivement "${name}" ?\n\n⚠️ Cette action est irréversible.`)) return
+  const {error}=await sb.from('leads').delete().eq('id',id)
+  if(error){showToast('❌ Erreur : '+error.message);return}
+  showToast('🗑 Lead supprimé définitivement')
+  renderTrash()
+}
+
+async function updateTrashCount() {
+  const {count}=await sb.from('leads').select('*',{count:'exact',head:true}).not('deleted_at','is',null)
+  const badge=document.getElementById('trash-count')
+  if(!badge) return
+  if(count>0){badge.textContent=count;badge.style.display='inline-block'}
+  else{badge.style.display='none'}
+}
+
+async function renderTrash() {
+  document.getElementById('content').innerHTML='<div class="loading"><div class="spinner"></div> Chargement...</div>'
+  const {data:deleted}=await sb.from('leads').select('*').not('deleted_at','is',null).order('deleted_at',{ascending:false})
+  const items=deleted||[]
+
+  // Filtrer ceux supprimés depuis >30 jours (affichage seulement)
+  const now=new Date()
+  const active=items.filter(l=>{
+    const d=new Date(l.deleted_at)
+    return (now-d)<30*24*60*60*1000
+  })
+
+  document.getElementById('content').innerHTML=`
+    <div class="table-card">
+      <div class="table-toolbar" style="justify-content:space-between">
+        <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700">🗑 Corbeille (${active.length})</div>
+        <div style="font-size:11px;color:var(--text3)">Les leads sont supprimés définitivement après 30 jours</div>
+      </div>
+      ${active.length===0
+        ?'<div class="empty"><div class="empty-icon">🗑</div><div>La corbeille est vide</div></div>'
+        :active.map(l=>{
+          const d=safeJ(l.data)
+          const ag=allAgencies.find(a=>a.id===l.agency_id)
+          const deleted=new Date(l.deleted_at)
+          const daysLeft=30-Math.floor((now-deleted)/(24*60*60*1000))
+          const sc=scoreColor(l.score||0)
+          return`<div style="display:grid;grid-template-columns:2fr 1fr 80px 1fr auto;padding:10px 16px;border-bottom:1px solid var(--border);align-items:center;gap:8px;opacity:.8">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="width:28px;height:28px;border-radius:50%;background:${avColor(l.email||l.id)};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0">${(l.name||l.email||'?').slice(0,2).toUpperCase()}</div>
+              <div><div style="font-size:12px;font-weight:600">${l.name||'—'}</div><div style="font-size:10px;color:var(--text3)">${l.email||'—'}</div></div>
+            </div>
+            <div style="font-size:11px;color:var(--text2)">${ag?.name||'—'} · ${d.type||'—'}</div>
+            <div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:${sc}">${l.score||0}</div>
+            <div style="font-size:11px;color:${daysLeft<=7?'var(--red)':'var(--text3)'}">⏳ ${daysLeft}j restant${daysLeft>1?'s':''}</div>
+            <div style="display:flex;gap:6px">
+              <button onclick="restoreLead('${l.id}')" style="background:var(--green-dim);border:1px solid var(--green-border);color:var(--green);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif">↩ Restaurer</button>
+              <button onclick="deletePermanently('${l.id}','${l.name||l.email||'ce lead'}')" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#fca5a5;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif">✕ Supprimer</button>
+            </div>
+          </div>`}).join('')}
     </div>`
 }
 

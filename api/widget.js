@@ -249,7 +249,7 @@ export default async function handler(req, res) {
       hideTyping();
       if(data.type === 'qualification') {
         qualifData = data.data;
-        addBotMsg(data.data.analyse || 'Merci pour ces informations !');
+        addBotMsg(`Merci pour ces informations ! 😊 Pour qu'un de nos conseillers puisse vous recontacter rapidement, pourriez-vous compléter vos coordonnées ci-dessous ?`)
         messages.push({ role: 'assistant', content: 'Qualification terminée.' });
         setTimeout(() => showContactForm(), 800);
       } else {

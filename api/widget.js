@@ -194,7 +194,7 @@ export default async function handler(req, res) {
       <div id="lz-quickreplies"></div>
       <div id="lz-form">
         <div class="lz-form-title">📋 Vos coordonnées pour être rappelé(e)</div>
-        <input class="lz-form-input" id="lz-prenom" placeholder="Votre prénom *">
+        <input class="lz-form-input" id="lz-prenom" placeholder="Votre Nom et Prénom *">
         <input class="lz-form-input" id="lz-email" placeholder="Votre email *" type="email">
         <input class="lz-form-input" id="lz-tel" placeholder="Votre téléphone">
         <button class="lz-form-btn" onclick="lzSubmitLead()">✦ Être rappelé(e) par un conseiller →</button>

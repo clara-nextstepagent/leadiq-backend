@@ -37,10 +37,10 @@ export default async function handler(req, res) {
           lead_analyse: analyse || null,
           data: JSON.stringify({ type, secteur, budget, financement, delai }),
           scores: JSON.stringify({
-            budget: scores?.budget ?? (score ? Math.round(score * 0.3) : 0),
-            urgence: scores?.urgence ?? (score ? Math.round(score * 0.25) : 0),
-            projet: scores?.projet ?? (score ? Math.round(score * 0.25) : 0),
-            financement: scores?.financement ?? (score ? Math.round(score * 0.2) : 0)
+            budget: scores?.budget ?? 0,
+            urgence: scores?.urgence ?? 0,
+            projet: scores?.projet ?? 0,
+            financement: 0
           }),
           conversation: conversation || null
         })

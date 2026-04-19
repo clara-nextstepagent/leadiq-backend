@@ -4,434 +4,501 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Leadzia — Qualification de leads immobiliers 24h/24</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230c0f16'/><text x='50' y='58' text-anchor='middle' font-family='sans-serif' font-size='36' font-weight='700' fill='%2360a5fa'>LZ</text></svg>">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Figtree:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #080a0f;
-  --bg2: #0f1219;
-  --bg3: #161b25;
-  --bg4: #1d2433;
-  --gold: #2563eb;
-  --gold2: #60a5fa;
-  --gold3: #93c5fd;
-  --gold-dim: rgba(37,99,235,0.10);
-  --gold-border: rgba(37,99,235,0.30);
-  --text: #f0ede8;
+  --bg:    #080a0f;
+  --bg2:   #0f1219;
+  --bg3:   #161b25;
+  --bg4:   #1d2433;
+  --v:     #2563eb;
+  --v2:    #60a5fa;
+  --v3:    #93c5fd;
+  --vd:    rgba(37,99,235,0.10);
+  --vb:    rgba(37,99,235,0.28);
+  --g:     #10b981;
+  --gd:    rgba(16,185,129,0.10);
+  --gold:  #f59e0b;
+  --text:  #f0ede8;
   --text2: #8b93a8;
   --text3: #4a5168;
-  --green: #22c55e;
-  --green-dim: rgba(34,197,94,0.10);
-  --border: rgba(255,255,255,0.06);
-  --border2: rgba(255,255,255,0.11);
-  --white: #ffffff;
+  --border: rgba(255,255,255,0.055);
+  --border2: rgba(255,255,255,0.10);
 }
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  overflow-x: hidden;
-  line-height: 1.7;
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Figtree',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  line-height:1.7;
 }
 
-/* ===== NAV ===== */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 18px 60px;
-  background: rgba(8,10,15,0.85);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-  transition: all .3s;
+/* ─── NOISE OVERLAY ─── */
+body::before{
+  content:'';
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity:.025;
 }
-.nav-logo {
-  font-family: 'Syne', sans-serif;
-  font-size: 22px; font-weight: 800;
-  letter-spacing: -0.5px;
-}
-.nav-logo span { color: var(--gold); }
-.nav-links { display: flex; align-items: center; gap: 36px; }
-.nav-links a {
-  text-decoration: none; color: var(--text2);
-  font-size: 14px; font-weight: 400;
-  transition: color .2s;
-}
-.nav-links a:hover { color: var(--text); }
-.nav-cta {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  border: none; padding: 10px 24px; border-radius: 8px;
-  color: #111; font-family: 'DM Sans', sans-serif;
-  font-size: 14px; font-weight: 600; cursor: pointer;
-  transition: all .2s;
-}
-.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(37,99,235,.3); }
 
-/* ===== HERO ===== */
-.hero {
-  min-height: 100vh;
-  display: flex; align-items: center; justify-content: center;
-  text-align: center;
-  padding: 120px 60px 80px;
-  position: relative;
-  overflow: hidden;
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 64px;
+  background:rgba(9,9,15,0.80);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+  transition:all .3s;
 }
-.hero-bg {
-  position: absolute; inset: 0; z-index: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.07) 0%, transparent 70%),
-    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(59,130,246,0.04) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 50% at 80% 60%, rgba(34,197,94,0.03) 0%, transparent 60%);
+.nav-logo{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:22px;font-weight:800;letter-spacing:-.5px;
+  color:var(--text);
 }
-.hero-grid {
-  position: absolute; inset: 0; opacity: .025;
+.nav-logo em{color:var(--v2);font-style:normal;}
+.nav-links{display:flex;align-items:center;gap:36px;}
+.nav-links a{
+  text-decoration:none;color:var(--text2);
+  font-size:14px;font-weight:400;
+  transition:color .2s;
+}
+.nav-links a:hover{color:var(--text);}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.btn-login{
+  background:none;border:1px solid var(--border2);
+  padding:9px 20px;border-radius:8px;
+  color:var(--text2);font-family:'Figtree',sans-serif;
+  font-size:14px;cursor:pointer;transition:all .2s;
+}
+.btn-login:hover{background:var(--bg3);color:var(--text);}
+.btn-nav{
+  background:var(--v);border:none;
+  padding:10px 22px;border-radius:8px;
+  color:#fff;font-family:'Figtree',sans-serif;
+  font-size:14px;font-weight:600;cursor:pointer;
+  transition:all .2s;
+}
+.btn-nav:hover{background:#6d28d9;box-shadow:0 4px 20px rgba(124,58,237,.35);}
+
+/* ─── HERO ─── */
+.hero{
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;
+  padding:130px 60px 90px;
+  position:relative;overflow:hidden;
+}
+.hero-orb{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+}
+.hero-orb::before{
+  content:'';position:absolute;
+  width:700px;height:700px;border-radius:50%;
+  top:-200px;left:50%;transform:translateX(-50%);
+  background:radial-gradient(circle, rgba(124,58,237,.18) 0%, transparent 70%);
+  filter:blur(60px);
+}
+.hero-orb::after{
+  content:'';position:absolute;
+  width:400px;height:400px;border-radius:50%;
+  bottom:0;right:10%;
+  background:radial-gradient(circle, rgba(16,185,129,.07) 0%, transparent 70%);
+  filter:blur(40px);
+}
+.hero-grid{
+  position:absolute;inset:0;opacity:.018;
   background-image:
-    linear-gradient(rgba(255,255,255,.6) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.6) 1px, transparent 1px);
-  background-size: 60px 60px;
+    linear-gradient(rgba(255,255,255,.8) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.8) 1px, transparent 1px);
+  background-size:56px 56px;
 }
-.hero-content { position: relative; z-index: 2; max-width: 860px; margin: 0 auto; }
+.hero-content{position:relative;z-index:2;max-width:900px;margin:0 auto;}
 
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--gold-dim); border: 1px solid var(--gold-border);
-  border-radius: 30px; padding: 6px 18px;
-  font-size: 12px; color: var(--gold2);
-  letter-spacing: 1px; text-transform: uppercase;
-  margin-bottom: 32px;
-  animation: fadeDown .6s ease both;
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--vd);border:1px solid var(--vb);
+  border-radius:40px;padding:7px 20px;
+  font-size:11px;color:var(--v3);
+  letter-spacing:1.5px;text-transform:uppercase;
+  margin-bottom:36px;
+  animation:fadeDown .6s ease both;
 }
-.badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: pulse 1.5s infinite; }
-@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.3)} }
-@keyframes fadeDown { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:none} }
-@keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+.badge-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--v2);
+  animation:pulse 1.8s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(1.4)}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 
-.hero h1 {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(42px, 6vw, 76px);
-  font-weight: 800; line-height: 1.08;
-  letter-spacing: -2px;
-  margin-bottom: 28px;
-  animation: fadeUp .7s .1s ease both;
+.hero h1{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:clamp(44px, 6.5vw, 82px);
+  font-weight:800;line-height:1.06;
+  letter-spacing:-2.5px;
+  margin-bottom:30px;
+  animation:fadeUp .7s .1s ease both;
 }
-.hero h1 .gold { color: var(--gold2); }
-.hero h1 .dim { color: var(--text3); }
+.hero h1 .hi{color:var(--v2);}
+.hero h1 .dim{color:var(--text3);}
 
-.hero-sub {
-  font-size: 18px; color: var(--text2);
-  max-width: 580px; margin: 0 auto 44px;
-  line-height: 1.7;
-  animation: fadeUp .7s .2s ease both;
-}
-
-.hero-actions {
-  display: flex; align-items: center; justify-content: center;
-  gap: 14px; flex-wrap: wrap;
-  margin-bottom: 60px;
-  animation: fadeUp .7s .3s ease both;
-}
-.btn-main {
-  display: flex; align-items: center; gap: 8px;
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  border: none; padding: 15px 32px; border-radius: 10px;
-  color: #111; font-family: 'DM Sans', sans-serif;
-  font-size: 15px; font-weight: 700; cursor: pointer;
-  transition: all .2s;
-}
-.btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(37,99,235,.35); }
-.btn-ghost {
-  display: flex; align-items: center; gap: 8px;
-  background: none; border: 1px solid var(--border2);
-  padding: 15px 32px; border-radius: 10px;
-  color: var(--text2); font-family: 'DM Sans', sans-serif;
-  font-size: 15px; cursor: pointer; transition: all .2s;
-}
-.btn-ghost:hover { border-color: var(--border2); color: var(--text); background: var(--bg3); }
-
-.hero-stats {
-  display: flex; align-items: center; justify-content: center;
-  gap: 48px; flex-wrap: wrap;
-  animation: fadeUp .7s .4s ease both;
-}
-.hero-stat { text-align: center; }
-.hero-stat-num {
-  font-family: 'Syne', sans-serif;
-  font-size: 32px; font-weight: 800;
-  color: var(--gold2); line-height: 1;
-}
-.hero-stat-label { font-size: 12px; color: var(--text3); margin-top: 4px; }
-.hero-stat-sep { width: 1px; height: 40px; background: var(--border2); }
-
-/* ===== SOCIAL PROOF STRIP ===== */
-.proof-strip {
-  padding: 20px 60px;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  background: var(--bg2);
-  display: flex; align-items: center; justify-content: center;
-  gap: 12px; flex-wrap: wrap;
-}
-.proof-text { font-size: 13px; color: var(--text3); }
-.proof-logos { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
-.proof-logo {
-  font-family: 'Syne', sans-serif;
-  font-size: 13px; font-weight: 600;
-  color: var(--text3); letter-spacing: .5px;
-  opacity: .5;
+.hero-sub{
+  font-size:18px;color:var(--text2);
+  max-width:600px;margin:0 auto 48px;
+  line-height:1.75;font-weight:400;
+  animation:fadeUp .7s .2s ease both;
 }
 
-/* ===== SECTION BASE ===== */
-section { padding: 100px 60px; }
-.section-tag {
-  font-size: 11px; text-transform: uppercase; letter-spacing: 3px;
-  color: var(--gold); margin-bottom: 12px; font-weight: 500;
+.hero-actions{
+  display:flex;align-items:center;justify-content:center;
+  gap:14px;flex-wrap:wrap;
+  margin-bottom:64px;
+  animation:fadeUp .7s .3s ease both;
 }
-.section-title {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(28px, 4vw, 44px);
-  font-weight: 800; line-height: 1.15;
-  letter-spacing: -1px; margin-bottom: 16px;
+.btn-main{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--v);border:none;
+  padding:16px 34px;border-radius:10px;
+  color:#fff;font-family:'Figtree',sans-serif;
+  font-size:15px;font-weight:700;cursor:pointer;
+  transition:all .22s;
+  box-shadow:0 0 0 0 rgba(124,58,237,0);
 }
-.section-sub {
-  font-size: 16px; color: var(--text2);
-  max-width: 540px; line-height: 1.7;
+.btn-main:hover{
+  background:#6d28d9;
+  transform:translateY(-2px);
+  box-shadow:0 8px 32px rgba(124,58,237,.35);
+}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:8px;
+  background:none;border:1px solid var(--border2);
+  padding:16px 34px;border-radius:10px;
+  color:var(--text2);font-family:'Figtree',sans-serif;
+  font-size:15px;cursor:pointer;transition:all .22s;
+}
+.btn-ghost:hover{background:var(--bg3);color:var(--text);}
+
+.hero-stats{
+  display:flex;align-items:center;justify-content:center;
+  gap:48px;flex-wrap:wrap;
+  animation:fadeUp .7s .4s ease both;
+}
+.hero-stat{text-align:center;}
+.hero-stat-num{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:30px;font-weight:800;
+  color:var(--v2);line-height:1;
+}
+.hero-stat-label{font-size:12px;color:var(--text3);margin-top:5px;letter-spacing:.3px;}
+.hero-stat-sep{width:1px;height:38px;background:var(--border2);}
+
+/* ─── STRIP ─── */
+.strip{
+  padding:18px 64px;
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  gap:10px 32px;flex-wrap:wrap;
+}
+.strip-text{font-size:12px;color:var(--text3);letter-spacing:.5px;}
+.strip-item{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:12px;font-weight:600;
+  color:var(--text3);opacity:.45;letter-spacing:.3px;
 }
 
-/* ===== HOW IT WORKS ===== */
-.how { background: var(--bg); }
-.how-inner { max-width: 1100px; margin: 0 auto; }
-.how-header { text-align: center; margin-bottom: 64px; }
-.how-header .section-sub { margin: 0 auto; }
-
-.steps-flow {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 2px; position: relative;
+/* ─── SHARED ─── */
+section{padding:110px 64px;}
+.section-tag{
+  font-size:11px;text-transform:uppercase;letter-spacing:3px;
+  color:var(--v2);margin-bottom:12px;font-weight:500;
 }
-.step-card {
-  background: var(--bg2); border: 1px solid var(--border);
-  padding: 36px 32px; position: relative;
-  transition: border-color .2s;
+.section-title{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:clamp(28px,4vw,46px);
+  font-weight:800;line-height:1.13;
+  letter-spacing:-1.2px;margin-bottom:16px;
 }
-.step-card:first-child { border-radius: 14px 0 0 14px; }
-.step-card:last-child { border-radius: 0 14px 14px 0; }
-.step-card:hover { border-color: var(--gold-border); z-index: 1; }
-.step-num {
-  font-family: 'Syne', sans-serif;
-  font-size: 48px; font-weight: 800;
-  color: var(--gold-border); line-height: 1;
-  margin-bottom: 16px;
-}
-.step-icon { font-size: 28px; margin-bottom: 14px; }
-.step-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 10px; }
-.step-desc { font-size: 14px; color: var(--text2); line-height: 1.7; }
-.step-time {
-  display: inline-flex; align-items: center; gap: 5px;
-  margin-top: 16px;
-  background: var(--green-dim); border: 1px solid rgba(34,197,94,.2);
-  border-radius: 20px; padding: 3px 10px;
-  font-size: 11px; color: var(--green); font-weight: 500;
+.section-sub{
+  font-size:16px;color:var(--text2);
+  max-width:560px;line-height:1.75;
 }
 
-/* ===== FEATURES ===== */
-.features { background: var(--bg2); }
-.features-inner { max-width: 1100px; margin: 0 auto; }
-.features-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 20px; margin-top: 56px;
-}
-.feat-card {
-  background: var(--bg3); border: 1px solid var(--border);
-  border-radius: 14px; padding: 28px;
-  transition: all .2s;
-}
-.feat-card:hover { border-color: var(--gold-border); transform: translateY(-3px); }
-.feat-icon {
-  width: 44px; height: 44px; border-radius: 10px;
-  background: var(--gold-dim); border: 1px solid var(--gold-border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 20px; margin-bottom: 18px;
-}
-.feat-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 10px; }
-.feat-desc { font-size: 13px; color: var(--text2); line-height: 1.7; }
+/* ─── HOW ─── */
+.how{background:var(--bg);}
+.how-inner{max-width:1100px;margin:0 auto;}
+.how-header{text-align:center;margin-bottom:72px;}
+.how-header .section-sub{margin:0 auto;}
 
-/* ===== DEMO PREVIEW ===== */
-.demo { background: var(--bg); }
-.demo-inner { max-width: 1100px; margin: 0 auto; }
-.demo-header { margin-bottom: 48px; }
-.demo-window {
-  background: var(--bg2); border: 1px solid var(--border2);
-  border-radius: 16px; overflow: hidden;
-  box-shadow: 0 24px 80px rgba(0,0,0,.5);
+.steps-flow{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:2px;border-radius:16px;overflow:hidden;
+  border:1px solid var(--border);
 }
-.demo-topbar {
-  padding: 14px 20px; background: var(--bg3);
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; gap: 8px;
+.step-card{
+  background:var(--bg2);
+  padding:40px 34px;
+  position:relative;
+  transition:background .2s;
 }
-.demo-dot { width: 12px; height: 12px; border-radius: 50%; }
-.demo-grid {
-  display: grid; grid-template-columns: 1fr 1fr 280px;
-  min-height: 340px;
+.step-card:not(:last-child){border-right:1px solid var(--border);}
+.step-card:hover{background:var(--bg3);}
+.step-num{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:52px;font-weight:800;
+  color:var(--vb);line-height:1;
+  margin-bottom:20px;
 }
-.demo-col {
-  padding: 20px; border-right: 1px solid var(--border);
+.step-icon{font-size:28px;margin-bottom:14px;}
+.step-title{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:18px;font-weight:700;margin-bottom:10px;
 }
-.demo-col:last-child { border-right: none; }
-.demo-col-title { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 14px; font-weight: 500; }
-.demo-msg { display: flex; gap: 8px; margin-bottom: 10px; }
-.demo-msg.user { flex-direction: row-reverse; }
-.demo-av { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg, #2563eb, #1d4ed8); display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; }
-.demo-av.u { background: rgba(255,255,255,.1); }
-.demo-bubble { padding: 8px 12px; border-radius: 10px; font-size: 12px; line-height: 1.5; max-width: 75%; }
-.demo-msg.bot .demo-bubble { background: var(--bg4); color: var(--text); border-bottom-left-radius: 2px; }
-.demo-msg.user .demo-bubble { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #111; font-weight: 500; border-bottom-right-radius: 2px; }
+.step-desc{font-size:14px;color:var(--text2);line-height:1.75;}
+.step-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  margin-top:18px;
+  background:var(--gd);border:1px solid rgba(16,185,129,.2);
+  border-radius:20px;padding:4px 12px;
+  font-size:11px;color:var(--g);font-weight:500;
+}
 
-.demo-score { text-align: center; margin-bottom: 16px; }
-.demo-score-num { font-family: 'Syne', sans-serif; font-size: 40px; font-weight: 800; color: var(--green); }
-.demo-score-label { font-size: 11px; color: var(--text3); }
-.demo-field { display: flex; justify-content: space-between; padding: 6px 8px; background: var(--bg4); border-radius: 6px; font-size: 11px; margin-bottom: 5px; }
-.demo-field-k { color: var(--text3); }
-.demo-field-v { color: var(--text); font-weight: 500; }
-.demo-tag { display: inline-block; padding: 3px 10px; border-radius: 8px; font-size: 10px; font-weight: 700; background: rgba(34,197,94,.15); color: var(--green); border: 1px solid rgba(34,197,94,.2); margin-top: 8px; }
+/* ─── FEATURES ─── */
+.features{background:var(--bg2);}
+.features-inner{max-width:1100px;margin:0 auto;}
+.features-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:18px;margin-top:60px;
+}
+.feat-card{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:14px;padding:30px;
+  transition:all .22s;
+}
+.feat-card:hover{border-color:var(--vb);transform:translateY(-4px);}
+.feat-icon{
+  width:46px;height:46px;border-radius:11px;
+  background:var(--vd);border:1px solid var(--vb);
+  display:flex;align-items:center;justify-content:center;
+  font-size:21px;margin-bottom:20px;
+}
+.feat-title{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:16px;font-weight:700;margin-bottom:10px;
+}
+.feat-desc{font-size:13px;color:var(--text2);line-height:1.75;}
 
-/* ===== PRICING ===== */
-.pricing { background: var(--bg2); }
-.pricing-inner { max-width: 1000px; margin: 0 auto; }
-.pricing-header { text-align: center; margin-bottom: 56px; }
-.pricing-header .section-sub { margin: 0 auto; }
-.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.price-card {
-  background: var(--bg3); border: 1px solid var(--border);
-  border-radius: 16px; padding: 32px 28px;
-  position: relative; transition: all .2s;
-}
-.price-card:hover { border-color: var(--border2); transform: translateY(-3px); }
-.price-card.featured {
-  border-color: var(--gold-border);
-  background: linear-gradient(160deg, rgba(201,168,76,.08), var(--bg3));
-}
-.price-popular {
-  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  color: #111; font-size: 11px; font-weight: 700;
-  padding: 4px 16px; border-radius: 20px;
-  white-space: nowrap;
-}
-.price-name { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 6px; }
-.price-desc { font-size: 13px; color: var(--text3); margin-bottom: 24px; }
-.price-amount {
-  display: flex; align-items: flex-end; gap: 4px;
-  margin-bottom: 6px;
-}
-.price-num { font-family: 'Syne', sans-serif; font-size: 42px; font-weight: 800; line-height: 1; }
-.price-currency { font-size: 18px; font-weight: 600; color: var(--text2); margin-bottom: 6px; }
-.price-period { font-size: 13px; color: var(--text3); margin-bottom: 28px; }
-.price-features { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
-.price-feature { display: flex; align-items: center; gap: 9px; font-size: 13px; color: var(--text2); }
-.price-feature::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
-.price-feature.no { color: var(--text3); }
-.price-feature.no::before { content: '—'; color: var(--text3); }
-.price-btn {
-  width: 100%; padding: 12px; border-radius: 9px;
-  font-family: 'DM Sans', sans-serif; font-size: 14px;
-  font-weight: 600; cursor: pointer; transition: all .2s; border: none;
-}
-.price-btn-main { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #111; }
-.price-btn-main:hover { transform: translateY(-1px); }
-.price-btn-ghost { background: var(--bg4); color: var(--text2); border: 1px solid var(--border2); }
-.price-btn-ghost:hover { background: var(--bg2); color: var(--text); }
+/* ─── DEMO ─── */
+.demo{background:var(--bg);}
+.demo-inner{max-width:1100px;margin:0 auto;}
+.demo-header{margin-bottom:52px;}
 
-/* ===== TESTIMONIALS ===== */
-.testimonials { background: var(--bg); }
-.testimonials-inner { max-width: 1000px; margin: 0 auto; }
-.testimonials-header { text-align: center; margin-bottom: 56px; }
-.testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.testi-card {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 14px; padding: 28px;
+.demo-window{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:18px;overflow:hidden;
+  box-shadow:0 32px 90px rgba(0,0,0,.55);
 }
-.testi-stars { color: var(--gold); font-size: 14px; margin-bottom: 14px; }
-.testi-text { font-size: 14px; color: var(--text2); line-height: 1.7; margin-bottom: 20px; font-style: italic; }
-.testi-author { display: flex; align-items: center; gap: 10px; }
-.testi-av {
-  width: 36px; height: 36px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 700; color: #111; flex-shrink: 0;
+.demo-topbar{
+  padding:14px 20px;background:var(--bg3);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:8px;
 }
-.testi-name { font-size: 13px; font-weight: 600; }
-.testi-role { font-size: 11px; color: var(--text3); }
+.demo-dot{width:12px;height:12px;border-radius:50%;}
+.demo-grid{
+  display:grid;grid-template-columns:1fr 1fr 280px;
+  min-height:340px;
+}
+.demo-col{
+  padding:22px;
+  border-right:1px solid var(--border);
+}
+.demo-col:last-child{border-right:none;}
+.demo-col-title{
+  font-size:10px;text-transform:uppercase;letter-spacing:2px;
+  color:var(--v2);margin-bottom:16px;font-weight:500;
+}
+.demo-msg{display:flex;gap:8px;margin-bottom:10px;}
+.demo-msg.user{flex-direction:row-reverse;}
+.demo-av{
+  width:24px;height:24px;border-radius:50%;
+  background:var(--v);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;flex-shrink:0;
+}
+.demo-av.u{background:rgba(255,255,255,.08);}
+.demo-bubble{
+  padding:9px 12px;border-radius:10px;
+  font-size:12px;line-height:1.55;max-width:80%;
+}
+.demo-msg.bot .demo-bubble{
+  background:var(--bg4);color:var(--text);
+  border-bottom-left-radius:2px;
+}
+.demo-msg.user .demo-bubble{
+  background:var(--v);color:#fff;font-weight:500;
+  border-bottom-right-radius:2px;
+}
+.demo-score{text-align:center;margin-bottom:18px;}
+.demo-score-num{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:42px;font-weight:800;color:var(--g);
+}
+.demo-score-label{font-size:11px;color:var(--text3);}
+.demo-field{
+  display:flex;justify-content:space-between;
+  padding:6px 9px;background:var(--bg4);
+  border-radius:7px;font-size:11px;margin-bottom:5px;
+}
+.demo-field-k{color:var(--text3);}
+.demo-field-v{color:var(--text);font-weight:500;}
+.demo-tag{
+  display:inline-block;padding:3px 11px;
+  border-radius:8px;font-size:10px;font-weight:700;
+  background:rgba(16,185,129,.12);color:var(--g);
+  border:1px solid rgba(16,185,129,.2);margin-top:9px;
+}
 
-/* ===== FAQ ===== */
-.faq { background: var(--bg2); }
-.faq-inner { max-width: 700px; margin: 0 auto; }
-.faq-header { text-align: center; margin-bottom: 48px; }
-.faq-list { display: flex; flex-direction: column; gap: 0; }
-.faq-item {
-  border-bottom: 1px solid var(--border);
-  padding: 20px 0; cursor: pointer;
-}
-.faq-item:first-child { border-top: 1px solid var(--border); }
-.faq-q {
-  display: flex; align-items: center; justify-content: space-between;
-  font-size: 15px; font-weight: 500; color: var(--text);
-}
-.faq-icon { font-size: 18px; color: var(--gold); transition: transform .2s; }
-.faq-item.open .faq-icon { transform: rotate(45deg); }
-.faq-a { font-size: 14px; color: var(--text2); line-height: 1.7; margin-top: 12px; display: none; }
-.faq-item.open .faq-a { display: block; }
+/* ─── PRICING ─── */
+.pricing{background:var(--bg2);}
+.pricing-inner{max-width:1020px;margin:0 auto;}
+.pricing-header{text-align:center;margin-bottom:60px;}
+.pricing-header .section-sub{margin:0 auto;}
 
-/* ===== CTA FINAL ===== */
-.cta-final {
-  padding: 100px 60px;
-  background: var(--bg);
-  text-align: center;
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.price-card{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:18px;padding:34px 30px;
+  position:relative;transition:all .22s;
 }
-.cta-box {
-  max-width: 700px; margin: 0 auto;
-  background: linear-gradient(135deg, rgba(37,99,235,.10), rgba(201,168,76,.03));
-  border: 1px solid var(--gold-border);
-  border-radius: 24px; padding: 64px 48px;
+.price-card:hover{border-color:var(--border2);transform:translateY(-4px);}
+.price-card.featured{
+  border-color:var(--vb);
+  background:linear-gradient(160deg,rgba(124,58,237,.09),var(--bg3));
 }
-.cta-box h2 {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(28px, 4vw, 42px);
-  font-weight: 800; line-height: 1.15;
-  letter-spacing: -1px; margin-bottom: 16px;
+.price-popular{
+  position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+  background:var(--v);
+  color:#fff;font-size:11px;font-weight:700;
+  padding:4px 18px;border-radius:20px;
+  white-space:nowrap;
 }
-.cta-box p { font-size: 16px; color: var(--text2); margin-bottom: 36px; line-height: 1.7; }
-.cta-note { font-size: 12px; color: var(--text3); margin-top: 16px; }
+.price-name{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:16px;font-weight:700;margin-bottom:6px;
+}
+.price-desc{font-size:13px;color:var(--text3);margin-bottom:26px;}
+.price-amount{display:flex;align-items:flex-end;gap:3px;margin-bottom:6px;}
+.price-num{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:44px;font-weight:800;line-height:1;
+}
+.price-currency{font-size:20px;font-weight:600;color:var(--text2);margin-bottom:5px;}
+.price-period{font-size:13px;color:var(--text3);margin-bottom:30px;}
+.price-features{display:flex;flex-direction:column;gap:11px;margin-bottom:30px;}
+.price-feature{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--text2);}
+.price-feature::before{content:'✓';color:var(--g);font-weight:700;flex-shrink:0;}
+.price-feature.no{color:var(--text3);}
+.price-feature.no::before{content:'—';color:var(--text3);}
+.price-btn{
+  width:100%;padding:13px;border-radius:10px;
+  font-family:'Figtree',sans-serif;font-size:14px;
+  font-weight:600;cursor:pointer;transition:all .2s;border:none;
+}
+.price-btn-main{background:var(--v);color:#fff;}
+.price-btn-main:hover{background:#6d28d9;transform:translateY(-1px);}
+.price-btn-ghost{background:var(--bg4);color:var(--text2);border:1px solid var(--border2);}
+.price-btn-ghost:hover{background:var(--bg2);color:var(--text);}
 
-/* ===== FOOTER ===== */
-footer {
-  padding: 40px 60px;
-  border-top: 1px solid var(--border);
-  background: var(--bg2);
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 16px;
+/* ─── FAQ ─── */
+.faq{background:var(--bg);}
+.faq-inner{max-width:720px;margin:0 auto;}
+.faq-header{text-align:center;margin-bottom:52px;}
+.faq-list{display:flex;flex-direction:column;}
+.faq-item{
+  border-bottom:1px solid var(--border);
+  padding:22px 0;cursor:pointer;
 }
-.footer-logo { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; }
-.footer-logo span { color: var(--gold); }
-.footer-links { display: flex; gap: 28px; }
-.footer-links a { font-size: 13px; color: var(--text3); text-decoration: none; transition: color .2s; }
-.footer-links a:hover { color: var(--text2); }
-.footer-copy { font-size: 12px; color: var(--text3); }
+.faq-item:first-child{border-top:1px solid var(--border);}
+.faq-q{
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:15px;font-weight:500;color:var(--text);
+  gap:16px;
+}
+.faq-icon{font-size:20px;color:var(--v2);transition:transform .2s;flex-shrink:0;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+.faq-a{font-size:14px;color:var(--text2);line-height:1.75;margin-top:14px;display:none;}
+.faq-item.open .faq-a{display:block;}
 
-/* RESPONSIVE */
-@media (max-width: 900px) {
-  nav { padding: 16px 24px; }
-  .nav-links { display: none; }
-  section { padding: 70px 24px; }
-  .hero { padding: 100px 24px 60px; }
-  .steps-flow { grid-template-columns: 1fr; }
-  .step-card { border-radius: 0; }
-  .step-card:first-child { border-radius: 14px 14px 0 0; }
-  .step-card:last-child { border-radius: 0 0 14px 14px; }
-  .features-grid { grid-template-columns: 1fr; }
-  .pricing-grid { grid-template-columns: 1fr; }
-  .testi-grid { grid-template-columns: 1fr; }
-  .demo-grid { grid-template-columns: 1fr; }
-  footer { flex-direction: column; text-align: center; padding: 32px 24px; }
+/* ─── CTA FINAL ─── */
+.cta-final{
+  padding:110px 64px;
+  background:var(--bg2);
+  text-align:center;
+}
+.cta-box{
+  max-width:720px;margin:0 auto;
+  background:linear-gradient(140deg, rgba(124,58,237,.12), rgba(16,185,129,.04));
+  border:1px solid var(--vb);
+  border-radius:26px;padding:70px 52px;
+  position:relative;overflow:hidden;
+}
+.cta-box::before{
+  content:'';position:absolute;
+  width:400px;height:400px;border-radius:50%;
+  top:-150px;right:-100px;
+  background:radial-gradient(circle, rgba(124,58,237,.10) 0%, transparent 70%);
+  filter:blur(40px);pointer-events:none;
+}
+.cta-box h2{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:clamp(28px,4vw,44px);
+  font-weight:800;line-height:1.12;
+  letter-spacing:-1.2px;margin-bottom:18px;
+}
+.cta-box p{font-size:16px;color:var(--text2);margin-bottom:38px;line-height:1.75;}
+.cta-note{font-size:12px;color:var(--text3);margin-top:18px;}
+
+/* ─── FOOTER ─── */
+footer{
+  padding:40px 64px;
+  border-top:1px solid var(--border);
+  background:var(--bg2);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:16px;
+}
+.footer-logo{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:18px;font-weight:800;color:var(--text);
+}
+.footer-logo em{color:var(--v2);font-style:normal;}
+.footer-links{display:flex;gap:28px;flex-wrap:wrap;}
+.footer-links a{
+  font-size:13px;color:var(--text3);
+  text-decoration:none;transition:color .2s;
+}
+.footer-links a:hover{color:var(--text2);}
+.footer-copy{font-size:12px;color:var(--text3);}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  nav{padding:16px 24px;}
+  .nav-links{display:none;}
+  section{padding:72px 24px;}
+  .hero{padding:110px 24px 64px;}
+  .hero h1{letter-spacing:-1.5px;}
+  .steps-flow{grid-template-columns:1fr;border-radius:14px;}
+  .step-card:not(:last-child){border-right:none;border-bottom:1px solid var(--border);}
+  .features-grid{grid-template-columns:1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
+  .demo-grid{grid-template-columns:1fr;}
+  .cta-box{padding:44px 28px;}
+  footer{flex-direction:column;text-align:center;padding:32px 24px;}
+  .strip{padding:16px 24px;}
 }
 </style>
 </head>
@@ -439,35 +506,40 @@ footer {
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">Lead<span>zia</span></div>
+  <div class="nav-logo">Lead<em>zia</em></div>
   <div class="nav-links">
     <a href="#comment">Comment ça marche</a>
     <a href="#fonctionnalites">Fonctionnalités</a>
     <a href="#tarifs">Tarifs</a>
     <a href="#faq">FAQ</a>
   </div>
-  <button onclick="window.location.href='/crm'" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:9px 20px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;font-weight:500;transition:all .2s;margin-right:8px;" onmouseover="this.style.background='var(--bg4)'" onmouseout="this.style.background='var(--bg3)'">Se connecter</button>
-  <button class="nav-cta" onclick="window.open('https://calendly.com/claragentric-nextstep-agence/30min', '_blank')">Demander une démo →</button>
+  <div class="nav-right">
+    <button class="btn-login" onclick="window.location.href='/crm'">Se connecter</button>
+    <button class="btn-nav" onclick="window.open('https://calendly.com/claragentric-nextstep-agence/30min','_blank')">Demander une démo →</button>
+  </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-bg"></div>
+  <div class="hero-orb"></div>
   <div class="hero-grid"></div>
   <div class="hero-content">
-    <div class="hero-badge"><div class="badge-dot"></div> Agent IA · Qualification automatique 24h/24</div>
+    <div class="hero-badge">
+      <div class="badge-dot"></div>
+      Agent IA · Qualification automatique 24h/24
+    </div>
     <h1>
-      Qualifiez <span class="gold">100%</span> de vos leads<br>
+      Qualifiez <span class="hi">100%</span> de vos leads<br>
       <span class="dim">pendant que vous dormez.</span>
     </h1>
     <p class="hero-sub">
       Votre agent IA répond instantanément à chaque prospect — widget, email ou formulaire — qualifie, score et vous transmet uniquement les leads chauds.
     </p>
     <div class="hero-actions">
-      <button class="btn-main" onclick="window.open('https://calendly.com/claragentric-nextstep-agence/30min', '_blank')">
+      <button class="btn-main" onclick="window.open('https://calendly.com/claragentric-nextstep-agence/30min','_blank')">
         Demander une démo →
       </button>
-      <button class="btn-ghost" onclick="window.open('https://calendly.com/claragentric-nextstep-agence/30min', '_blank')">
+      <button class="btn-ghost" onclick="document.getElementById('tarifs').scrollIntoView({behavior:'smooth'})">
         Voir les tarifs
       </button>
     </div>
@@ -488,12 +560,23 @@ footer {
       </div>
       <div class="hero-stat-sep"></div>
       <div class="hero-stat">
-        <div class="hero-stat-num">3x</div>
+        <div class="hero-stat-num">3×</div>
         <div class="hero-stat-label">Plus de RDV qualifiés</div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- STRIP -->
+<div class="strip">
+  <span class="strip-text">Compatible avec</span>
+  <span class="strip-item">WordPress</span>
+  <span class="strip-item">Webflow</span>
+  <span class="strip-item">Wix</span>
+  <span class="strip-item">Squarespace</span>
+  <span class="strip-item">Shopify</span>
+  <span class="strip-item">Custom HTML</span>
+</div>
 
 <!-- HOW IT WORKS -->
 <section class="how" id="comment">
@@ -509,21 +592,21 @@ footer {
         <div class="step-icon">💬</div>
         <div class="step-title">Le prospect vous contacte</div>
         <div class="step-desc">Via le widget sur votre site, un email à votre adresse contact, ou un formulaire. Votre agent IA répond instantanément, 24h/24, 7j/7.</div>
-        <div class="step-time">⚡ Réponse en 8 secondes</div>
+        <div class="step-badge">⚡ Réponse en 8 secondes</div>
       </div>
       <div class="step-card">
         <div class="step-num">02</div>
         <div class="step-icon">🤖</div>
         <div class="step-title">L'IA qualifie et score</div>
-        <div class="step-desc">En quelques échanges naturels, l'agent collecte budget, secteur, délai, financement — et calcule un score de 0 à 100.</div>
-        <div class="step-time">✓ Score calculé en temps réel</div>
+        <div class="step-desc">En quelques échanges naturels, l'agent collecte projet, secteur et budget — et calcule un score de 0 à 100 en temps réel.</div>
+        <div class="step-badge">✓ Score calculé en temps réel</div>
       </div>
       <div class="step-card">
         <div class="step-num">03</div>
         <div class="step-icon">🔥</div>
         <div class="step-title">Vous recevez les leads chauds</div>
         <div class="step-desc">Une fiche complète arrive dans votre CRM avec toutes les infos. Vous êtes notifié immédiatement pour les leads à fort potentiel.</div>
-        <div class="step-time">📱 Notification instantanée</div>
+        <div class="step-badge">📱 Notification instantanée</div>
       </div>
     </div>
   </div>
@@ -553,7 +636,7 @@ footer {
       <div class="feat-card">
         <div class="feat-icon">🔔</div>
         <div class="feat-title">Alertes leads chauds</div>
-        <div class="feat-desc">Recevez une notification WhatsApp ou Slack dès qu'un lead dépasse le score 70. Ne manquez plus jamais une opportunité.</div>
+        <div class="feat-desc">Recevez une notification dès qu'un lead dépasse le score 70. Ne manquez plus jamais une opportunité à fort potentiel.</div>
       </div>
       <div class="feat-card">
         <div class="feat-icon">🔄</div>
@@ -592,7 +675,7 @@ footer {
           </div>
           <div class="demo-msg user">
             <div class="demo-av u">👤</div>
-            <div class="demo-bubble">Un achat, on cherche quelque chose à Genève</div>
+            <div class="demo-bubble">Un achat, on cherche quelque chose à Paris 16e</div>
           </div>
           <div class="demo-msg bot">
             <div class="demo-av">🏠</div>
@@ -600,7 +683,7 @@ footer {
           </div>
           <div class="demo-msg user">
             <div class="demo-av u">👤</div>
-            <div class="demo-bubble">Entre 800k et 1 million, on a l'accord de notre banque</div>
+            <div class="demo-bubble">Entre 800k et 1M €, on a l'accord de notre banque</div>
           </div>
           <div class="demo-msg bot">
             <div class="demo-av">🏠</div>
@@ -609,17 +692,17 @@ footer {
         </div>
         <div class="demo-col">
           <div class="demo-col-title">📧 Email analysé → réponse auto</div>
-          <div style="background:var(--bg4);border-radius:8px;padding:12px;font-size:12px;color:var(--text2);margin-bottom:10px;">
-            <div style="color:var(--text3);margin-bottom:4px;">De : <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0a7924677f6f66666f784a6965787a246962">[email&#160;protected]</a></div>
-            <div style="color:var(--text3);margin-bottom:8px;">Objet : Recherche villa urgente</div>
-            <div style="color:var(--text2);">"Bonjour, nous cherchons une villa à Cologny, budget 2.5M, fonds disponibles, urgent..."</div>
+          <div style="background:var(--bg4);border-radius:9px;padding:13px;font-size:12px;color:var(--text2);margin-bottom:10px;">
+            <div style="color:var(--text3);margin-bottom:4px;">De : martin.sophie@gmail.com</div>
+            <div style="color:var(--text3);margin-bottom:9px;">Objet : Recherche villa urgente</div>
+            <div style="color:var(--text2);">"Bonjour, nous cherchons une villa en banlieue, budget 1.2M €, fonds disponibles, urgent..."</div>
           </div>
-          <div style="font-size:10px;color:var(--green);margin-bottom:8px;display:flex;align-items:center;gap:5px;">
+          <div style="font-size:10px;color:var(--g);margin-bottom:9px;display:flex;align-items:center;gap:5px;">
             <span>⚡</span> Analysé en 8 secondes · Réponse envoyée
           </div>
-          <div style="background:var(--bg4);border-radius:8px;padding:12px;font-size:12px;color:var(--text2);">
-            <div style="color:var(--text3);margin-bottom:4px;">De : <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bdced2dbd4dcfdcbd2c9cfd890dcdad8d3ded893ded2d0">[email&#160;protected]</a></div>
-            <div style="color:var(--text3);margin-bottom:8px;">Objet : Re: Votre recherche villa Cologny</div>
+          <div style="background:var(--bg4);border-radius:9px;padding:13px;font-size:12px;color:var(--text2);">
+            <div style="color:var(--text3);margin-bottom:4px;">De : contact@votreagence.fr</div>
+            <div style="color:var(--text3);margin-bottom:9px;">Objet : Re: Votre recherche villa</div>
             <div style="color:var(--text2);">"Bonjour Sophie, votre projet correspond exactement à notre sélection du moment. Je vous propose un RDV cette semaine..."</div>
           </div>
         </div>
@@ -629,57 +712,12 @@ footer {
             <div class="demo-score-num">91</div>
             <div class="demo-score-label">Score de qualification</div>
           </div>
-          <div class="demo-field"><span class="demo-field-k">Projet</span><span class="demo-field-v">Achat villa</span></div>
-          <div class="demo-field"><span class="demo-field-k">Budget</span><span class="demo-field-v">800k–1M CHF</span></div>
-          <div class="demo-field"><span class="demo-field-k">Secteur</span><span class="demo-field-v">Genève</span></div>
+          <div class="demo-field"><span class="demo-field-k">Projet</span><span class="demo-field-v">Achat appartement</span></div>
+          <div class="demo-field"><span class="demo-field-k">Budget</span><span class="demo-field-v">800k – 1M €</span></div>
+          <div class="demo-field"><span class="demo-field-k">Secteur</span><span class="demo-field-v">Paris 16e</span></div>
           <div class="demo-field"><span class="demo-field-k">Financement</span><span class="demo-field-v">Accord bancaire</span></div>
           <div class="demo-field"><span class="demo-field-k">Délai</span><span class="demo-field-v">3 mois</span></div>
           <div class="demo-tag">🔥 Lead Chaud — Priorité haute</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section class="testimonials">
-  <div class="testimonials-inner">
-    <div class="testimonials-header">
-      <div class="section-tag">Témoignages</div>
-      <h2 class="section-title">Ce que disent nos clients</h2>
-    </div>
-    <div class="testi-grid">
-      <div class="testi-card">
-        <div class="testi-stars">★★★★★</div>
-        <div class="testi-text">"On recevait 40 leads par mois et on en traitait peut-être 10. Maintenant l'agent qualifie tout automatiquement. On a doublé nos RDV en 6 semaines."</div>
-        <div class="testi-author">
-          <div class="testi-av" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8)">ML</div>
-          <div>
-            <div class="testi-name">Marc Laurent</div>
-            <div class="testi-role">Directeur · Agence Laurent Immobilier, Genève</div>
-          </div>
-        </div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-stars">★★★★★</div>
-        <div class="testi-text">"La fonctionnalité email m'a bluffée. Un prospect envoie un message vague à 23h, l'IA répond professionnellement en 10 secondes. Le client était convaincu dès le lendemain."</div>
-        <div class="testi-author">
-          <div class="testi-av" style="background:linear-gradient(135deg,#ec4899,#9333ea)">SR</div>
-          <div>
-            <div class="testi-name">Sophie Roux</div>
-            <div class="testi-role">Fondatrice · SR Prestige, Lausanne</div>
-          </div>
-        </div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-stars">★★★★★</div>
-        <div class="testi-text">"En tant que réseau de 12 agences, le multi-tenant nous permet de tout centraliser. Chaque agence voit ses leads, moi je vois tout. C'est exactement ce dont on avait besoin."</div>
-        <div class="testi-author">
-          <div class="testi-av" style="background:linear-gradient(135deg,#22c55e,#15803d)">PD</div>
-          <div>
-            <div class="testi-name">Pierre Dubois</div>
-            <div class="testi-role">CEO · Réseau ImmoPro, France</div>
-          </div>
         </div>
       </div>
     </div>
@@ -695,11 +733,12 @@ footer {
       <p class="section-sub">Mise en place personnalisée selon votre agence. Sans engagement.</p>
     </div>
     <div class="pricing-grid">
+      <!-- STARTER -->
       <div class="price-card">
         <div class="price-name">Starter</div>
         <div class="price-desc">Pour démarrer simplement</div>
         <div class="price-amount">
-          <span class="price-currency">CHF</span>
+          <span class="price-currency">€</span>
           <span class="price-num">149</span>
         </div>
         <div class="price-period">par mois · sans engagement</div>
@@ -712,14 +751,15 @@ footer {
           <div class="price-feature no">Relance automatique</div>
           <div class="price-feature no">Notifications WhatsApp</div>
         </div>
-        <button class="price-btn price-btn-ghost">Analyser mon besoin →</button>
+        <button class="price-btn price-btn-ghost" onclick="window.open('https://calendly.com/claragentric-nextstep-agence/30min','_blank')">Analyser mon besoin →</button>
       </div>
+      <!-- PRO -->
       <div class="price-card featured">
         <div class="price-popular">⭐ Le plus populaire</div>
         <div class="price-name">Pro</div>
         <div class="price-desc">Le plus choisi par nos clients</div>
         <div class="price-amount">
-          <span class="price-currency">CHF</span>
+          <span class="price-currency">€</span>
           <span class="price-num">299</span>
         </div>
         <div class="price-period">par mois · sans engagement</div>
@@ -732,13 +772,14 @@ footer {
           <div class="price-feature">Notifications WhatsApp</div>
           <div class="price-feature no">Multi-agences</div>
         </div>
-        <button class="price-btn price-btn-main">Demander une démo →</button>
+        <button class="price-btn price-btn-main" onclick="window.open('https://calendly.com/claragentric-nextstep-agence/30min','_blank')">Demander une démo →</button>
       </div>
+      <!-- AGENCE -->
       <div class="price-card">
         <div class="price-name">Agence</div>
         <div class="price-desc">Pour les réseaux et franchises</div>
         <div class="price-amount">
-          <span class="price-currency">CHF</span>
+          <span class="price-currency">€</span>
           <span class="price-num">499</span>
         </div>
         <div class="price-period">par mois · sans engagement</div>
@@ -751,7 +792,7 @@ footer {
           <div class="price-feature">Support prioritaire</div>
           <div class="price-feature">Formation équipe incluse</div>
         </div>
-        <button class="price-btn price-btn-ghost">Étudier mon projet →</button>
+        <button class="price-btn price-btn-ghost" onclick="window.open('https://calendly.com/claragentric-nextstep-agence/30min','_blank')">Étudier mon projet →</button>
       </div>
     </div>
   </div>
@@ -771,7 +812,7 @@ footer {
       </div>
       <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-q">Comment fonctionne la qualification par email ? <span class="faq-icon">+</span></div>
-        <div class="faq-a">Vous nous donnez accès à votre adresse email de contact (ex: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="17747879637674635761786365723a7670727974723974787a">[email&#160;protected]</a>). Chaque email reçu est automatiquement analysé par l'IA qui extrait les informations, calcule un score et envoie une réponse professionnelle au prospect — le tout en moins de 10 secondes.</div>
+        <div class="faq-a">Vous nous donnez accès à votre adresse email de contact (ex : contact@votreagence.fr). Chaque email reçu est automatiquement analysé par l'IA qui extrait les informations, calcule un score et envoie une réponse professionnelle au prospect — le tout en moins de 10 secondes.</div>
       </div>
       <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-q">Mes données sont-elles sécurisées ? <span class="faq-icon">+</span></div>
@@ -779,7 +820,7 @@ footer {
       </div>
       <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-q">Puis-je personnaliser le nom et l'apparence de l'agent ? <span class="faq-icon">+</span></div>
-        <div class="faq-a">Absolument. Vous choisissez le nom de l'agent (Sofia, Julie, Marc...), la couleur du widget, et le style de communication. Le plan Agence permet même de supprimer notre marque et d'afficher uniquement la vôtre.</div>
+        <div class="faq-a">Absolument. Vous choisissez le nom de l'agent (Sofia, Julie, Marc…), la couleur du widget, et le style de communication. Le plan Agence permet même de supprimer notre marque et d'afficher uniquement la vôtre.</div>
       </div>
       <div class="faq-item" onclick="toggleFaq(this)">
         <div class="faq-q">Que se passe-t-il si je dépasse mon quota de leads ? <span class="faq-icon">+</span></div>
@@ -798,7 +839,7 @@ footer {
   <div class="cta-box">
     <h2>Prêt à ne plus manquer<br>un seul lead chaud ?</h2>
     <p>Réservez un appel de 30 minutes. On vous montre l'outil en direct et on répond à toutes vos questions.</p>
-    <button class="btn-main" style="margin:0 auto;" onclick="window.open('https://calendly.com/claragentric-nextstep-agence/30min', '_blank')">
+    <button class="btn-main" style="margin:0 auto;" onclick="window.open('https://calendly.com/claragentric-nextstep-agence/30min','_blank')">
       Réserver mon appel découverte →
     </button>
     <div class="cta-note">⏱ Appel de 30 min · Sans engagement · On vous montre tout en live</div>
@@ -807,8 +848,22 @@ footer {
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">Lead<span>zia</span></div>
+  <div class="footer-logo">Lead<em>zia</em></div>
   <div class="footer-links">
     <a href="#">Mentions légales</a>
     <a href="#">CGV</a>
- 
+    <a href="#">Politique de confidentialité</a>
+    <a href="mailto:contact@leadzia.fr">Contact</a>
+  </div>
+  <div class="footer-copy">© 2025 Leadzia — Tous droits réservés</div>
+</footer>
+
+<script>
+function toggleFaq(el){
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if(!isOpen) el.classList.add('open');
+}
+</script>
+</body>
+</html>

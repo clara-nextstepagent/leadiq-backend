@@ -88,7 +88,7 @@ Tag : chaud si score >= 70, tiede si score entre 40 et 69, froid si score < 40`;
         "anthropic-version": "2023-06-01"
       },
       body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
+       model: "claude-sonnet-4-6",
         max_tokens: 500,
         system: systemPrompt,
         messages

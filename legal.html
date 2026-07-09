@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leadzia — Documents légaux</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--white:#0e1117;--black:#f0ede8;--gray:#1e2330;--blue:#1C4ED8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:#0e1117;color:#f0ede8;}
+nav{padding:18px 48px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--gray);background:#0e1117;}
+.nav-logo{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;}
+.nav-logo span{color:var(--blue);}
+.nav-back{font-size:13px;color:var(--blue);text-decoration:none;}
+.tabs{display:flex;border-bottom:1px solid var(--gray);padding:0 48px;background:#0e1117;position:sticky;top:0;z-index:10;}
+.tab{padding:16px 24px;font-size:13px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;color:#4e5668;}
+.tab.active{color:#f0ede8;border-bottom-color:#f0ede8;}
+.section{display:none;padding:60px 48px;max-width:800px;margin:0 auto;}
+.section.active{display:block;}
+h1{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;letter-spacing:-1px;margin-bottom:8px;}
+.subtitle{font-size:13px;color:#4e5668;margin-bottom:48px;}
+h2{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:16px;margin-top:40px;}
+h2:first-of-type{margin-top:0;}
+p{font-size:14px;line-height:1.8;color:#8b93a8;margin-bottom:16px;font-weight:300;}
+ul{margin-left:20px;margin-bottom:16px;}
+li{font-size:14px;line-height:1.8;color:#8b93a8;font-weight:300;margin-bottom:6px;}
+.info-box{background:#161b26;border:1px solid #1e2330;padding:20px 24px;margin-bottom:16px;}
+.info-row{display:flex;gap:16px;margin-bottom:8px;font-size:14px;}
+.info-key{font-weight:500;min-width:200px;}
+.info-val{color:#8b93a8;font-weight:300;}
+.alert{background:#FFF3CD;border-left:3px solid #F59E0B;padding:16px 20px;margin-bottom:24px;font-size:13px;color:#f0ede8;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Lead<span>zia</span></div>
+  <a class="nav-back" href="/">← Retour au site</a>
+</nav>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('mentions')">Mentions légales</div>
+  <div class="tab" onclick="showTab('cgv')">CGV</div>
+  <div class="tab" onclick="showTab('rgpd')">Politique de confidentialité</div>
+</div>
+
+<!-- MENTIONS LÉGALES -->
+<div class="section active" id="mentions">
+  <h1>Mentions légales</h1>
+  <div class="subtitle">Dernière mise à jour : juillet 2026</div>
+
+  
+
+  <h2>Éditeur du site</h2>
+  <div class="info-box">
+    <div class="info-row"><span class="info-key">Raison sociale</span><span class="info-val">NextStep Agence</span></div>
+    <div class="info-row"><span class="info-key">Forme juridique</span><span class="info-val">Entreprise individuelle (Suisse)</span></div>
+    <div class="info-row"><span class="info-key">Numéro IDE</span><span class="info-val">CHE-441.536.056</span></div>
+    <div class="info-row"><span class="info-key">Siège social</span><span class="info-val">Nyon, Vaud, Suisse</span></div>
+    <div class="info-row"><span class="info-key">Email</span><span class="info-val">contact@nextstep-agence.com</span></div>
+    <div class="info-row"><span class="info-key">Directrice de publication</span><span class="info-val">Clara [Nom de famille]</span></div>
+  </div>
+
+  <h2>Hébergement</h2>
+  <div class="info-box">
+    <div class="info-row"><span class="info-key">Hébergeur</span><span class="info-val">Vercel Inc.</span></div>
+    <div class="info-row"><span class="info-key">Adresse</span><span class="info-val">340 Pine Street, Suite 701, San Francisco, CA 94104, USA</span></div>
+    <div class="info-row"><span class="info-key">Site</span><span class="info-val">vercel.com</span></div>
+  </div>
+
+  <h2>Propriété intellectuelle</h2>
+  <p>L'ensemble du contenu du site leadzia.io (textes, images, logos, graphismes, code) est la propriété exclusive de NextStep Agence et est protégé par les lois suisses et internationales sur la propriété intellectuelle.</p>
+  <p>Toute reproduction, représentation, modification ou exploitation partielle ou totale du contenu est strictement interdite sans autorisation préalable écrite de NextStep Agence.</p>
+
+  <h2>Limitation de responsabilité</h2>
+  <p>NextStep Agence s'efforce de maintenir le service Leadzia accessible et fonctionnel en permanence. Cependant, nous ne pouvons garantir une disponibilité ininterrompue et ne saurions être tenus responsables des interruptions de service, pertes de données ou dommages résultant de l'utilisation du service.</p>
+
+  <h2>Droit applicable</h2>
+  <p>Les présentes mentions légales sont régies par le droit suisse. En cas de litige, les tribunaux compétents seront ceux du canton de Vaud, Suisse.</p>
+</div>
+
+<!-- CGV -->
+<div class="section" id="cgv">
+  <h1>Conditions Générales de Vente</h1>
+  <div class="subtitle">Dernière mise à jour : juillet 2026</div>
+
+  
+
+  <h2>Article 1 — Objet</h2>
+  <p>Les présentes Conditions Générales de Vente (CGV) régissent les relations contractuelles entre NextStep Agence (ci-après "Leadzia") et toute personne physique ou morale (ci-après "le Client") souscrivant aux services de la plateforme Leadzia accessible sur leadzia.io.</p>
+
+  <h2>Article 2 — Services proposés</h2>
+  <p>Leadzia propose un service de qualification automatique de leads immobiliers par intelligence artificielle, comprenant :</p>
+  <ul>
+    <li>Un agent IA conversationnel (Sofia) pour qualifier les prospects</li>
+    <li>Un CRM de gestion des leads qualifiés</li>
+    <li>Des notifications en temps réel pour les leads à fort potentiel</li>
+    <li>Des rapports et statistiques de performance</li>
+  </ul>
+
+  <h2>Article 3 — Offres et tarifs</h2>
+  <p>Les tarifs sont les suivants (hors taxes) :</p>
+  <div class="info-box">
+    <div class="info-row"><span class="info-key">Starter</span><span class="info-val">200 € / mois — jusqu'à 100 leads qualifiés</span></div>
+    <div class="info-row"><span class="info-key">Pro</span><span class="info-val">350 € / mois — jusqu'à 500 leads qualifiés</span></div>
+    <div class="info-row"><span class="info-key">Agence</span><span class="info-val">590 € / mois — leads illimités, multi-agences</span></div>
+  </div>
+  <p>Les tarifs sont susceptibles d'évoluer. Tout changement de tarif sera notifié au Client avec un préavis d'un mois.</p>
+
+  <h2>Article 4 — Durée et résiliation</h2>
+  <p>Les abonnements sont souscrits sans engagement de durée minimale, renouvelables chaque mois par tacite reconduction.</p>
+  <p>Le Client peut résilier son abonnement à tout moment, avec un préavis de 30 jours avant la prochaine échéance de facturation. La résiliation prend effet à la fin de la période en cours.</p>
+  <p>Leadzia se réserve le droit de résilier le contrat en cas de non-paiement ou de violation des présentes CGV, après mise en demeure restée sans effet sous 15 jours.</p>
+
+  <h2>Article 5 — Facturation et paiement</h2>
+  <p>La facturation est mensuelle, en début de période. Le paiement s'effectue par virement bancaire ou carte bancaire selon les modalités convenues lors de la souscription.</p>
+  <p>En cas de retard de paiement, des pénalités de retard égales à 3 fois le taux d'intérêt légal pourront être appliquées, ainsi qu'une indemnité forfaitaire de 40 € pour frais de recouvrement.</p>
+
+  <h2>Article 6 — Obligations du client</h2>
+  <p>Le Client s'engage à :</p>
+  <ul>
+    <li>Utiliser le service conformément aux présentes CGV et à la législation en vigueur</li>
+    <li>Ne pas tenter de détourner, pirater ou nuire au bon fonctionnement du service</li>
+    <li>Informer ses prospects de l'utilisation d'un agent IA dans le cadre du RGPD</li>
+    <li>Maintenir la confidentialité de ses identifiants de connexion</li>
+  </ul>
+
+  <h2>Article 7 — Données personnelles</h2>
+  <p>Dans le cadre de l'utilisation du service, Leadzia traite des données personnelles pour le compte du Client. Leadzia agit en tant que sous-traitant au sens du RGPD. Le Client reste responsable de traitement vis-à-vis de ses propres clients (prospects).</p>
+  <p>Leadzia s'engage à traiter ces données uniquement dans le cadre de l'exécution du service et à ne pas les utiliser à d'autres fins.</p>
+
+  <h2>Article 8 — Limitation de responsabilité</h2>
+  <p>Leadzia s'engage à mettre en œuvre tous les moyens raisonnables pour assurer la disponibilité et la performance du service. Cependant, Leadzia ne saurait être tenu responsable :</p>
+  <ul>
+    <li>Des interruptions de service dues à des maintenances ou cas de force majeure</li>
+    <li>De la qualité des leads générés, qui dépend des informations fournies par les prospects</li>
+    <li>Des pertes de revenus ou d'opportunités commerciales du Client</li>
+  </ul>
+  <p>La responsabilité de Leadzia est limitée au montant des sommes versées par le Client au cours des 3 derniers mois.</p>
+
+  <h2>Article 9 — Confidentialité</h2>
+  <p>Chaque partie s'engage à maintenir strictement confidentielle toute information reçue de l'autre partie dans le cadre de l'exécution du présent contrat, pendant la durée du contrat et pour une période de 2 ans après sa résiliation.</p>
+
+  <h2>Article 10 — Droit applicable et litiges</h2>
+  <p>Les présentes CGV sont soumises au droit suisse. En cas de litige, les parties s'efforceront de trouver une solution amiable. À défaut, les tribunaux compétents du canton de Vaud (Suisse) seront seuls compétents.</p>
+</div>
+
+<!-- POLITIQUE DE CONFIDENTIALITÉ -->
+<div class="section" id="rgpd">
+  <h1>Politique de confidentialité</h1>
+  <div class="subtitle">Dernière mise à jour : juillet 2026</div>
+
+  
+
+  <h2>1. Responsable du traitement</h2>
+  <div class="info-box">
+    <div class="info-row"><span class="info-key">Responsable</span><span class="info-val">NextStep Agence</span></div>
+    <div class="info-row"><span class="info-key">Numéro IDE</span><span class="info-val">CHE-441.536.056</span></div>
+    <div class="info-row"><span class="info-key">Contact</span><span class="info-val">contact@nextstep-agence.com</span></div>
+  </div>
+
+  <h2>2. Données collectées</h2>
+  <p>Dans le cadre de l'utilisation du service Leadzia, nous collectons les données suivantes :</p>
+  <p><strong>Données des clients (agences) :</strong></p>
+  <ul>
+    <li>Nom, prénom, adresse email, numéro de téléphone</li>
+    <li>Informations de facturation</li>
+    <li>Données de connexion et d'utilisation du service</li>
+  </ul>
+  <p><strong>Données des prospects (leads) :</strong></p>
+  <ul>
+    <li>Nom, prénom, adresse email, numéro de téléphone</li>
+    <li>Informations sur le projet immobilier (budget, secteur, délai)</li>
+    <li>Historique des conversations avec l'agent IA Sofia</li>
+  </ul>
+
+  <h2>3. Finalités et bases légales</h2>
+  <div class="info-box">
+    <div class="info-row"><span class="info-key">Fourniture du service</span><span class="info-val">Exécution du contrat</span></div>
+    <div class="info-row"><span class="info-key">Facturation</span><span class="info-val">Obligation légale</span></div>
+    <div class="info-row"><span class="info-key">Qualification des leads</span><span class="info-val">Intérêt légitime du client (agence)</span></div>
+    <div class="info-row"><span class="info-key">Amélioration du service</span><span class="info-val">Intérêt légitime de Leadzia</span></div>
+  </div>
+
+  <h2>4. Durée de conservation</h2>
+  <ul>
+    <li>Données clients : durée du contrat + 3 ans</li>
+    <li>Données de leads : 2 ans à compter de la collecte</li>
+    <li>Données de facturation : 10 ans (obligation comptable)</li>
+  </ul>
+
+  <h2>5. Destinataires des données</h2>
+  <p>Les données sont accessibles aux sous-traitants techniques de Leadzia :</p>
+  <ul>
+    <li><strong>Supabase</strong> (hébergement base de données) — USA/EU</li>
+    <li><strong>Vercel</strong> (hébergement serveurs) — USA/EU</li>
+    <li><strong>Anthropic</strong> (traitement IA des conversations) — USA</li>
+  </ul>
+  <p>Ces sous-traitants sont soumis à des engagements contractuels conformes au RGPD.</p>
+
+  <h2>6. Vos droits</h2>
+  <p>Conformément au RGPD, vous disposez des droits suivants :</p>
+  <ul>
+    <li><strong>Droit d'accès</strong> — obtenir une copie de vos données</li>
+    <li><strong>Droit de rectification</strong> — corriger des données inexactes</li>
+    <li><strong>Droit à l'effacement</strong> — demander la suppression de vos données</li>
+    <li><strong>Droit à la portabilité</strong> — recevoir vos données dans un format structuré</li>
+    <li><strong>Droit d'opposition</strong> — vous opposer à certains traitements</li>
+  </ul>
+  <p>Pour exercer ces droits, contactez-nous à : <strong>contact@nextstep-agence.com</strong></p>
+  <p>Vous pouvez également introduire une réclamation auprès de l'autorité de contrôle compétente (CNIL en France, PFPDT en Suisse).</p>
+
+  <h2>7. Cookies</h2>
+  <p>Le site leadzia.io utilise uniquement des cookies techniques nécessaires au fonctionnement du service (session de connexion). Aucun cookie publicitaire ou de traçage n'est utilisé.</p>
+
+  <h2>8. Sécurité</h2>
+  <p>Leadzia met en œuvre des mesures de sécurité adaptées pour protéger vos données : chiffrement SSL, authentification sécurisée, accès restreint aux données selon le principe du moindre privilège.</p>
+
+  <h2>9. Contact</h2>
+  <p>Pour toute question relative à la protection de vos données : <strong>contact@nextstep-agence.com</strong></p>
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>

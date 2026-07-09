@@ -1,642 +1,257 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leadzia — Qualification de leads immobiliers 24h/24</title>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Figtree:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#080a0f;--bg2:#0f1219;--bg3:#161b25;--bg4:#1d2433;
-  --v:#2563eb;--v2:#60a5fa;--v3:#93c5fd;
-  --vd:rgba(37,99,235,0.10);--vb:rgba(37,99,235,0.28);
-  --g:#10b981;--gd:rgba(16,185,129,0.10);
-  --text:#f0ede8;--text2:#8b93a8;--text3:#4a5168;
-  --border:rgba(255,255,255,0.055);--border2:rgba(255,255,255,0.10);
-}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Figtree',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.7;-webkit-font-smoothing:antialiased}
-
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 64px;background:rgba(8,10,15,0.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
-.nav-logo{font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:800;letter-spacing:-.5px;color:var(--text)}
-.nav-logo em{color:var(--v2);font-style:normal}
-.nav-links{display:flex;align-items:center;gap:36px}
-.nav-links a{text-decoration:none;color:var(--text2);font-size:14px;transition:color .2s}
-.nav-links a:hover{color:var(--text)}
-.nav-right{display:flex;align-items:center;gap:10px}
-.btn-login{background:none;border:1px solid var(--border2);padding:9px 20px;border-radius:8px;color:var(--text2);font-family:'Figtree',sans-serif;font-size:14px;cursor:pointer;transition:all .2s}
-.btn-login:hover{background:var(--bg3);color:var(--text)}
-.btn-nav{background:var(--v);border:none;padding:10px 22px;border-radius:8px;color:#fff;font-family:'Figtree',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
-.btn-nav:hover{background:#1d4ed8;box-shadow:0 4px 20px rgba(37,99,235,.35)}
-
-/* HERO */
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:130px 60px 90px;position:relative;overflow:hidden}
-.hero-orb{position:absolute;inset:0;z-index:0;pointer-events:none}
-.hero-orb::before{content:'';position:absolute;width:700px;height:700px;border-radius:50%;top:-200px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 70%);filter:blur(60px)}
-.hero-orb::after{content:'';position:absolute;width:400px;height:400px;border-radius:50%;bottom:0;right:10%;background:radial-gradient(circle,rgba(16,185,129,.07) 0%,transparent 70%);filter:blur(40px)}
-.hero-grid{position:absolute;inset:0;opacity:.018;background-image:linear-gradient(rgba(255,255,255,.8) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.8) 1px,transparent 1px);background-size:56px 56px}
-.hero-content{position:relative;z-index:2;max-width:900px;margin:0 auto}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--vd);border:1px solid var(--vb);border-radius:40px;padding:7px 20px;font-size:11px;color:var(--v3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:36px;animation:fadeDown .6s ease both}
-.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--v2);animation:pulse 1.8s infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(1.4)}}
-@keyframes fadeDown{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-.hero h1{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(44px,6.5vw,82px);font-weight:800;line-height:1.06;letter-spacing:-2.5px;margin-bottom:30px;animation:fadeUp .7s .1s ease both}
-.hero h1 .hi{color:var(--v2)}
-.hero h1 .dim{color:var(--text3)}
-.hero-sub{font-size:18px;color:var(--text2);max-width:600px;margin:0 auto 48px;line-height:1.75;animation:fadeUp .7s .2s ease both}
-.hero-actions{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:64px;animation:fadeUp .7s .3s ease both}
-.btn-main{display:inline-flex;align-items:center;gap:8px;background:var(--v);border:none;padding:16px 34px;border-radius:10px;color:#fff;font-family:'Figtree',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .22s}
-.btn-main:hover{background:#1d4ed8;transform:translateY(-2px);box-shadow:0 8px 32px rgba(37,99,235,.35)}
-.btn-ghost{display:inline-flex;align-items:center;gap:8px;background:none;border:1px solid var(--border2);padding:16px 34px;border-radius:10px;color:var(--text2);font-family:'Figtree',sans-serif;font-size:15px;cursor:pointer;transition:all .22s}
-.btn-ghost:hover{background:var(--bg3);color:var(--text)}
-.hero-stats{display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap;animation:fadeUp .7s .4s ease both}
-.hero-stat{text-align:center}
-.hero-stat-num{font-family:'Bricolage Grotesque',sans-serif;font-size:30px;font-weight:800;color:var(--v2);line-height:1}
-.hero-stat-label{font-size:12px;color:var(--text3);margin-top:5px}
-.hero-stat-sep{width:1px;height:38px;background:var(--border2)}
-
-/* STRIP */
-.strip{padding:18px 64px;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:10px 32px;flex-wrap:wrap}
-.strip-text{font-size:12px;color:var(--text3);letter-spacing:.5px}
-.strip-item{font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:600;color:var(--text3);opacity:.45;letter-spacing:.3px}
-
-/* SHARED */
-section{padding:110px 64px}
-.section-tag{font-size:11px;text-transform:uppercase;letter-spacing:3px;color:var(--v2);margin-bottom:12px;font-weight:500}
-.section-title{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(28px,4vw,46px);font-weight:800;line-height:1.13;letter-spacing:-1.2px;margin-bottom:16px}
-.section-sub{font-size:16px;color:var(--text2);max-width:560px;line-height:1.75}
-
-/* HOW */
-.how{background:var(--bg)}
-.how-inner{max-width:1100px;margin:0 auto}
-.how-header{text-align:center;margin-bottom:72px}
-.how-header .section-sub{margin:0 auto}
-.steps-flow{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;border-radius:16px;overflow:hidden;border:1px solid var(--border)}
-.step-card{background:var(--bg2);padding:40px 34px;position:relative;transition:background .2s}
-.step-card:not(:last-child){border-right:1px solid var(--border)}
-.step-card:hover{background:var(--bg3)}
-.step-num{font-family:'Bricolage Grotesque',sans-serif;font-size:52px;font-weight:800;color:var(--vb);line-height:1;margin-bottom:20px}
-.step-icon{font-size:28px;margin-bottom:14px}
-.step-title{font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:700;margin-bottom:10px}
-.step-desc{font-size:14px;color:var(--text2);line-height:1.75}
-.step-badge{display:inline-flex;align-items:center;gap:5px;margin-top:18px;background:var(--gd);border:1px solid rgba(16,185,129,.2);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--g);font-weight:500}
-
-/* FEATURES */
-.features{background:var(--bg2)}
-.features-inner{max-width:1100px;margin:0 auto}
-.features-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:60px}
-.feat-card{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:30px;transition:all .22s}
-.feat-card:hover{border-color:var(--vb);transform:translateY(-4px)}
-.feat-icon{width:46px;height:46px;border-radius:11px;background:var(--vd);border:1px solid var(--vb);display:flex;align-items:center;justify-content:center;font-size:21px;margin-bottom:20px}
-.feat-title{font-family:'Bricolage Grotesque',sans-serif;font-size:16px;font-weight:700;margin-bottom:10px}
-.feat-desc{font-size:13px;color:var(--text2);line-height:1.75}
-
-/* DEMO */
-.demo{background:var(--bg)}
-.demo-inner{max-width:1100px;margin:0 auto}
-.demo-header{margin-bottom:52px}
-.demo-window{background:var(--bg2);border:1px solid var(--border2);border-radius:18px;overflow:hidden;box-shadow:0 32px 90px rgba(0,0,0,.55)}
-.demo-topbar{padding:14px 20px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
-.demo-dot{width:12px;height:12px;border-radius:50%}
-.demo-grid{display:grid;grid-template-columns:1fr 1fr 280px;min-height:340px}
-.demo-col{padding:22px;border-right:1px solid var(--border)}
-.demo-col:last-child{border-right:none}
-.demo-col-title{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--v2);margin-bottom:16px;font-weight:500}
-.demo-msg{display:flex;gap:8px;margin-bottom:10px}
-.demo-msg.user{flex-direction:row-reverse}
-.demo-av{width:24px;height:24px;border-radius:50%;background:var(--v);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
-.demo-av.u{background:rgba(255,255,255,.08)}
-.demo-bubble{padding:9px 12px;border-radius:10px;font-size:12px;line-height:1.55;max-width:80%}
-.demo-msg.bot .demo-bubble{background:var(--bg4);color:var(--text);border-bottom-left-radius:2px}
-.demo-msg.user .demo-bubble{background:var(--v);color:#fff;font-weight:500;border-bottom-right-radius:2px}
-.demo-score{text-align:center;margin-bottom:18px}
-.demo-score-num{font-family:'Bricolage Grotesque',sans-serif;font-size:42px;font-weight:800;color:var(--g)}
-.demo-score-label{font-size:11px;color:var(--text3)}
-.demo-field{display:flex;justify-content:space-between;padding:6px 9px;background:var(--bg4);border-radius:7px;font-size:11px;margin-bottom:5px}
-.demo-field-k{color:var(--text3)}
-.demo-field-v{color:var(--text);font-weight:500}
-.demo-tag{display:inline-block;padding:3px 11px;border-radius:8px;font-size:10px;font-weight:700;background:rgba(16,185,129,.12);color:var(--g);border:1px solid rgba(16,185,129,.2);margin-top:9px}
-
-/* PRICING */
-.pricing{background:var(--bg2)}
-.pricing-inner{max-width:1020px;margin:0 auto}
-.pricing-header{text-align:center;margin-bottom:60px}
-.pricing-header .section-sub{margin:0 auto}
-.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.price-card{background:var(--bg3);border:1px solid var(--border);border-radius:18px;padding:34px 30px;position:relative;transition:all .22s}
-.price-card:hover{border-color:var(--border2);transform:translateY(-4px)}
-.price-card.featured{border-color:var(--vb);background:linear-gradient(160deg,rgba(37,99,235,.09),var(--bg3))}
-.price-popular{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--v);color:#fff;font-size:11px;font-weight:700;padding:4px 18px;border-radius:20px;white-space:nowrap}
-.price-name{font-family:'Bricolage Grotesque',sans-serif;font-size:16px;font-weight:700;margin-bottom:6px}
-.price-desc{font-size:13px;color:var(--text3);margin-bottom:26px}
-.price-amount{display:flex;align-items:flex-end;gap:3px;margin-bottom:6px}
-.price-num{font-family:'Bricolage Grotesque',sans-serif;font-size:44px;font-weight:800;line-height:1}
-.price-currency{font-size:20px;font-weight:600;color:var(--text2);margin-bottom:5px}
-.price-period{font-size:13px;color:var(--text3);margin-bottom:30px}
-.price-features{display:flex;flex-direction:column;gap:11px;margin-bottom:30px}
-.price-feature{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--text2)}
-.price-feature::before{content:'✓';color:var(--g);font-weight:700;flex-shrink:0}
-.price-feature.no{color:var(--text3)}
-.price-feature.no::before{content:'—';color:var(--text3)}
-.price-btn{width:100%;padding:13px;border-radius:10px;font-family:'Figtree',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;border:none}
-.price-btn-main{background:var(--v);color:#fff}
-.price-btn-main:hover{background:#1d4ed8;transform:translateY(-1px)}
-.price-btn-ghost{background:var(--bg4);color:var(--text2);border:1px solid var(--border2)}
-.price-btn-ghost:hover{background:var(--bg2);color:var(--text)}
-
-/* FAQ */
-.faq{background:var(--bg)}
-.faq-inner{max-width:720px;margin:0 auto}
-.faq-header{text-align:center;margin-bottom:52px}
-.faq-list{display:flex;flex-direction:column}
-.faq-item{border-bottom:1px solid var(--border);padding:22px 0;cursor:pointer}
-.faq-item:first-child{border-top:1px solid var(--border)}
-.faq-q{display:flex;align-items:center;justify-content:space-between;font-size:15px;font-weight:500;color:var(--text);gap:16px}
-.faq-icon{font-size:20px;color:var(--v2);transition:transform .2s;flex-shrink:0}
-.faq-item.open .faq-icon{transform:rotate(45deg)}
-.faq-a{font-size:14px;color:var(--text2);line-height:1.75;margin-top:14px;display:none}
-.faq-item.open .faq-a{display:block}
-
-/* CTA */
-.cta-final{padding:110px 64px;background:var(--bg2);text-align:center}
-.cta-box{max-width:720px;margin:0 auto;background:linear-gradient(140deg,rgba(37,99,235,.12),rgba(16,185,129,.04));border:1px solid var(--vb);border-radius:26px;padding:70px 52px;position:relative;overflow:hidden}
-.cta-box::before{content:'';position:absolute;width:400px;height:400px;border-radius:50%;top:-150px;right:-100px;background:radial-gradient(circle,rgba(37,99,235,.10) 0%,transparent 70%);filter:blur(40px);pointer-events:none}
-.cta-box h2{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:800;line-height:1.12;letter-spacing:-1.2px;margin-bottom:18px}
-.cta-box p{font-size:16px;color:var(--text2);margin-bottom:38px;line-height:1.75}
-.cta-note{font-size:12px;color:var(--text3);margin-top:18px}
-
-/* FOOTER */
-footer{padding:40px 64px;border-top:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
-.footer-logo{font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:800;color:var(--text)}
-.footer-logo em{color:var(--v2);font-style:normal}
-.footer-links{display:flex;gap:28px;flex-wrap:wrap}
-.footer-links a{font-size:13px;color:var(--text3);text-decoration:none;transition:color .2s}
-.footer-links a:hover{color:var(--text2)}
-.footer-copy{font-size:12px;color:var(--text3)}
-
-/* RESPONSIVE */
-@media(max-width:900px){
-  nav{padding:16px 24px}
-  .nav-links{display:none}
-  section{padding:72px 24px}
-  .hero{padding:110px 24px 64px}
-  .steps-flow{grid-template-columns:1fr}
-  .step-card:not(:last-child){border-right:none;border-bottom:1px solid var(--border)}
-  .features-grid{grid-template-columns:1fr}
-  .pricing-grid{grid-template-columns:1fr}
-  .demo-grid{grid-template-columns:1fr}
-  .cta-box{padding:44px 28px}
-  footer{flex-direction:column;text-align:center;padding:32px 24px}
-  .strip{padding:16px 24px}
-}
-</style>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2487.5">
+  <style type="text/css">
+    body {background-color: #090a0d}
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 22.0px 'Helvetica Neue'; color: #ece9e2; -webkit-text-stroke: #ece9e2}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 14.0px 'Helvetica Neue'; color: #0e0e0e; -webkit-text-stroke: #0e0e0e}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 12.0px 'Helvetica Neue'; color: #ece9e2; -webkit-text-stroke: #ece9e2; min-height: 15.0px}
+    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 12.0px 'Helvetica Neue'; color: #4f91f8; -webkit-text-stroke: #4f91f8; background-color: #1d48e6; min-height: 15.0px}
+    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 12.0px 'Helvetica Neue'; color: #4f91f8; -webkit-text-stroke: #4f91f8}
+    p.p7 {margin: 0.0px 78.5px 44.0px 78.5px; text-align: center; text-indent: -78.5px; font: 18.0px 'Helvetica Neue'; color: #788097; -webkit-text-stroke: #788097}
+    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 15.0px 'Helvetica Neue'; color: #0e0e0e; -webkit-text-stroke: #0e0e0e}
+    p.p9 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 32.0px 'Helvetica Neue'; color: #4f91f8; -webkit-text-stroke: #4f91f8}
+    p.p10 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 12.0px 'Helvetica Neue'; color: #3a3f55; -webkit-text-stroke: #3a3f55}
+    p.p11 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 12.0px 'Helvetica Neue'; color: #ece9e2; -webkit-text-stroke: #ece9e2; background-color: #ffffff; background-color: rgba(255, 255, 255, 0.11); min-height: 15.0px}
+    p.p12 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 11.0px 'Helvetica Neue'; color: #1d48e6; -webkit-text-stroke: #1d48e6}
+    p.p14 {margin: 0.0px 98.5px 0.0px 98.5px; text-align: center; text-indent: -98.5px; font: 16.0px 'Helvetica Neue'; color: #788097; -webkit-text-stroke: #788097}
+    p.p15 {margin: 0.0px 0.0px 0.0px 0.0px; font: 48.0px 'Helvetica Neue'; color: #1d48e6; color: rgba(29, 72, 230, 0.3); -webkit-text-stroke: rgba(29, 72, 230, 0.3)}
+    p.p16 {margin: 0.0px 0.0px 0.0px 0.0px; font: 28.0px '.Apple Color Emoji UI'; color: #ece9e2; -webkit-text-stroke: #ece9e2}
+    p.p17 {margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Helvetica Neue'; color: #ece9e2; -webkit-text-stroke: #ece9e2}
+    p.p18 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px 'Helvetica Neue'; color: #788097; -webkit-text-stroke: #788097}
+    p.p19 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #25bd4c; -webkit-text-stroke: #25bd4c; background-color: #25bd4c; background-color: rgba(37, 189, 76, 0.1)}
+    p.p20 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #1d48e6; -webkit-text-stroke: #1d48e6}
+    p.p22 {margin: 0.0px 0.0px 0.0px 0.0px; font: 20.0px '.Apple Color Emoji UI'; color: #ece9e2; -webkit-text-stroke: #ece9e2}
+    p.p23 {margin: 0.0px 0.0px 0.0px 0.0px; font: 16.0px 'Helvetica Neue'; color: #ece9e2; -webkit-text-stroke: #ece9e2}
+    p.p24 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'; color: #788097; -webkit-text-stroke: #788097}
+    p.p25 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #ece9e2; -webkit-text-stroke: #ece9e2; background-color: #e82c35; min-height: 15.0px}
+    p.p26 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #ece9e2; -webkit-text-stroke: #ece9e2; background-color: #f55d14; min-height: 15.0px}
+    p.p27 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #ece9e2; -webkit-text-stroke: #ece9e2; background-color: #25bd4c; min-height: 15.0px}
+    p.p28 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #3a3f55; -webkit-text-stroke: #3a3f55}
+    p.p29 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Helvetica Neue'; color: #1d48e6; -webkit-text-stroke: #1d48e6}
+    p.p30 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px '.Apple Color Emoji UI'; color: #ece9e2; -webkit-text-stroke: #ece9e2; background-color: #0d0f13}
+    p.p31 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #ece9e2; -webkit-text-stroke: #ece9e2; background-color: #161b26}
+    p.p32 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px '.Apple Color Emoji UI'; color: #ece9e2; -webkit-text-stroke: #ece9e2}
+    p.p33 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #0e0e0e; -webkit-text-stroke: #0e0e0e}
+    p.p34 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #0000e9; -webkit-text-stroke: #0000e9}
+    p.p35 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #788097; -webkit-text-stroke: #788097}
+    p.p36 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px '.Apple Color Emoji UI'; color: #25bd4c; -webkit-text-stroke: #25bd4c}
+    p.p37 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Helvetica Neue'; color: #25bd4c; -webkit-text-stroke: #25bd4c; background-color: #0d0f13}
+    p.p38 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 40.0px 'Helvetica Neue'; color: #25bd4c; -webkit-text-stroke: #25bd4c}
+    p.p39 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 11.0px 'Helvetica Neue'; color: #3a3f55; -webkit-text-stroke: #3a3f55}
+    p.p40 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #3a3f55; -webkit-text-stroke: #3a3f55}
+    p.p41 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #ece9e2; -webkit-text-stroke: #ece9e2}
+    p.p42 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.0px 'Helvetica Neue'; color: #25bd4c; -webkit-text-stroke: #25bd4c}
+    p.p43 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px 'Helvetica Neue'; color: #1d48e6; -webkit-text-stroke: #1d48e6}
+    p.p44 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'; color: #0e0e0e; -webkit-text-stroke: #0e0e0e}
+    p.p45 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'; color: #ece9e2; -webkit-text-stroke: #ece9e2}
+    p.p46 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'; color: #3a3f55; -webkit-text-stroke: #3a3f55}
+    p.p47 {margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Helvetica Neue'; color: #788097; -webkit-text-stroke: #788097}
+    p.p48 {margin: 0.0px 0.0px 0.0px 0.0px; font: 42.0px 'Helvetica Neue'; color: #ece9e2; -webkit-text-stroke: #ece9e2}
+    p.p49 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'; color: #788097; -webkit-text-stroke: #788097; background-color: #12151c}
+    p.p50 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #0e0e0e; -webkit-text-stroke: #0e0e0e}
+    p.p51 {margin: 0.0px 0.0px 0.0px 0.0px; font: 15.0px 'Helvetica Neue'; color: #ece9e2; -webkit-text-stroke: #ece9e2}
+    p.p52 {margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Helvetica Neue'; color: #1d48e6; -webkit-text-stroke: #1d48e6}
+    p.p53 {margin: 0.0px 0.0px 36.0px 0.0px; text-align: center; font: 16.0px 'Helvetica Neue'; color: #788097; -webkit-text-stroke: #788097}
+    p.p54 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 18.0px 'Helvetica Neue'; color: #ece9e2; -webkit-text-stroke: #ece9e2}
+    p.p55 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 13.0px 'Helvetica Neue'; color: #3a3f55; -webkit-text-stroke: #3a3f55}
+    span.s1 {font-kerning: none; background-color: rgba(9, 10, 13, 0.85)}
+    span.s2 {font-kerning: none; color: #1d48e6; background-color: rgba(9, 10, 13, 0.85); -webkit-text-stroke: 0px #1d48e6}
+    span.s3 {font-kerning: none}
+    span.s4 {font-kerning: none; background-color: rgba(29, 72, 230, 0.1)}
+    span.s5 {font-kerning: none; color: #4f91f8; -webkit-text-stroke: 0px #4f91f8}
+    span.s6 {font-kerning: none; color: #3a3f55; -webkit-text-stroke: 0px #3a3f55}
+    span.s7 {font-kerning: none; color: #788097; -webkit-text-stroke: 0px #788097}
+    span.s8 {font-kerning: none; background-color: #090a0d}
+    span.s9 {font-kerning: none; background-color: #0d0f13}
+    span.s10 {font: 11.0px '.Apple Color Emoji UI'; font-kerning: none}
+    span.s11 {font-kerning: none; background-color: #12151c}
+    span.s12 {font: 10.0px '.Apple Color Emoji UI'; font-kerning: none; background-color: #0d0f13}
+    span.s13 {font-kerning: none; background-color: rgba(255, 255, 255, 0.1)}
+    span.s14 {font-kerning: none; color: #3a3f55; background-color: #161b26; -webkit-text-stroke: 0px #3a3f55}
+    span.s15 {text-decoration: underline ; font-kerning: none; color: #0000e9; -webkit-text-stroke: 0px #0000e9}
+    span.s16 {font-kerning: none; background-color: #161b26}
+    span.s17 {font: 10.0px '.Apple Color Emoji UI'; font-kerning: none; background-color: rgba(37, 189, 76, 0.15)}
+    span.s18 {font-kerning: none; background-color: rgba(37, 189, 76, 0.15)}
+    span.s19 {font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #ece9e2; -webkit-text-stroke: 0px #ece9e2}
+    span.s20 {font: 14.0px 'Helvetica Neue'; font-kerning: none; background-color: #161b26}
+    span.s21 {font: 11.0px '.Apple Color Emoji UI'; font-kerning: none; background-color: #0d0f13}
+    span.s22 {font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #ece9e2; background-color: #0d0f13; -webkit-text-stroke: 0px #ece9e2}
+    span.s23 {font-kerning: none; color: #3a3f55; background-color: #0d0f13; -webkit-text-stroke: 0px #3a3f55}
+    span.s24 {font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #0e0e0e; background-color: #0d0f13; -webkit-text-stroke: 0px #0e0e0e}
+    span.s25 {font: 12.0px 'STIX Two Math'; font-kerning: none; background-color: #090a0d}
+    span.s26 {font-kerning: none; color: #1d48e6; background-color: #0d0f13; -webkit-text-stroke: 0px #1d48e6}
+  </style>
 </head>
 <body>
-
-<!-- NAV -->
-<nav>
-  <div class="nav-logo">Lead<em>zia</em></div>
-  <div class="nav-links">
-    <a href="#comment">Comment ça marche</a>
-    <a href="#fonctionnalites">Fonctionnalités</a>
-    <a href="#tarifs">Tarifs</a>
-    <a href="#faq">FAQ</a>
-  </div>
-  <div class="nav-right">
-    <button class="btn-login">Se connecter</button>
-    <button class="btn-nav" onclick="openModal()">Demander une démo →</button>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-orb"></div>
-  <div class="hero-grid"></div>
-  <div class="hero-content">
-    <div class="hero-badge">
-      <div class="badge-dot"></div>
-      Agent IA · Qualification automatique 24h/24
-    </div>
-    <h1>
-      Qualifiez <span class="hi">100%</span> de vos leads<br>
-      <span class="dim">pendant que vous dormez.</span>
-    </h1>
-    <p class="hero-sub">
-      Votre agent IA répond instantanément à chaque prospect — widget, email ou formulaire — qualifie, score et vous transmet uniquement les leads chauds.
-    </p>
-    <div class="hero-actions">
-      <button class="btn-main" onclick="openModal()">Demander une démo →</button>
-      <button class="btn-ghost" onclick="document.getElementById('tarifs').scrollIntoView({behavior:'smooth'})">Voir les tarifs</button>
-    </div>
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <div class="hero-stat-num">8s</div>
-        <div class="hero-stat-label">Temps de réponse moyen</div>
-      </div>
-      <div class="hero-stat-sep"></div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">100%</div>
-        <div class="hero-stat-label">Leads traités automatiquement</div>
-      </div>
-      <div class="hero-stat-sep"></div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">24h/24</div>
-        <div class="hero-stat-label">Sans interruption</div>
-      </div>
-      <div class="hero-stat-sep"></div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">3×</div>
-        <div class="hero-stat-label">Plus de RDV qualifiés</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- STRIP -->
-<div class="strip">
-  <span class="strip-text">Compatible avec</span>
-  <span class="strip-item">WordPress</span>
-  <span class="strip-item">Webflow</span>
-  <span class="strip-item">Wix</span>
-  <span class="strip-item">Squarespace</span>
-  <span class="strip-item">Shopify</span>
-  <span class="strip-item">Custom HTML</span>
-</div>
-
-<!-- HOW IT WORKS -->
-<section class="how" id="comment">
-  <div class="how-inner">
-    <div class="how-header">
-      <div class="section-tag">Comment ça marche</div>
-      <h2 class="section-title">De l'inconnu au lead chaud<br>en moins de 60 secondes</h2>
-      <p class="section-sub">Votre agent IA prend en charge chaque prospect dès le premier contact, peu importe le canal.</p>
-    </div>
-    <div class="steps-flow">
-      <div class="step-card">
-        <div class="step-num">01</div>
-        <div class="step-icon">💬</div>
-        <div class="step-title">Le prospect vous contacte</div>
-        <div class="step-desc">Via le widget sur votre site, un email à votre adresse contact, ou un formulaire. Votre agent IA répond instantanément, 24h/24, 7j/7.</div>
-        <div class="step-badge">⚡ Réponse en 8 secondes</div>
-      </div>
-      <div class="step-card">
-        <div class="step-num">02</div>
-        <div class="step-icon">🤖</div>
-        <div class="step-title">L'IA qualifie et score</div>
-        <div class="step-desc">En quelques échanges naturels, l'agent collecte projet, secteur et budget — et calcule un score de 0 à 100 en temps réel.</div>
-        <div class="step-badge">✓ Score calculé en temps réel</div>
-      </div>
-      <div class="step-card">
-        <div class="step-num">03</div>
-        <div class="step-icon">🔥</div>
-        <div class="step-title">Vous recevez les leads chauds</div>
-        <div class="step-desc">Une fiche complète arrive dans votre CRM avec toutes les infos. Vous êtes notifié immédiatement pour les leads à fort potentiel.</div>
-        <div class="step-badge">📱 Notification instantanée</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section class="features" id="fonctionnalites">
-  <div class="features-inner">
-    <div class="section-tag">Fonctionnalités</div>
-    <h2 class="section-title">Tout ce dont votre agence<br>a besoin pour convertir plus</h2>
-    <div class="features-grid">
-      <div class="feat-card">
-        <div class="feat-icon">💬</div>
-        <div class="feat-title">Widget de chat intelligent</div>
-        <div class="feat-desc">Une ligne de code à intégrer sur votre site. L'agent prend en charge chaque visiteur avec votre nom, votre couleur, votre identité.</div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">📧</div>
-        <div class="feat-title">Qualification par email</div>
-        <div class="feat-desc">Chaque email reçu sur votre adresse contact est automatiquement analysé, qualifié et une réponse professionnelle est envoyée en 8 secondes.</div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">📊</div>
-        <div class="feat-title">CRM & scoring en temps réel</div>
-        <div class="feat-desc">Tableau de bord complet avec score, pipeline kanban, historique de conversations et statistiques de conversion par source.</div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">🔔</div>
-        <div class="feat-title">Alertes leads chauds</div>
-        <div class="feat-desc">Recevez une notification dès qu'un lead dépasse le score 70. Ne manquez plus jamais une opportunité à fort potentiel.</div>
-      </div>
-      <div class="feat-card" style="grid-column:1 / -1">
-        <div class="feat-icon">🔄</div>
-        <div class="feat-title">Relance automatique 48h</div>
-        <div class="feat-desc">Les prospects qui ne répondent pas reçoivent automatiquement un email de relance personnalisé par l'IA. Zéro effort de votre côté.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- DEMO -->
-<section class="demo">
-  <div class="demo-inner">
-    <div class="demo-header">
-      <div class="section-tag">Aperçu en direct</div>
-      <h2 class="section-title">Ce que voit votre équipe</h2>
-    </div>
-    <div class="demo-window">
-      <div class="demo-topbar">
-        <div class="demo-dot" style="background:#ef4444"></div>
-        <div class="demo-dot" style="background:#f97316"></div>
-        <div class="demo-dot" style="background:#22c55e"></div>
-        <span style="font-size:12px;color:var(--text3);margin-left:12px">Agent IA — Qualification en cours</span>
-      </div>
-      <div class="demo-grid">
-        <div class="demo-col">
-          <div class="demo-col-title">💬 Conversation widget</div>
-          <div class="demo-msg bot">
-            <div class="demo-av">🏠</div>
-            <div class="demo-bubble">Bonjour ! Je suis Sofia. Votre projet concerne un achat, une location ou un investissement ?</div>
-          </div>
-          <div class="demo-msg user">
-            <div class="demo-av u">👤</div>
-            <div class="demo-bubble">Un achat, on cherche quelque chose à Paris 16e</div>
-          </div>
-          <div class="demo-msg bot">
-            <div class="demo-av">🏠</div>
-            <div class="demo-bubble">Excellent choix ! Quel est votre budget approximatif pour ce projet ?</div>
-          </div>
-          <div class="demo-msg user">
-            <div class="demo-av u">👤</div>
-            <div class="demo-bubble">Entre 800k et 1M €, on a l'accord de notre banque</div>
-          </div>
-          <div class="demo-msg bot">
-            <div class="demo-av">🏠</div>
-            <div class="demo-bubble">Parfait, financement confirmé ! Dans quel délai souhaitez-vous emménager ?</div>
-          </div>
-        </div>
-        <div class="demo-col">
-          <div class="demo-col-title">📧 Email analysé → réponse auto</div>
-          <div style="background:var(--bg4);border-radius:9px;padding:13px;font-size:12px;color:var(--text2);margin-bottom:10px">
-            <div style="color:var(--text3);margin-bottom:4px">De : martin.sophie@gmail.com</div>
-            <div style="color:var(--text3);margin-bottom:9px">Objet : Recherche villa urgente</div>
-            <div style="color:var(--text2)">"Bonjour, nous cherchons une villa en banlieue, budget 1.2M €, fonds disponibles, urgent..."</div>
-          </div>
-          <div style="font-size:10px;color:var(--g);margin-bottom:9px;display:flex;align-items:center;gap:5px">
-            <span>⚡</span> Analysé en 8 secondes · Réponse envoyée
-          </div>
-          <div style="background:var(--bg4);border-radius:9px;padding:13px;font-size:12px;color:var(--text2)">
-            <div style="color:var(--text3);margin-bottom:4px">De : contact@votreagence.fr</div>
-            <div style="color:var(--text3);margin-bottom:9px">Objet : Re: Votre recherche villa</div>
-            <div style="color:var(--text2)">"Bonjour Sophie, votre projet correspond exactement à notre sélection du moment. Je vous propose un RDV cette semaine..."</div>
-          </div>
-        </div>
-        <div class="demo-col">
-          <div class="demo-col-title">📋 Fiche générée</div>
-          <div class="demo-score">
-            <div class="demo-score-num">91</div>
-            <div class="demo-score-label">Score de qualification</div>
-          </div>
-          <div class="demo-field"><span class="demo-field-k">Projet</span><span class="demo-field-v">Achat appartement</span></div>
-          <div class="demo-field"><span class="demo-field-k">Budget</span><span class="demo-field-v">800k – 1M €</span></div>
-          <div class="demo-field"><span class="demo-field-k">Secteur</span><span class="demo-field-v">Paris 16e</span></div>
-          <div class="demo-field"><span class="demo-field-k">Financement</span><span class="demo-field-v">Accord bancaire</span></div>
-          <div class="demo-field"><span class="demo-field-k">Délai</span><span class="demo-field-v">3 mois</span></div>
-          <div class="demo-tag">🔥 Lead Chaud — Priorité haute</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section class="pricing" id="tarifs">
-  <div class="pricing-inner">
-    <div class="pricing-header">
-      <div class="section-tag">Tarifs</div>
-      <h2 class="section-title">Simple, transparent, sans surprise</h2>
-      <p class="section-sub">Mise en place personnalisée selon votre agence. Sans engagement.</p>
-    </div>
-    <div class="pricing-grid">
-      <div class="price-card">
-        <div class="price-name">Starter</div>
-        <div class="price-desc">Pour démarrer simplement</div>
-        <div class="price-amount">
-          <span class="price-currency">€</span>
-          <span class="price-num">199</span>
-        </div>
-        <div class="price-period">par mois · sans engagement</div>
-        <div class="price-features">
-          <div class="price-feature">Widget de chat intelligent</div>
-          <div class="price-feature">100 leads qualifiés / mois</div>
-          <div class="price-feature">CRM & dashboard</div>
-          <div class="price-feature">Notifications email</div>
-          <div class="price-feature no">Qualification par email</div>
-          <div class="price-feature no">Relance automatique</div>
-          <div class="price-feature no">Notifications WhatsApp</div>
-        </div>
-        <button class="price-btn price-btn-ghost" onclick="openModal()">Analyser mon besoin →</button>
-      </div>
-      <div class="price-card featured">
-        <div class="price-popular">⭐ Le plus populaire</div>
-        <div class="price-name">Pro</div>
-        <div class="price-desc">Le plus choisi par nos clients</div>
-        <div class="price-amount">
-          <span class="price-currency">€</span>
-          <span class="price-num">299</span>
-        </div>
-        <div class="price-period">par mois · sans engagement</div>
-        <div class="price-features">
-          <div class="price-feature">Widget de chat intelligent</div>
-          <div class="price-feature">500 leads qualifiés / mois</div>
-          <div class="price-feature">CRM & dashboard avancé</div>
-          <div class="price-feature">Qualification par email</div>
-          <div class="price-feature">Relance automatique 48h</div>
-          <div class="price-feature">Notifications WhatsApp</div>
-          <div class="price-feature no">Multi-agences</div>
-        </div>
-        <button class="price-btn price-btn-main" onclick="openModal()">Demander une démo →</button>
-      </div>
-      <div class="price-card">
-        <div class="price-name">Agence</div>
-        <div class="price-desc">Pour les réseaux et franchises</div>
-        <div class="price-amount">
-          <span class="price-currency">€</span>
-          <span class="price-num">499</span>
-        </div>
-        <div class="price-period">par mois · sans engagement</div>
-        <div class="price-features">
-          <div class="price-feature">Leads illimités</div>
-          <div class="price-feature">Multi-agences & multi-agents</div>
-          <div class="price-feature">White-label (votre marque)</div>
-          <div class="price-feature">Toutes fonctionnalités Pro</div>
-          <div class="price-feature">Intégration CRM sur mesure</div>
-          <div class="price-feature">Support prioritaire</div>
-          <div class="price-feature">Formation équipe incluse</div>
-        </div>
-        <button class="price-btn price-btn-ghost" onclick="openModal()">Étudier mon projet →</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="faq" id="faq">
-  <div class="faq-inner">
-    <div class="faq-header">
-      <div class="section-tag">FAQ</div>
-      <h2 class="section-title">Questions fréquentes</h2>
-    </div>
-    <div class="faq-list">
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">Est-ce difficile à installer sur mon site ? <span class="faq-icon">+</span></div>
-        <div class="faq-a">Non, c'est une seule ligne de code à coller avant la fermeture de votre page. Compatible WordPress, Wix, Webflow, Squarespace et tous les CMS. Nous vous aidons à l'intégrer lors de l'onboarding.</div>
-      </div>
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">Comment fonctionne la qualification par email ? <span class="faq-icon">+</span></div>
-        <div class="faq-a">Vous nous donnez accès à votre adresse email de contact. Chaque email reçu est automatiquement analysé par l'IA qui extrait les informations, calcule un score et envoie une réponse professionnelle au prospect — le tout en moins de 10 secondes.</div>
-      </div>
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">Mes données sont-elles sécurisées ? <span class="faq-icon">+</span></div>
-        <div class="faq-a">Oui. Vos données sont stockées sur des serveurs européens. Chaque agence a ses données isolées — aucun client ne peut voir les données d'un autre. Nous sommes conformes RGPD.</div>
-      </div>
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">Puis-je personnaliser le nom et l'apparence de l'agent ? <span class="faq-icon">+</span></div>
-        <div class="faq-a">Absolument. Vous choisissez le nom de l'agent, la couleur du widget et le style de communication. Le plan Agence permet même de supprimer notre marque et d'afficher uniquement la vôtre.</div>
-      </div>
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">Que se passe-t-il si je dépasse mon quota de leads ? <span class="faq-icon">+</span></div>
-        <div class="faq-a">Vous recevez une notification avant d'atteindre la limite. Vous pouvez upgrader votre plan à tout moment en un clic. Nous ne coupons jamais le service sans vous prévenir.</div>
-      </div>
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">Y a-t-il un engagement minimum ? <span class="faq-icon">+</span></div>
-        <div class="faq-a">Non, tous nos plans sont sans engagement. Vous payez mois par mois et pouvez annuler à tout moment.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA FINAL -->
-<section class="cta-final">
-  <div class="cta-box">
-    <h2>Prêt à ne plus manquer<br>un seul lead chaud ?</h2>
-    <p>Réservez un appel de 30 minutes. On vous montre l'outil en direct et on répond à toutes vos questions.</p>
-    <button class="btn-main" style="margin:0 auto" onclick="openModal()">Réserver mon appel découverte →</button>
-    <div class="cta-note">⏱ Appel de 30 min · Sans engagement · On vous montre tout en live</div>
-  </div>
-</section>
-
-<footer>
-  <div class="footer-logo">Lead<em>zia</em></div>
-  <div class="footer-links">
-    <a href="#">Mentions légales</a>
-    <a href="#">CGV</a>
-    <a href="#">Politique de confidentialité</a>
-    <a href="mailto:contact@leadzia.io">Contact</a>
-  </div>
-  <div class="footer-copy">© 2025 Leadzia — Tous droits réservés</div>
-</footer>
-
-<!-- MODAL -->
-<div id="modal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:24px">
-  <div style="background:#0f1219;border:1px solid rgba(255,255,255,.10);border-radius:20px;padding:44px 40px;width:100%;max-width:480px;position:relative">
-    <button onclick="closeModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#4a5168;font-size:22px;cursor:pointer;line-height:1">✕</button>
-    <div style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#60a5fa;margin-bottom:10px;font-weight:500">Contact</div>
-    <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-size:24px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px">Parlons de votre projet</h3>
-    <p style="font-size:14px;color:#8b93a8;margin-bottom:30px;line-height:1.6">On vous répond sous 24h pour fixer un appel découverte.</p>
-    <form id="contact-form" onsubmit="submitForm(event)" style="display:flex;flex-direction:column;gap:14px">
-      <input type="hidden" name="access_key" value="6aff6378-a09c-4f98-ab47-70789575596d">
-      <input type="hidden" name="subject" value="Nouvelle demande de démo Leadzia">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-        <div>
-          <label style="font-size:12px;color:#68748a;display:block;margin-bottom:5px">Prénom *</label>
-          <input name="prenom" required placeholder="Marie" style="width:100%;background:#06090f;border:1px solid rgba(255,255,255,.09);border-radius:8px;padding:10px 13px;color:#e8ecf1;font-family:'Figtree',sans-serif;font-size:14px;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(37,99,235,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.09)'">
-        </div>
-        <div>
-          <label style="font-size:12px;color:#68748a;display:block;margin-bottom:5px">Nom *</label>
-          <input name="nom" required placeholder="Dupont" style="width:100%;background:#06090f;border:1px solid rgba(255,255,255,.09);border-radius:8px;padding:10px 13px;color:#e8ecf1;font-family:'Figtree',sans-serif;font-size:14px;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(37,99,235,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.09)'">
-        </div>
-      </div>
-      <div>
-        <label style="font-size:12px;color:#68748a;display:block;margin-bottom:5px">Email *</label>
-        <input name="email" type="email" required placeholder="marie@agence.fr" style="width:100%;background:#06090f;border:1px solid rgba(255,255,255,.09);border-radius:8px;padding:10px 13px;color:#e8ecf1;font-family:'Figtree',sans-serif;font-size:14px;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(37,99,235,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.09)'">
-      </div>
-      <div>
-        <label style="font-size:12px;color:#68748a;display:block;margin-bottom:5px">Téléphone</label>
-        <input name="telephone" type="tel" placeholder="+33 6 00 00 00 00" style="width:100%;background:#06090f;border:1px solid rgba(255,255,255,.09);border-radius:8px;padding:10px 13px;color:#e8ecf1;font-family:'Figtree',sans-serif;font-size:14px;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(37,99,235,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.09)'">
-      </div>
-      <div>
-        <label style="font-size:12px;color:#68748a;display:block;margin-bottom:5px">Nom de votre agence *</label>
-        <input name="agence" required placeholder="Immobilier Martin" style="width:100%;background:#06090f;border:1px solid rgba(255,255,255,.09);border-radius:8px;padding:10px 13px;color:#e8ecf1;font-family:'Figtree',sans-serif;font-size:14px;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(37,99,235,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.09)'">
-      </div>
-      <div>
-        <label style="font-size:12px;color:#68748a;display:block;margin-bottom:5px">Message (optionnel)</label>
-        <textarea name="message" rows="3" placeholder="Décrivez votre situation en quelques mots..." style="width:100%;background:#06090f;border:1px solid rgba(255,255,255,.09);border-radius:8px;padding:10px 13px;color:#e8ecf1;font-family:'Figtree',sans-serif;font-size:14px;outline:none;resize:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(37,99,235,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.09)'"></textarea>
-      </div>
-      <button type="submit" id="submit-btn" style="background:#2563eb;border:none;padding:13px;border-radius:9px;color:#fff;font-family:'Figtree',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:background .2s;margin-top:4px">
-        Envoyer ma demande →
-      </button>
-    </form>
-    <div id="form-success" style="display:none;text-align:center;padding:20px 0">
-      <div style="font-size:36px;margin-bottom:14px">✅</div>
-      <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:20px;font-weight:800;margin-bottom:8px">Message envoyé !</div>
-      <div style="font-size:14px;color:#8b93a8">On vous répond sous 24h pour fixer un appel découverte.</div>
-    </div>
-  </div>
-</div>
-
-<script>
-(function(){
-  var c=document.createElement('canvas');
-  c.width=c.height=64;
-  var ctx=c.getContext('2d');
-  ctx.fillStyle='#111';
-  ctx.beginPath();ctx.arc(32,32,32,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='#2563eb';
-  ctx.font='900 24px "Arial Black",Arial,sans-serif';
-  ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText('LZ',32,33);
-  var l=document.createElement('link');
-  l.rel='icon';l.href=c.toDataURL('image/png');
-  document.head.appendChild(l);
-})();
-
-function openModal(){
-  var m=document.getElementById('modal');
-  m.style.display='flex';
-  document.body.style.overflow='hidden';
-}
-function closeModal(){
-  var m=document.getElementById('modal');
-  m.style.display='none';
-  document.body.style.overflow='';
-}
-document.getElementById('modal').addEventListener('click',function(e){
-  if(e.target===this)closeModal();
-});
-async function submitForm(e){
-  e.preventDefault();
-  var btn=document.getElementById('submit-btn');
-  btn.textContent='Envoi en cours...';btn.disabled=true;
-  var data=new FormData(e.target);
-  try{
-    var r=await fetch('https://api.web3forms.com/submit',{method:'POST',body:data});
-    var j=await r.json();
-    if(j.success){
-      document.getElementById('contact-form').style.display='none';
-      document.getElementById('form-success').style.display='block';
-    }else{
-      btn.textContent='Envoyer ma demande →';btn.disabled=false;
-      alert('Une erreur est survenue, réessayez.');
-    }
-  }catch(err){
-    btn.textContent='Envoyer ma demande →';btn.disabled=false;
-    alert('Une erreur est survenue, réessayez.');
-  }
-}
-function toggleFaq(el){
-  var open=el.classList.contains('open');
-  document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open')});
-  if(!open)el.classList.add('open');
-}
-</script>
+<p class="p1"><span class="s1">Lead</span><span class="s2">zia</span></p>
+<p class="p2"><span class="s1">Demander une démo →</span></p>
+<p class="p3"><span class="s3"></span><br></p>
+<p class="p3"><span class="s3"></span><br></p>
+<p class="p4"><span class="s3"></span><br></p>
+<p class="p5"><span class="s4">AGENT IA · QUALIFICATION AUTOMATIQUE 24H/24</span></p>
+<h1 style="margin: 0.0px 0.0px 28.0px 0.0px; text-align: center; font: 48.0px 'Helvetica Neue'; color: #ece9e2; -webkit-text-stroke: #ece9e2"><span class="s3">Qualifiez </span><span class="s5">100%</span><span class="s3"> de vos leads<br>
+</span><span class="s6">pendant que vous dormez.</span></h1>
+<p class="p7"><span class="s3">Votre agent IA répond instantanément à chaque prospect — widget, email ou formulaire — qualifie, score et vous transmet uniquement les leads chauds.</span></p>
+<p class="p8"><span class="s3">Demander une démo → </span><span class="s7">Voir les tarifs</span></p>
+<p class="p9"><span class="s3">8s</span></p>
+<p class="p10"><span class="s3">Temps de réponse moyen</span></p>
+<p class="p11"><span class="s3"></span><br></p>
+<p class="p9"><span class="s3">100%</span></p>
+<p class="p10"><span class="s3">Leads traités automatiquement</span></p>
+<p class="p11"><span class="s3"></span><br></p>
+<p class="p9"><span class="s3">24h/24</span></p>
+<p class="p10"><span class="s3">Sans interruption</span></p>
+<p class="p11"><span class="s3"></span><br></p>
+<p class="p9"><span class="s3">3x</span></p>
+<p class="p10"><span class="s3">Plus de RDV qualifiés</span></p>
+<p class="p12"><span class="s8">COMMENT ÇA MARCHE</span></p>
+<h2 style="margin: 0.0px 0.0px 16.0px 0.0px; text-align: center; font: 32.0px 'Helvetica Neue'; color: #ece9e2; -webkit-text-stroke: #ece9e2"><span class="s8">De l'inconnu au lead chaud</span><span class="s3"><br>
+</span><span class="s8">en moins de 60 secondes</span></h2>
+<p class="p14"><span class="s8">Votre agent IA prend en charge chaque prospect dès le premier contact, peu importe le canal.</span></p>
+<p class="p15"><span class="s9">01</span></p>
+<p class="p16"><span class="s9">💬</span></p>
+<p class="p17"><span class="s9">Le prospect vous contacte</span></p>
+<p class="p18"><span class="s9">Via le widget sur votre site, un email à votre adresse contact, ou un formulaire. Votre agent IA répond instantanément, 24h/24, 7j/7.</span></p>
+<p class="p19"><span class="s10">⚡</span><span class="s3"> Réponse en 8 secondes</span></p>
+<p class="p15"><span class="s9">02</span></p>
+<p class="p16"><span class="s9">🤖</span></p>
+<p class="p17"><span class="s9">L'IA qualifie et score</span></p>
+<p class="p18"><span class="s9">En quelques échanges naturels, l'agent collecte budget, secteur, délai, financement — et calcule un score de 0 à 100.</span></p>
+<p class="p19"><span class="s3">✓ Score calculé en temps réel</span></p>
+<p class="p15"><span class="s9">03</span></p>
+<p class="p16"><span class="s9">🔥</span></p>
+<p class="p17"><span class="s9">Vous recevez les leads chauds</span></p>
+<p class="p18"><span class="s9">Une fiche complète arrive dans votre CRM avec toutes les infos. Vous êtes notifié immédiatement pour les leads à fort potentiel.</span></p>
+<p class="p19"><span class="s10">📱</span><span class="s3"> Notification instantanée</span></p>
+<p class="p20"><span class="s9">FONCTIONNALITÉS</span></p>
+<h2 style="margin: 0.0px 0.0px 16.0px 0.0px; font: 32.0px 'Helvetica Neue'; color: #ece9e2; -webkit-text-stroke: #ece9e2"><span class="s9">Tout ce dont votre agence</span><span class="s3"><br>
+</span><span class="s9">a besoin pour convertir plus</span></h2>
+<p class="p22"><span class="s4">💬</span></p>
+<p class="p23"><span class="s11">Widget de chat intelligent</span></p>
+<p class="p24"><span class="s11">Une ligne de code à intégrer sur votre site. L'agent prend en charge chaque visiteur avec votre nom, votre couleur, votre identité.</span></p>
+<p class="p22"><span class="s4">📧</span></p>
+<p class="p23"><span class="s11">Qualification par email</span></p>
+<p class="p24"><span class="s11">Chaque email reçu sur votre adresse contact est automatiquement analysé, qualifié et une réponse professionnelle est envoyée en 8 secondes.</span></p>
+<p class="p22"><span class="s4">📊</span></p>
+<p class="p23"><span class="s11">CRM &amp; scoring en temps réel</span></p>
+<p class="p24"><span class="s11">Tableau de bord complet avec score, pipeline kanban, historique de conversations et statistiques de conversion par source.</span></p>
+<p class="p22"><span class="s4">🔔</span></p>
+<p class="p23"><span class="s11">Alertes leads chauds</span></p>
+<p class="p24"><span class="s11">Recevez une notification WhatsApp ou Slack dès qu'un lead dépasse le score 70. Ne manquez plus jamais une opportunité.</span></p>
+<p class="p22"><span class="s4">🔄</span></p>
+<p class="p23"><span class="s11">Relance automatique 48h</span></p>
+<p class="p24"><span class="s11">Les prospects qui ne répondent pas reçoivent automatiquement un email de relance personnalisé par l'IA. Zéro effort de votre côté.</span></p>
+<p class="p22"><span class="s4">🔌</span></p>
+<p class="p23"><span class="s11">Compatible tous CRM</span></p>
+<p class="p24"><span class="s11">Synchronisation native avec Salesforce, HubSpot, Notion et tout outil via Zapier ou n8n. Votre workflow existant ne change pas.</span></p>
+<p class="p20"><span class="s8">APERÇU EN DIRECT</span></p>
+<h2 style="margin: 0.0px 0.0px 16.0px 0.0px; font: 32.0px 'Helvetica Neue'; color: #ece9e2; -webkit-text-stroke: #ece9e2"><span class="s8">Ce que voit votre équipe</span></h2>
+<p class="p25"><span class="s3"></span><br></p>
+<p class="p26"><span class="s3"></span><br></p>
+<p class="p27"><span class="s3"></span><br></p>
+<p class="p28"><span class="s11">Agent IA — Qualification en cours</span></p>
+<p class="p29"><span class="s12">💬</span><span class="s9"> CONVERSATION WIDGET</span></p>
+<p class="p30"><span class="s3">🏠</span></p>
+<p class="p31"><span class="s3">Bonjour ! Je suis Sofia. Votre projet concerne un achat, une location ou un investissement ?</span></p>
+<p class="p32"><span class="s13">👤</span></p>
+<p class="p33"><span class="s9">Un achat, on cherche quelque chose à Genève</span></p>
+<p class="p30"><span class="s3">🏠</span></p>
+<p class="p31"><span class="s3">Excellent choix ! Quel est votre budget approximatif pour ce projet ?</span></p>
+<p class="p32"><span class="s13">👤</span></p>
+<p class="p33"><span class="s9">Entre 800k et 1 million, on a l'accord de notre banque</span></p>
+<p class="p30"><span class="s3">🏠</span></p>
+<p class="p31"><span class="s3">Parfait, financement confirmé ! Dans quel délai souhaitez-vous emménager ?</span></p>
+<p class="p29"><span class="s12">📧</span><span class="s9"> EMAIL ANALYSÉ → RÉPONSE AUTO</span></p>
+<p class="p34"><span class="s14">De : <a href="file:///cdn-cgi/l/email-protection"><span class="s15">[email protected]</span></a></span></p>
+<p class="p28"><span class="s16">Objet : Recherche villa urgente</span></p>
+<p class="p35"><span class="s16">"Bonjour, nous cherchons une villa à Cologny, budget 2.5M, fonds disponibles, urgent..."</span></p>
+<p class="p36"><span class="s9">⚡</span></p>
+<p class="p37"><span class="s3">Analysé en 8 secondes · Réponse envoyée</span></p>
+<p class="p34"><span class="s14">De : <a href="file:///cdn-cgi/l/email-protection"><span class="s15">[email protected]</span></a></span></p>
+<p class="p28"><span class="s16">Objet : Re: Votre recherche villa Cologny</span></p>
+<p class="p35"><span class="s16">"Bonjour Sophie, votre projet correspond exactement à notre sélection du moment. Je vous propose un RDV cette semaine..."</span></p>
+<p class="p29"><span class="s12">📋</span><span class="s9"> FICHE GÉNÉRÉE</span></p>
+<p class="p38"><span class="s9">91</span></p>
+<p class="p39"><span class="s9">Score de qualification</span></p>
+<p class="p40"><span class="s16">Projet</span></p>
+<p class="p41"><span class="s16">Achat villa</span></p>
+<p class="p40"><span class="s16">Budget</span></p>
+<p class="p41"><span class="s16">800k–1M CHF</span></p>
+<p class="p40"><span class="s16">Secteur</span></p>
+<p class="p41"><span class="s16">Genève</span></p>
+<p class="p40"><span class="s16">Financement</span></p>
+<p class="p41"><span class="s16">Accord bancaire</span></p>
+<p class="p40"><span class="s16">Délai</span></p>
+<p class="p41"><span class="s16">3 mois</span></p>
+<p class="p42"><span class="s17">🔥</span><span class="s18"> Lead Chaud — Priorité haute</span></p>
+<p class="p12"><span class="s8">TÉMOIGNAGES</span></p>
+<h2 style="margin: 0.0px 0.0px 16.0px 0.0px; text-align: center; font: 32.0px 'Helvetica Neue'; color: #ece9e2; -webkit-text-stroke: #ece9e2"><span class="s8">Ce que disent nos clients</span></h2>
+<p class="p43"><span class="s9">★★★★★</span></p>
+<p class="p18"><span class="s9">"On recevait 40 leads par mois et on en traitait peut-être 10. Maintenant l'agent qualifie tout automatiquement. On a doublé nos RDV en 6 semaines."</span></p>
+<p class="p44"><span class="s9">ML</span></p>
+<p class="p45"><span class="s9">Marc Laurent</span></p>
+<p class="p40"><span class="s9">Directeur · Agence Laurent Immobilier, Genève</span></p>
+<p class="p43"><span class="s9">★★★★★</span></p>
+<p class="p18"><span class="s9">"La fonctionnalité email m'a bluffée. Un prospect envoie un message vague à 23h, l'IA répond professionnellement en 10 secondes. Le client était convaincu dès le lendemain."</span></p>
+<p class="p44"><span class="s9">SR</span></p>
+<p class="p45"><span class="s9">Sophie Roux</span></p>
+<p class="p40"><span class="s9">Fondatrice · SR Prestige, Lausanne</span></p>
+<p class="p43"><span class="s9">★★★★★</span></p>
+<p class="p18"><span class="s9">"En tant que réseau de 12 agences, le multi-tenant nous permet de tout centraliser. Chaque agence voit ses leads, moi je vois tout. C'est exactement ce dont on avait besoin."</span></p>
+<p class="p44"><span class="s9">PD</span></p>
+<p class="p45"><span class="s9">Pierre Dubois</span></p>
+<p class="p40"><span class="s9">CEO · Réseau ImmoPro, France</span></p>
+<p class="p12"><span class="s9">TARIFS</span></p>
+<h2 style="margin: 0.0px 0.0px 16.0px 0.0px; text-align: center; font: 32.0px 'Helvetica Neue'; color: #ece9e2; -webkit-text-stroke: #ece9e2"><span class="s9">Simple, transparent, sans surprise</span></h2>
+<p class="p14"><span class="s9">Mise en place personnalisée selon votre agence. Sans engagement.</span></p>
+<p class="p23"><span class="s11">Starter</span></p>
+<p class="p46"><span class="s11">Pour démarrer simplement</span></p>
+<p class="p47"><span class="s11">CHF</span></p>
+<p class="p48"><span class="s11">149</span></p>
+<p class="p46"><span class="s11">par mois · sans engagement</span></p>
+<p class="p49"><span class="s3">Widget de chat intelligent</span><span class="s19"> </span><span class="s3">100 leads qualifiés / mois</span><span class="s19"> </span><span class="s3">CRM &amp; dashboard</span><span class="s19"> </span><span class="s3">Notifications email</span><span class="s19"> </span><span class="s6">Qualification par email</span><span class="s19"> </span><span class="s6">Relance automatique</span><span class="s19"> </span><span class="s6">Notifications WhatsApp</span><span class="s19"> </span><span class="s20">Analyser mon besoin →</span></p>
+<p class="p50"><span class="s21">⭐</span><span class="s9"> Le plus populaire</span></p>
+<p class="p23"><span class="s9">Pro</span></p>
+<p class="p46"><span class="s9">Le plus choisi par nos clients</span></p>
+<p class="p47"><span class="s9">CHF</span></p>
+<p class="p48"><span class="s9">299</span></p>
+<p class="p46"><span class="s9">par mois · sans engagement</span></p>
+<p class="p24"><span class="s9">Widget de chat intelligent</span><span class="s22"> </span><span class="s9">500 leads qualifiés / mois</span><span class="s22"> </span><span class="s9">CRM &amp; dashboard avancé</span><span class="s22"> </span><span class="s9">Qualification par email</span><span class="s22"> </span><span class="s9">Relance automatique 48h</span><span class="s22"> </span><span class="s9">Notifications WhatsApp</span><span class="s22"> </span><span class="s23">Multi-agences</span><span class="s22"> </span><span class="s24">Demander une démo →</span></p>
+<p class="p23"><span class="s11">Agence</span></p>
+<p class="p46"><span class="s11">Pour les réseaux et franchises</span></p>
+<p class="p47"><span class="s11">CHF</span></p>
+<p class="p48"><span class="s11">499</span></p>
+<p class="p46"><span class="s11">par mois · sans engagement</span></p>
+<p class="p49"><span class="s3">Leads illimités</span><span class="s19"> </span><span class="s3">Multi-agences &amp; multi-agents</span><span class="s19"> </span><span class="s3">White-label (votre marque)</span><span class="s19"> </span><span class="s3">Toutes fonctionnalités Pro</span><span class="s19"> </span><span class="s3">Intégration CRM sur mesure</span><span class="s19"> </span><span class="s3">Support prioritaire</span><span class="s19"> </span><span class="s3">Formation équipe incluse</span><span class="s19"> </span><span class="s20">Étudier mon projet →</span></p>
+<p class="p12"><span class="s9">FAQ</span></p>
+<h2 style="margin: 0.0px 0.0px 16.0px 0.0px; text-align: center; font: 32.0px 'Helvetica Neue'; color: #ece9e2; -webkit-text-stroke: #ece9e2"><span class="s9">Questions fréquentes</span></h2>
+<p class="p51"><span class="s9">Est-ce difficile à installer sur mon site ?</span></p>
+<p class="p52"><span class="s9">+</span></p>
+<p class="p51"><span class="s9">Comment fonctionne la qualification par email ?</span></p>
+<p class="p52"><span class="s9">+</span></p>
+<p class="p51"><span class="s9">Mes données sont-elles sécurisées ?</span></p>
+<p class="p52"><span class="s9">+</span></p>
+<p class="p51"><span class="s9">Puis-je personnaliser le nom et l'apparence de l'agent ?</span></p>
+<p class="p52"><span class="s9">+</span></p>
+<p class="p51"><span class="s9">Que se passe-t-il si je dépasse mon quota de leads ?</span></p>
+<p class="p52"><span class="s9">+</span></p>
+<p class="p51"><span class="s9">Y a-t-il un engagement minimum ?</span></p>
+<p class="p52"><span class="s9">+</span></p>
+<h2 style="margin: 0.0px 0.0px 16.0px 0.0px; text-align: center; font: 32.0px 'Helvetica Neue'; color: #ece9e2; -webkit-text-stroke: #ece9e2"><span class="s8">Prêt à ne plus manquer</span><span class="s3"><br>
+</span><span class="s8">un seul lead chaud ?</span></h2>
+<p class="p53"><span class="s8">Réservez un appel de 30 minutes. On vous montre l'outil en direct et on répond à toutes vos questions.</span></p>
+<p class="p8"><span class="s8">Réserver mon appel découverte →</span></p>
+<p class="p10"><span class="s25">⏱</span><span class="s8"> Appel de 30 min · Sans engagement · On vous montre tout en live</span></p>
+<p class="p54"><span class="s9">Lead</span><span class="s26">zia</span></p>
+<p class="p55"><span class="s9">Mentions légales</span></p>
+<p class="p55"><span class="s9">CGV</span></p>
 </body>
 </html>
+
+
